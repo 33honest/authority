@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AuthorityRolePOMapper">
+
+     <resultMap id="BaseResultMap" type="AuthorityRolePO">
+        <result property="roleUuid" column="role_uuid"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleStatus" column="role_status"/>
+        <result property="roleAddTime" column="role_add_time"/>
+        <result property="roleAddBy" column="role_add_by"/>
+        <result property="roleDelTime" column="role_del_time"/>
+        <result property="roleDelBy" column="role_del_by"/>
+        <result property="roleIsDelete" column="role_is_delete"/>
+        <result property="rolePlatformUuid" column="role_platform_uuid"/>
+    </resultMap>
+
+	<sql id="Base_Column_List">
+		role_uuid,role_name,role_status,role_add_time,role_add_by,role_del_time,role_del_by,role_is_delete,role_platform_uuid
+	</sql>
+	
+	<insert id="insert" parameterType="AuthorityRolePO" >
+		INSERT INTO authority_role (
+				role_uuid
+				<if test="roleName != null  and  roleName != '' " > 
+					, role_name
+				</if>
+				<if test="roleStatus != null  and  roleStatus != '' " > 
+					, role_status
+				</if>
+				<if test="roleAddTime != null  and  roleAddTime != '' " > 
+					, role_add_time
+				</if>
+				<if test="roleAddBy != null  and  roleAddBy != '' " > 
+					, role_add_by
+				</if>
+				<if test="roleDelTime != null  and  roleDelTime != '' " > 
+					, role_del_time
+				</if>
+				<if test="roleDelBy != null  and  roleDelBy != '' " > 
+					, role_del_by
+				</if>
+				<if test="roleIsDelete != null  and  roleIsDelete != '' " > 
+					, role_is_delete
+				</if>
+				<if test="rolePlatformUuid != null  and  rolePlatformUuid != '' " > 
+					, role_platform_uuid
+				</if>
+		 ) VALUES (
+				#{roleUuid}
+				<if test="roleName != null  and  roleName != '' " > 
+					, #{roleName}
+				</if>
+				<if test="roleStatus != null  and  roleStatus != '' " > 
+					, #{roleStatus}
+				</if>
+				<if test="roleAddTime != null  and  roleAddTime != '' " > 
+					, #{roleAddTime}
+				</if>
+				<if test="roleAddBy != null  and  roleAddBy != '' " > 
+					, #{roleAddBy}
+				</if>
+				<if test="roleDelTime != null  and  roleDelTime != '' " > 
+					, #{roleDelTime}
+				</if>
+				<if test="roleDelBy != null  and  roleDelBy != '' " > 
+					, #{roleDelBy}
+				</if>
+				<if test="roleIsDelete != null  and  roleIsDelete != '' " > 
+					, #{roleIsDelete}
+				</if>
+				<if test="rolePlatformUuid != null  and  rolePlatformUuid != '' " > 
+					, #{rolePlatformUuid}
+				</if>
+		 )
+	</insert>
+	
+	<update id="updateByUuid" parameterType="AuthorityRolePO" flushCache="true">
+	 	UPDATE authority_role SET
+				role_uuid = #{roleUuid}
+				<if test="roleName != null  and  roleName != '' " > 
+					, role_name = #{roleName}
+				</if>
+				<if test="roleStatus != null  and  roleStatus != '' " > 
+					, role_status = #{roleStatus}
+				</if>
+				<if test="roleAddTime != null  and  roleAddTime != '' " > 
+					, role_add_time = #{roleAddTime}
+				</if>
+				<if test="roleAddBy != null  and  roleAddBy != '' " > 
+					, role_add_by = #{roleAddBy}
+				</if>
+				<if test="roleDelTime != null  and  roleDelTime != '' " > 
+					, role_del_time = #{roleDelTime}
+				</if>
+				<if test="roleDelBy != null  and  roleDelBy != '' " > 
+					, role_del_by = #{roleDelBy}
+				</if>
+				<if test="roleIsDelete != null  and  roleIsDelete != '' " > 
+					, role_is_delete = #{roleIsDelete}
+				</if>
+				<if test="rolePlatformUuid != null  and  rolePlatformUuid != '' " > 
+					, role_platform_uuid = #{rolePlatformUuid}
+				</if>
+	    WHERE 1 = 1
+				and role_uuid = #{roleUuid}
+	</update>
+
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="AuthorityRolePO">
+		select 
+			<include refid="Base_Column_List" /> 
+		from authority_role  
+		where 1 = 1
+				<if test="roleUuid != null  and  roleUuid != '' " > 
+					and role_uuid = #{roleUuid}
+				</if>
+				<if test="roleName != null  and  roleName != '' " > 
+					and role_name = #{roleName}
+				</if>
+				<if test="roleStatus != null  and  roleStatus != '' " > 
+					and role_status = #{roleStatus}
+				</if>
+				<if test="roleAddTime != null  and  roleAddTime != '' " > 
+					and role_add_time = #{roleAddTime}
+				</if>
+				<if test="roleAddBy != null  and  roleAddBy != '' " > 
+					and role_add_by = #{roleAddBy}
+				</if>
+				<if test="roleDelTime != null  and  roleDelTime != '' " > 
+					and role_del_time = #{roleDelTime}
+				</if>
+				<if test="roleDelBy != null  and  roleDelBy != '' " > 
+					and role_del_by = #{roleDelBy}
+				</if>
+				<if test="roleIsDelete != null  and  roleIsDelete != '' " > 
+					and role_is_delete = #{roleIsDelete}
+				</if>
+				<if test="rolePlatformUuid != null  and  rolePlatformUuid != '' " > 
+					and role_platform_uuid = #{rolePlatformUuid}
+				</if>
+	</select>
+	
+	<select id="selectCountByCondition" resultType="int" parameterType="AuthorityRolePO">
+		select count(1) 
+			from authority_role 
+			where 1 = 1
+					<if test="roleUuid != null  and  roleUuid != '' " > 
+						and role_uuid = #{roleUuid}
+					</if>		        	
+					<if test="roleName != null  and  roleName != '' " > 
+						and role_name = #{roleName}
+					</if>		        	
+					<if test="roleStatus != null  and  roleStatus != '' " > 
+						and role_status = #{roleStatus}
+					</if>		        	
+					<if test="roleAddTime != null  and  roleAddTime != '' " > 
+						and role_add_time = #{roleAddTime}
+					</if>		        	
+					<if test="roleAddBy != null  and  roleAddBy != '' " > 
+						and role_add_by = #{roleAddBy}
+					</if>		        	
+					<if test="roleDelTime != null  and  roleDelTime != '' " > 
+						and role_del_time = #{roleDelTime}
+					</if>		        	
+					<if test="roleDelBy != null  and  roleDelBy != '' " > 
+						and role_del_by = #{roleDelBy}
+					</if>		        	
+					<if test="roleIsDelete != null  and  roleIsDelete != '' " > 
+						and role_is_delete = #{roleIsDelete}
+					</if>		        	
+					<if test="rolePlatformUuid != null  and  rolePlatformUuid != '' " > 
+						and role_platform_uuid = #{rolePlatformUuid}
+					</if>		        	
+	</select>	
+	
+</mapper>
+

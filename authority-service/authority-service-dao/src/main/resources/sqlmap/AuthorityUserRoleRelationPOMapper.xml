@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AuthorityUserRoleRelationPOMapper">
+
+     <resultMap id="BaseResultMap" type="AuthorityUserRoleRelationPO">
+        <result property="urUuid" column="ur_uuid"/>
+        <result property="urUserUuid" column="ur_user_uuid"/>
+        <result property="urRoleUuid" column="ur_role_uuid"/>
+        <result property="urAddTime" column="ur_add_time"/>
+        <result property="urAddBy" column="ur_add_by"/>
+        <result property="urDelTime" column="ur_del_time"/>
+        <result property="urDelBy" column="ur_del_by"/>
+        <result property="urIsDelete" column="ur_is_delete"/>
+    </resultMap>
+
+	<sql id="Base_Column_List">
+		ur_uuid,ur_user_uuid,ur_role_uuid,ur_add_time,ur_add_by,ur_del_time,ur_del_by,ur_is_delete
+	</sql>
+	
+	<insert id="insert" parameterType="AuthorityUserRoleRelationPO" >
+		INSERT INTO authority_user_role_relation (
+				ur_uuid
+				<if test="urUserUuid != null  and  urUserUuid != '' " > 
+					, ur_user_uuid
+				</if>
+				<if test="urRoleUuid != null  and  urRoleUuid != '' " > 
+					, ur_role_uuid
+				</if>
+				<if test="urAddTime != null  and  urAddTime != '' " > 
+					, ur_add_time
+				</if>
+				<if test="urAddBy != null  and  urAddBy != '' " > 
+					, ur_add_by
+				</if>
+				<if test="urDelTime != null  and  urDelTime != '' " > 
+					, ur_del_time
+				</if>
+				<if test="urDelBy != null  and  urDelBy != '' " > 
+					, ur_del_by
+				</if>
+				<if test="urIsDelete != null  and  urIsDelete != '' " > 
+					, ur_is_delete
+				</if>
+		 ) VALUES (
+				#{urUuid}
+				<if test="urUserUuid != null  and  urUserUuid != '' " > 
+					, #{urUserUuid}
+				</if>
+				<if test="urRoleUuid != null  and  urRoleUuid != '' " > 
+					, #{urRoleUuid}
+				</if>
+				<if test="urAddTime != null  and  urAddTime != '' " > 
+					, #{urAddTime}
+				</if>
+				<if test="urAddBy != null  and  urAddBy != '' " > 
+					, #{urAddBy}
+				</if>
+				<if test="urDelTime != null  and  urDelTime != '' " > 
+					, #{urDelTime}
+				</if>
+				<if test="urDelBy != null  and  urDelBy != '' " > 
+					, #{urDelBy}
+				</if>
+				<if test="urIsDelete != null  and  urIsDelete != '' " > 
+					, #{urIsDelete}
+				</if>
+		 )
+	</insert>
+	
+	<update id="updateByUuid" parameterType="AuthorityUserRoleRelationPO" flushCache="true">
+	 	UPDATE authority_user_role_relation SET
+				ur_uuid = #{urUuid}
+				<if test="urUserUuid != null  and  urUserUuid != '' " > 
+					, ur_user_uuid = #{urUserUuid}
+				</if>
+				<if test="urRoleUuid != null  and  urRoleUuid != '' " > 
+					, ur_role_uuid = #{urRoleUuid}
+				</if>
+				<if test="urAddTime != null  and  urAddTime != '' " > 
+					, ur_add_time = #{urAddTime}
+				</if>
+				<if test="urAddBy != null  and  urAddBy != '' " > 
+					, ur_add_by = #{urAddBy}
+				</if>
+				<if test="urDelTime != null  and  urDelTime != '' " > 
+					, ur_del_time = #{urDelTime}
+				</if>
+				<if test="urDelBy != null  and  urDelBy != '' " > 
+					, ur_del_by = #{urDelBy}
+				</if>
+				<if test="urIsDelete != null  and  urIsDelete != '' " > 
+					, ur_is_delete = #{urIsDelete}
+				</if>
+	    WHERE 1 = 1
+				and ur_uuid = #{urUuid}
+	</update>
+
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="AuthorityUserRoleRelationPO">
+		select 
+			<include refid="Base_Column_List" /> 
+		from authority_user_role_relation  
+		where 1 = 1
+				<if test="urUuid != null  and  urUuid != '' " > 
+					and ur_uuid = #{urUuid}
+				</if>
+				<if test="urUserUuid != null  and  urUserUuid != '' " > 
+					and ur_user_uuid = #{urUserUuid}
+				</if>
+				<if test="urRoleUuid != null  and  urRoleUuid != '' " > 
+					and ur_role_uuid = #{urRoleUuid}
+				</if>
+				<if test="urAddTime != null  and  urAddTime != '' " > 
+					and ur_add_time = #{urAddTime}
+				</if>
+				<if test="urAddBy != null  and  urAddBy != '' " > 
+					and ur_add_by = #{urAddBy}
+				</if>
+				<if test="urDelTime != null  and  urDelTime != '' " > 
+					and ur_del_time = #{urDelTime}
+				</if>
+				<if test="urDelBy != null  and  urDelBy != '' " > 
+					and ur_del_by = #{urDelBy}
+				</if>
+				<if test="urIsDelete != null  and  urIsDelete != '' " > 
+					and ur_is_delete = #{urIsDelete}
+				</if>
+	</select>
+	
+	<select id="selectCountByCondition" resultType="int" parameterType="AuthorityUserRoleRelationPO">
+		select count(1) 
+			from authority_user_role_relation 
+			where 1 = 1
+					<if test="urUuid != null  and  urUuid != '' " > 
+						and ur_uuid = #{urUuid}
+					</if>		        	
+					<if test="urUserUuid != null  and  urUserUuid != '' " > 
+						and ur_user_uuid = #{urUserUuid}
+					</if>		        	
+					<if test="urRoleUuid != null  and  urRoleUuid != '' " > 
+						and ur_role_uuid = #{urRoleUuid}
+					</if>		        	
+					<if test="urAddTime != null  and  urAddTime != '' " > 
+						and ur_add_time = #{urAddTime}
+					</if>		        	
+					<if test="urAddBy != null  and  urAddBy != '' " > 
+						and ur_add_by = #{urAddBy}
+					</if>		        	
+					<if test="urDelTime != null  and  urDelTime != '' " > 
+						and ur_del_time = #{urDelTime}
+					</if>		        	
+					<if test="urDelBy != null  and  urDelBy != '' " > 
+						and ur_del_by = #{urDelBy}
+					</if>		        	
+					<if test="urIsDelete != null  and  urIsDelete != '' " > 
+						and ur_is_delete = #{urIsDelete}
+					</if>		        	
+	</select>	
+	
+</mapper>
+

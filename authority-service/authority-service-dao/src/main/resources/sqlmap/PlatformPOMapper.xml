@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PlatformPOMapper">
+
+     <resultMap id="BaseResultMap" type="PlatformPO">
+        <result property="platformUuid" column="platform_uuid"/>
+        <result property="platformName" column="platform_name"/>
+        <result property="platformSign" column="platform_sign"/>
+        <result property="platformDomainName" column="platform_domain_name"/>
+        <result property="platformAddTime" column="platform_add_time"/>
+        <result property="platformAddBy" column="platform_add_by"/>
+        <result property="platformDelTime" column="platform_del_time"/>
+        <result property="platformDelBy" column="platform_del_by"/>
+        <result property="platformStatus" column="platform_status"/>
+        <result property="platformIsDelete" column="platform_is_delete"/>
+    </resultMap>
+
+	<sql id="Base_Column_List">
+		platform_uuid,platform_name,platform_sign,platform_domain_name,platform_add_time,platform_add_by,platform_del_time,platform_del_by,platform_status,platform_is_delete
+	</sql>
+	
+	<insert id="insert" parameterType="PlatformPO" >
+		INSERT INTO platform (
+				platform_uuid
+				<if test="platformName != null  and  platformName != '' " > 
+					, platform_name
+				</if>
+				<if test="platformSign != null  and  platformSign != '' " > 
+					, platform_sign
+				</if>
+				<if test="platformDomainName != null  and  platformDomainName != '' " > 
+					, platform_domain_name
+				</if>
+				<if test="platformAddTime != null  and  platformAddTime != '' " > 
+					, platform_add_time
+				</if>
+				<if test="platformAddBy != null  and  platformAddBy != '' " > 
+					, platform_add_by
+				</if>
+				<if test="platformDelTime != null  and  platformDelTime != '' " > 
+					, platform_del_time
+				</if>
+				<if test="platformDelBy != null  and  platformDelBy != '' " > 
+					, platform_del_by
+				</if>
+				<if test="platformStatus != null  and  platformStatus != '' " > 
+					, platform_status
+				</if>
+				<if test="platformIsDelete != null  and  platformIsDelete != '' " > 
+					, platform_is_delete
+				</if>
+		 ) VALUES (
+				#{platformUuid}
+				<if test="platformName != null  and  platformName != '' " > 
+					, #{platformName}
+				</if>
+				<if test="platformSign != null  and  platformSign != '' " > 
+					, #{platformSign}
+				</if>
+				<if test="platformDomainName != null  and  platformDomainName != '' " > 
+					, #{platformDomainName}
+				</if>
+				<if test="platformAddTime != null  and  platformAddTime != '' " > 
+					, #{platformAddTime}
+				</if>
+				<if test="platformAddBy != null  and  platformAddBy != '' " > 
+					, #{platformAddBy}
+				</if>
+				<if test="platformDelTime != null  and  platformDelTime != '' " > 
+					, #{platformDelTime}
+				</if>
+				<if test="platformDelBy != null  and  platformDelBy != '' " > 
+					, #{platformDelBy}
+				</if>
+				<if test="platformStatus != null  and  platformStatus != '' " > 
+					, #{platformStatus}
+				</if>
+				<if test="platformIsDelete != null  and  platformIsDelete != '' " > 
+					, #{platformIsDelete}
+				</if>
+		 )
+	</insert>
+	
+	<update id="updateByUuid" parameterType="PlatformPO" flushCache="true">
+	 	UPDATE platform SET
+				platform_uuid = #{platformUuid}
+				<if test="platformName != null  and  platformName != '' " > 
+					, platform_name = #{platformName}
+				</if>
+				<if test="platformSign != null  and  platformSign != '' " > 
+					, platform_sign = #{platformSign}
+				</if>
+				<if test="platformDomainName != null  and  platformDomainName != '' " > 
+					, platform_domain_name = #{platformDomainName}
+				</if>
+				<if test="platformAddTime != null  and  platformAddTime != '' " > 
+					, platform_add_time = #{platformAddTime}
+				</if>
+				<if test="platformAddBy != null  and  platformAddBy != '' " > 
+					, platform_add_by = #{platformAddBy}
+				</if>
+				<if test="platformDelTime != null  and  platformDelTime != '' " > 
+					, platform_del_time = #{platformDelTime}
+				</if>
+				<if test="platformDelBy != null  and  platformDelBy != '' " > 
+					, platform_del_by = #{platformDelBy}
+				</if>
+				<if test="platformStatus != null  and  platformStatus != '' " > 
+					, platform_status = #{platformStatus}
+				</if>
+				<if test="platformIsDelete != null  and  platformIsDelete != '' " > 
+					, platform_is_delete = #{platformIsDelete}
+				</if>
+	    WHERE 1 = 1
+				and platform_uuid = #{platformUuid}
+	</update>
+
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="PlatformPO">
+		select 
+			<include refid="Base_Column_List" /> 
+		from platform  
+		where 1 = 1
+				<if test="platformUuid != null  and  platformUuid != '' " > 
+					and platform_uuid = #{platformUuid}
+				</if>
+				<if test="platformName != null  and  platformName != '' " > 
+					and platform_name = #{platformName}
+				</if>
+				<if test="platformSign != null  and  platformSign != '' " > 
+					and platform_sign = #{platformSign}
+				</if>
+				<if test="platformDomainName != null  and  platformDomainName != '' " > 
+					and platform_domain_name = #{platformDomainName}
+				</if>
+				<if test="platformAddTime != null  and  platformAddTime != '' " > 
+					and platform_add_time = #{platformAddTime}
+				</if>
+				<if test="platformAddBy != null  and  platformAddBy != '' " > 
+					and platform_add_by = #{platformAddBy}
+				</if>
+				<if test="platformDelTime != null  and  platformDelTime != '' " > 
+					and platform_del_time = #{platformDelTime}
+				</if>
+				<if test="platformDelBy != null  and  platformDelBy != '' " > 
+					and platform_del_by = #{platformDelBy}
+				</if>
+				<if test="platformStatus != null  and  platformStatus != '' " > 
+					and platform_status = #{platformStatus}
+				</if>
+				<if test="platformIsDelete != null  and  platformIsDelete != '' " > 
+					and platform_is_delete = #{platformIsDelete}
+				</if>
+	</select>
+	
+	<select id="selectCountByCondition" resultType="int" parameterType="PlatformPO">
+		select count(1) 
+			from platform 
+			where 1 = 1
+					<if test="platformUuid != null  and  platformUuid != '' " > 
+						and platform_uuid = #{platformUuid}
+					</if>		        	
+					<if test="platformName != null  and  platformName != '' " > 
+						and platform_name = #{platformName}
+					</if>		        	
+					<if test="platformSign != null  and  platformSign != '' " > 
+						and platform_sign = #{platformSign}
+					</if>		        	
+					<if test="platformDomainName != null  and  platformDomainName != '' " > 
+						and platform_domain_name = #{platformDomainName}
+					</if>		        	
+					<if test="platformAddTime != null  and  platformAddTime != '' " > 
+						and platform_add_time = #{platformAddTime}
+					</if>		        	
+					<if test="platformAddBy != null  and  platformAddBy != '' " > 
+						and platform_add_by = #{platformAddBy}
+					</if>		        	
+					<if test="platformDelTime != null  and  platformDelTime != '' " > 
+						and platform_del_time = #{platformDelTime}
+					</if>		        	
+					<if test="platformDelBy != null  and  platformDelBy != '' " > 
+						and platform_del_by = #{platformDelBy}
+					</if>		        	
+					<if test="platformStatus != null  and  platformStatus != '' " > 
+						and platform_status = #{platformStatus}
+					</if>		        	
+					<if test="platformIsDelete != null  and  platformIsDelete != '' " > 
+						and platform_is_delete = #{platformIsDelete}
+					</if>		        	
+	</select>	
+	
+</mapper>
+

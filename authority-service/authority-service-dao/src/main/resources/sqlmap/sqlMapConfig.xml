@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>  
+	<!-- 别名 -->
+	<typeAliases>
+		<typeAlias type="net.wangxj.authority.po.AuthorityResourcesPO" alias="AuthorityResourcesPO" />
+		<typeAlias type="net.wangxj.authority.po.AuthorityRolePO" alias="AuthorityRolePO" />
+		<typeAlias type="net.wangxj.authority.po.AuthorityRoleResourcesRelationPO" alias="AuthorityRoleResourcesRelationPO" />
+		<typeAlias type="net.wangxj.authority.po.AuthorityUserPO" alias="AuthorityUserPO" />
+		<typeAlias type="net.wangxj.authority.po.AuthorityUserRoleRelationPO" alias="AuthorityUserRoleRelationPO" />
+		<typeAlias type="net.wangxj.authority.po.PlatformPO" alias="PlatformPO" />
+	</typeAliases>
+	<mappers>
+		<mapper resource="sqlmap/AuthorityResourcesPOMapper.xml" />
+		<mapper resource="sqlmap/AuthorityRolePOMapper.xml" />
+		<mapper resource="sqlmap/AuthorityRoleResourcesRelationPOMapper.xml" />
+		<mapper resource="sqlmap/AuthorityUserPOMapper.xml" />
+		<mapper resource="sqlmap/AuthorityUserRoleRelationPOMapper.xml" />
+		<mapper resource="sqlmap/PlatformPOMapper.xml" />
+	</mappers>
+</configuration>  

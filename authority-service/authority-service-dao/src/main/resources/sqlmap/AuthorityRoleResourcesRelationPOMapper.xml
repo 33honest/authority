@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AuthorityRoleResourcesRelationPOMapper">
+
+     <resultMap id="BaseResultMap" type="AuthorityRoleResourcesRelationPO">
+        <result property="rrRoleUuid" column="rr_role_uuid"/>
+        <result property="rrResourceUuid" column="rr_resource_uuid"/>
+        <result property="rrUuid" column="rr_uuid"/>
+        <result property="rrAddTime" column="rr_add_time"/>
+        <result property="rrAddBy" column="rr_add_by"/>
+        <result property="rrDelTime" column="rr_del_time"/>
+        <result property="rrDelBy" column="rr_del_by"/>
+        <result property="rrIsDelete" column="rr_is_delete"/>
+        <result property="rrGrantType" column="rr_grant_type"/>
+    </resultMap>
+
+	<sql id="Base_Column_List">
+		rr_role_uuid,rr_resource_uuid,rr_uuid,rr_add_time,rr_add_by,rr_del_time,rr_del_by,rr_is_delete,rr_grant_type
+	</sql>
+	
+	<insert id="insert" parameterType="AuthorityRoleResourcesRelationPO" >
+		INSERT INTO authority_role_resources_relation (
+				rr_uuid
+				<if test="rrRoleUuid != null  and  rrRoleUuid != '' " > 
+					, rr_role_uuid
+				</if>
+				<if test="rrResourceUuid != null  and  rrResourceUuid != '' " > 
+					, rr_resource_uuid
+				</if>
+				<if test="rrAddTime != null  and  rrAddTime != '' " > 
+					, rr_add_time
+				</if>
+				<if test="rrAddBy != null  and  rrAddBy != '' " > 
+					, rr_add_by
+				</if>
+				<if test="rrDelTime != null  and  rrDelTime != '' " > 
+					, rr_del_time
+				</if>
+				<if test="rrDelBy != null  and  rrDelBy != '' " > 
+					, rr_del_by
+				</if>
+				<if test="rrIsDelete != null  and  rrIsDelete != '' " > 
+					, rr_is_delete
+				</if>
+				<if test="rrGrantType != null  and  rrGrantType != '' " > 
+					, rr_grant_type
+				</if>
+		 ) VALUES (
+				#{rrUuid}
+				<if test="rrRoleUuid != null  and  rrRoleUuid != '' " > 
+					, #{rrRoleUuid}
+				</if>
+				<if test="rrResourceUuid != null  and  rrResourceUuid != '' " > 
+					, #{rrResourceUuid}
+				</if>
+				<if test="rrAddTime != null  and  rrAddTime != '' " > 
+					, #{rrAddTime}
+				</if>
+				<if test="rrAddBy != null  and  rrAddBy != '' " > 
+					, #{rrAddBy}
+				</if>
+				<if test="rrDelTime != null  and  rrDelTime != '' " > 
+					, #{rrDelTime}
+				</if>
+				<if test="rrDelBy != null  and  rrDelBy != '' " > 
+					, #{rrDelBy}
+				</if>
+				<if test="rrIsDelete != null  and  rrIsDelete != '' " > 
+					, #{rrIsDelete}
+				</if>
+				<if test="rrGrantType != null  and  rrGrantType != '' " > 
+					, #{rrGrantType}
+				</if>
+		 )
+	</insert>
+	
+	<update id="updateByUuid" parameterType="AuthorityRoleResourcesRelationPO" flushCache="true">
+	 	UPDATE authority_role_resources_relation SET
+				rr_uuid = #{rrUuid}
+				<if test="rrRoleUuid != null  and  rrRoleUuid != '' " > 
+					, rr_role_uuid = #{rrRoleUuid}
+				</if>
+				<if test="rrResourceUuid != null  and  rrResourceUuid != '' " > 
+					, rr_resource_uuid = #{rrResourceUuid}
+				</if>
+				<if test="rrAddTime != null  and  rrAddTime != '' " > 
+					, rr_add_time = #{rrAddTime}
+				</if>
+				<if test="rrAddBy != null  and  rrAddBy != '' " > 
+					, rr_add_by = #{rrAddBy}
+				</if>
+				<if test="rrDelTime != null  and  rrDelTime != '' " > 
+					, rr_del_time = #{rrDelTime}
+				</if>
+				<if test="rrDelBy != null  and  rrDelBy != '' " > 
+					, rr_del_by = #{rrDelBy}
+				</if>
+				<if test="rrIsDelete != null  and  rrIsDelete != '' " > 
+					, rr_is_delete = #{rrIsDelete}
+				</if>
+				<if test="rrGrantType != null  and  rrGrantType != '' " > 
+					, rr_grant_type = #{rrGrantType}
+				</if>
+	    WHERE 1 = 1
+				and rr_uuid = #{rrUuid}
+	</update>
+
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="AuthorityRoleResourcesRelationPO">
+		select 
+			<include refid="Base_Column_List" /> 
+		from authority_role_resources_relation  
+		where 1 = 1
+				<if test="rrRoleUuid != null  and  rrRoleUuid != '' " > 
+					and rr_role_uuid = #{rrRoleUuid}
+				</if>
+				<if test="rrResourceUuid != null  and  rrResourceUuid != '' " > 
+					and rr_resource_uuid = #{rrResourceUuid}
+				</if>
+				<if test="rrUuid != null  and  rrUuid != '' " > 
+					and rr_uuid = #{rrUuid}
+				</if>
+				<if test="rrAddTime != null  and  rrAddTime != '' " > 
+					and rr_add_time = #{rrAddTime}
+				</if>
+				<if test="rrAddBy != null  and  rrAddBy != '' " > 
+					and rr_add_by = #{rrAddBy}
+				</if>
+				<if test="rrDelTime != null  and  rrDelTime != '' " > 
+					and rr_del_time = #{rrDelTime}
+				</if>
+				<if test="rrDelBy != null  and  rrDelBy != '' " > 
+					and rr_del_by = #{rrDelBy}
+				</if>
+				<if test="rrIsDelete != null  and  rrIsDelete != '' " > 
+					and rr_is_delete = #{rrIsDelete}
+				</if>
+				<if test="rrGrantType != null  and  rrGrantType != '' " > 
+					and rr_grant_type = #{rrGrantType}
+				</if>
+	</select>
+	
+	<select id="selectCountByCondition" resultType="int" parameterType="AuthorityRoleResourcesRelationPO">
+		select count(1) 
+			from authority_role_resources_relation 
+			where 1 = 1
+					<if test="rrRoleUuid != null  and  rrRoleUuid != '' " > 
+						and rr_role_uuid = #{rrRoleUuid}
+					</if>		        	
+					<if test="rrResourceUuid != null  and  rrResourceUuid != '' " > 
+						and rr_resource_uuid = #{rrResourceUuid}
+					</if>		        	
+					<if test="rrUuid != null  and  rrUuid != '' " > 
+						and rr_uuid = #{rrUuid}
+					</if>		        	
+					<if test="rrAddTime != null  and  rrAddTime != '' " > 
+						and rr_add_time = #{rrAddTime}
+					</if>		        	
+					<if test="rrAddBy != null  and  rrAddBy != '' " > 
+						and rr_add_by = #{rrAddBy}
+					</if>		        	
+					<if test="rrDelTime != null  and  rrDelTime != '' " > 
+						and rr_del_time = #{rrDelTime}
+					</if>		        	
+					<if test="rrDelBy != null  and  rrDelBy != '' " > 
+						and rr_del_by = #{rrDelBy}
+					</if>		        	
+					<if test="rrIsDelete != null  and  rrIsDelete != '' " > 
+						and rr_is_delete = #{rrIsDelete}
+					</if>		        	
+					<if test="rrGrantType != null  and  rrGrantType != '' " > 
+						and rr_grant_type = #{rrGrantType}
+					</if>		        	
+	</select>	
+	
+</mapper>
+

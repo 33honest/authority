@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AuthorityResourcesPOMapper">
+
+     <resultMap id="BaseResultMap" type="AuthorityResourcesPO">
+        <result property="resourceUuid" column="resource_uuid"/>
+        <result property="resourceName" column="resource_name"/>
+        <result property="resourcePlatformUuid" column="resource_platform_uuid"/>
+        <result property="resourceStatus" column="resource_status"/>
+        <result property="resourceUrl" column="resource_url"/>
+        <result property="resourceLevel" column="resource_level"/>
+        <result property="resourceOrder" column="resource_order"/>
+        <result property="resourceParentUuid" column="resource_parent_uuid"/>
+        <result property="resourceCssCode" column="resource_css_code"/>
+        <result property="resourceAddTime" column="resource_add_time"/>
+        <result property="resourceAddBy" column="resource_add_by"/>
+        <result property="resourceDelTime" column="resource_del_time"/>
+        <result property="resourceDelBy" column="resource_del_by"/>
+        <result property="resourceIsDelete" column="resource__is_delete"/>
+    </resultMap>
+
+	<sql id="Base_Column_List">
+		resource_uuid,resource_name,resource_platform_uuid,resource_status,resource_url,resource_level,resource_order,resource_parent_uuid,resource_css_code,resource_add_time,resource_add_by,resource_del_time,resource_del_by,resource__is_delete
+	</sql>
+	
+	<insert id="insert" parameterType="AuthorityResourcesPO" >
+		INSERT INTO authority_resources (
+				resource_uuid
+				<if test="resourceName != null  and  resourceName != '' " > 
+					, resource_name
+				</if>
+				<if test="resourcePlatformUuid != null  and  resourcePlatformUuid != '' " > 
+					, resource_platform_uuid
+				</if>
+				<if test="resourceStatus != null  and  resourceStatus != '' " > 
+					, resource_status
+				</if>
+				<if test="resourceUrl != null  and  resourceUrl != '' " > 
+					, resource_url
+				</if>
+				<if test="resourceLevel != null  and  resourceLevel != '' " > 
+					, resource_level
+				</if>
+				<if test="resourceOrder != null  and  resourceOrder != '' " > 
+					, resource_order
+				</if>
+				<if test="resourceParentUuid != null  and  resourceParentUuid != '' " > 
+					, resource_parent_uuid
+				</if>
+				<if test="resourceCssCode != null  and  resourceCssCode != '' " > 
+					, resource_css_code
+				</if>
+				<if test="resourceAddTime != null  and  resourceAddTime != '' " > 
+					, resource_add_time
+				</if>
+				<if test="resourceAddBy != null  and  resourceAddBy != '' " > 
+					, resource_add_by
+				</if>
+				<if test="resourceDelTime != null  and  resourceDelTime != '' " > 
+					, resource_del_time
+				</if>
+				<if test="resourceDelBy != null  and  resourceDelBy != '' " > 
+					, resource_del_by
+				</if>
+				<if test="resourceIsDelete != null  and  resourceIsDelete != '' " > 
+					, resource__is_delete
+				</if>
+		 ) VALUES (
+				#{resourceUuid}
+				<if test="resourceName != null  and  resourceName != '' " > 
+					, #{resourceName}
+				</if>
+				<if test="resourcePlatformUuid != null  and  resourcePlatformUuid != '' " > 
+					, #{resourcePlatformUuid}
+				</if>
+				<if test="resourceStatus != null  and  resourceStatus != '' " > 
+					, #{resourceStatus}
+				</if>
+				<if test="resourceUrl != null  and  resourceUrl != '' " > 
+					, #{resourceUrl}
+				</if>
+				<if test="resourceLevel != null  and  resourceLevel != '' " > 
+					, #{resourceLevel}
+				</if>
+				<if test="resourceOrder != null  and  resourceOrder != '' " > 
+					, #{resourceOrder}
+				</if>
+				<if test="resourceParentUuid != null  and  resourceParentUuid != '' " > 
+					, #{resourceParentUuid}
+				</if>
+				<if test="resourceCssCode != null  and  resourceCssCode != '' " > 
+					, #{resourceCssCode}
+				</if>
+				<if test="resourceAddTime != null  and  resourceAddTime != '' " > 
+					, #{resourceAddTime}
+				</if>
+				<if test="resourceAddBy != null  and  resourceAddBy != '' " > 
+					, #{resourceAddBy}
+				</if>
+				<if test="resourceDelTime != null  and  resourceDelTime != '' " > 
+					, #{resourceDelTime}
+				</if>
+				<if test="resourceDelBy != null  and  resourceDelBy != '' " > 
+					, #{resourceDelBy}
+				</if>
+				<if test="resourceIsDelete != null  and  resourceIsDelete != '' " > 
+					, #{resourceIsDelete}
+				</if>
+		 )
+	</insert>
+	
+	<update id="updateByUuid" parameterType="AuthorityResourcesPO" flushCache="true">
+	 	UPDATE authority_resources SET
+				resource_uuid = #{resourceUuid}
+				<if test="resourceName != null  and  resourceName != '' " > 
+					, resource_name = #{resourceName}
+				</if>
+				<if test="resourcePlatformUuid != null  and  resourcePlatformUuid != '' " > 
+					, resource_platform_uuid = #{resourcePlatformUuid}
+				</if>
+				<if test="resourceStatus != null  and  resourceStatus != '' " > 
+					, resource_status = #{resourceStatus}
+				</if>
+				<if test="resourceUrl != null  and  resourceUrl != '' " > 
+					, resource_url = #{resourceUrl}
+				</if>
+				<if test="resourceLevel != null  and  resourceLevel != '' " > 
+					, resource_level = #{resourceLevel}
+				</if>
+				<if test="resourceOrder != null  and  resourceOrder != '' " > 
+					, resource_order = #{resourceOrder}
+				</if>
+				<if test="resourceParentUuid != null  and  resourceParentUuid != '' " > 
+					, resource_parent_uuid = #{resourceParentUuid}
+				</if>
+				<if test="resourceCssCode != null  and  resourceCssCode != '' " > 
+					, resource_css_code = #{resourceCssCode}
+				</if>
+				<if test="resourceAddTime != null  and  resourceAddTime != '' " > 
+					, resource_add_time = #{resourceAddTime}
+				</if>
+				<if test="resourceAddBy != null  and  resourceAddBy != '' " > 
+					, resource_add_by = #{resourceAddBy}
+				</if>
+				<if test="resourceDelTime != null  and  resourceDelTime != '' " > 
+					, resource_del_time = #{resourceDelTime}
+				</if>
+				<if test="resourceDelBy != null  and  resourceDelBy != '' " > 
+					, resource_del_by = #{resourceDelBy}
+				</if>
+				<if test="resourceIsDelete != null  and  resourceIsDelete != '' " > 
+					, resource__is_delete = #{resourceIsDelete}
+				</if>
+	    WHERE 1 = 1
+				and resource_uuid = #{resourceUuid}
+	</update>
+
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="AuthorityResourcesPO">
+		select 
+			<include refid="Base_Column_List" /> 
+		from authority_resources  
+		where 1 = 1
+				<if test="resourceUuid != null  and  resourceUuid != '' " > 
+					and resource_uuid = #{resourceUuid}
+				</if>
+				<if test="resourceName != null  and  resourceName != '' " > 
+					and resource_name = #{resourceName}
+				</if>
+				<if test="resourcePlatformUuid != null  and  resourcePlatformUuid != '' " > 
+					and resource_platform_uuid = #{resourcePlatformUuid}
+				</if>
+				<if test="resourceStatus != null  and  resourceStatus != '' " > 
+					and resource_status = #{resourceStatus}
+				</if>
+				<if test="resourceUrl != null  and  resourceUrl != '' " > 
+					and resource_url = #{resourceUrl}
+				</if>
+				<if test="resourceLevel != null  and  resourceLevel != '' " > 
+					and resource_level = #{resourceLevel}
+				</if>
+				<if test="resourceOrder != null  and  resourceOrder != '' " > 
+					and resource_order = #{resourceOrder}
+				</if>
+				<if test="resourceParentUuid != null  and  resourceParentUuid != '' " > 
+					and resource_parent_uuid = #{resourceParentUuid}
+				</if>
+				<if test="resourceCssCode != null  and  resourceCssCode != '' " > 
+					and resource_css_code = #{resourceCssCode}
+				</if>
+				<if test="resourceAddTime != null  and  resourceAddTime != '' " > 
+					and resource_add_time = #{resourceAddTime}
+				</if>
+				<if test="resourceAddBy != null  and  resourceAddBy != '' " > 
+					and resource_add_by = #{resourceAddBy}
+				</if>
+				<if test="resourceDelTime != null  and  resourceDelTime != '' " > 
+					and resource_del_time = #{resourceDelTime}
+				</if>
+				<if test="resourceDelBy != null  and  resourceDelBy != '' " > 
+					and resource_del_by = #{resourceDelBy}
+				</if>
+				<if test="resourceIsDelete != null  and  resourceIsDelete != '' " > 
+					and resource__is_delete = #{resourceIsDelete}
+				</if>
+	</select>
+	
+	<select id="selectCountByCondition" resultType="int" parameterType="AuthorityResourcesPO">
+		select count(1) 
+			from authority_resources 
+			where 1 = 1
+					<if test="resourceUuid != null  and  resourceUuid != '' " > 
+						and resource_uuid = #{resourceUuid}
+					</if>		        	
+					<if test="resourceName != null  and  resourceName != '' " > 
+						and resource_name = #{resourceName}
+					</if>		        	
+					<if test="resourcePlatformUuid != null  and  resourcePlatformUuid != '' " > 
+						and resource_platform_uuid = #{resourcePlatformUuid}
+					</if>		        	
+					<if test="resourceStatus != null  and  resourceStatus != '' " > 
+						and resource_status = #{resourceStatus}
+					</if>		        	
+					<if test="resourceUrl != null  and  resourceUrl != '' " > 
+						and resource_url = #{resourceUrl}
+					</if>		        	
+					<if test="resourceLevel != null  and  resourceLevel != '' " > 
+						and resource_level = #{resourceLevel}
+					</if>		        	
+					<if test="resourceOrder != null  and  resourceOrder != '' " > 
+						and resource_order = #{resourceOrder}
+					</if>		        	
+					<if test="resourceParentUuid != null  and  resourceParentUuid != '' " > 
+						and resource_parent_uuid = #{resourceParentUuid}
+					</if>		        	
+					<if test="resourceCssCode != null  and  resourceCssCode != '' " > 
+						and resource_css_code = #{resourceCssCode}
+					</if>		        	
+					<if test="resourceAddTime != null  and  resourceAddTime != '' " > 
+						and resource_add_time = #{resourceAddTime}
+					</if>		        	
+					<if test="resourceAddBy != null  and  resourceAddBy != '' " > 
+						and resource_add_by = #{resourceAddBy}
+					</if>		        	
+					<if test="resourceDelTime != null  and  resourceDelTime != '' " > 
+						and resource_del_time = #{resourceDelTime}
+					</if>		        	
+					<if test="resourceDelBy != null  and  resourceDelBy != '' " > 
+						and resource_del_by = #{resourceDelBy}
+					</if>		        	
+					<if test="resourceIsDelete != null  and  resourceIsDelete != '' " > 
+						and resource__is_delete = #{resourceIsDelete}
+					</if>		        	
+	</select>	
+	
+</mapper>
+

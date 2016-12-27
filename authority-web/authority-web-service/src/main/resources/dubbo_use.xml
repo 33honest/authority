@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+	<dubbo:registry address="${dubbo.address}" />
+ 	<dubbo:application name="${dubbo.application}"/>
+ 	
+    <dubbo:reference id="authorityResourcesShareService" interface="net.wangxj.authority.service.share.AuthorityResourcesShareService" />
+    
+    <dubbo:reference id="authorityRoleShareService" interface="net.wangxj.authority.service.share.AuthorityRoleShareService" />
+    
+    <dubbo:reference id="authorityRoleResourcesRelationShareService" interface="net.wangxj.authority.service.share.AuthorityRoleResourcesRelationShareService" />
+    
+    <dubbo:reference id="authorityUserShareService" interface="net.wangxj.authority.service.share.AuthorityUserShareService" />
+    
+    <dubbo:reference id="authorityUserRoleRelationShareService" interface="net.wangxj.authority.service.share.AuthorityUserRoleRelationShareService" />
+    
+    <dubbo:reference id="platformShareService" interface="net.wangxj.authority.service.share.PlatformShareService" />
+    
+</beans>

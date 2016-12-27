@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AuthorityUserPOMapper">
+
+     <resultMap id="BaseResultMap" type="AuthorityUserPO">
+        <result property="userUuid" column="user_uuid"/>
+        <result property="userLoginName" column="user_login_name"/>
+        <result property="userLoginPwd" column="user_login_pwd"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userStatus" column="user_status"/>
+        <result property="userAddTime" column="user_add_time"/>
+        <result property="userAddBy" column="user_add_by"/>
+        <result property="userDelTime" column="user_del_time"/>
+        <result property="userDelBy" column="user_del_by"/>
+        <result property="userType" column="user_type"/>
+        <result property="userAddType" column="user_add_type"/>
+        <result property="userIsDelete" column="user_is_delete"/>
+    </resultMap>
+
+	<sql id="Base_Column_List">
+		user_uuid,user_login_name,user_login_pwd,user_email,user_phone,user_status,user_add_time,user_add_by,user_del_time,user_del_by,user_type,user_add_type,user_is_delete
+	</sql>
+	
+	<insert id="insert" parameterType="AuthorityUserPO" >
+		INSERT INTO authority_user (
+				user_uuid
+				<if test="userLoginName != null  and  userLoginName != '' " > 
+					, user_login_name
+				</if>
+				<if test="userLoginPwd != null  and  userLoginPwd != '' " > 
+					, user_login_pwd
+				</if>
+				<if test="userEmail != null  and  userEmail != '' " > 
+					, user_email
+				</if>
+				<if test="userPhone != null  and  userPhone != '' " > 
+					, user_phone
+				</if>
+				<if test="userStatus != null  and  userStatus != '' " > 
+					, user_status
+				</if>
+				<if test="userAddTime != null  and  userAddTime != '' " > 
+					, user_add_time
+				</if>
+				<if test="userAddBy != null  and  userAddBy != '' " > 
+					, user_add_by
+				</if>
+				<if test="userDelTime != null  and  userDelTime != '' " > 
+					, user_del_time
+				</if>
+				<if test="userDelBy != null  and  userDelBy != '' " > 
+					, user_del_by
+				</if>
+				<if test="userType != null  and  userType != '' " > 
+					, user_type
+				</if>
+				<if test="userAddType != null  and  userAddType != '' " > 
+					, user_add_type
+				</if>
+				<if test="userIsDelete != null  and  userIsDelete != '' " > 
+					, user_is_delete
+				</if>
+		 ) VALUES (
+				#{userUuid}
+				<if test="userLoginName != null  and  userLoginName != '' " > 
+					, #{userLoginName}
+				</if>
+				<if test="userLoginPwd != null  and  userLoginPwd != '' " > 
+					, #{userLoginPwd}
+				</if>
+				<if test="userEmail != null  and  userEmail != '' " > 
+					, #{userEmail}
+				</if>
+				<if test="userPhone != null  and  userPhone != '' " > 
+					, #{userPhone}
+				</if>
+				<if test="userStatus != null  and  userStatus != '' " > 
+					, #{userStatus}
+				</if>
+				<if test="userAddTime != null  and  userAddTime != '' " > 
+					, #{userAddTime}
+				</if>
+				<if test="userAddBy != null  and  userAddBy != '' " > 
+					, #{userAddBy}
+				</if>
+				<if test="userDelTime != null  and  userDelTime != '' " > 
+					, #{userDelTime}
+				</if>
+				<if test="userDelBy != null  and  userDelBy != '' " > 
+					, #{userDelBy}
+				</if>
+				<if test="userType != null  and  userType != '' " > 
+					, #{userType}
+				</if>
+				<if test="userAddType != null  and  userAddType != '' " > 
+					, #{userAddType}
+				</if>
+				<if test="userIsDelete != null  and  userIsDelete != '' " > 
+					, #{userIsDelete}
+				</if>
+		 )
+	</insert>
+	
+	<update id="updateByUuid" parameterType="AuthorityUserPO" flushCache="true">
+	 	UPDATE authority_user SET
+				user_uuid = #{userUuid}
+				<if test="userLoginName != null  and  userLoginName != '' " > 
+					, user_login_name = #{userLoginName}
+				</if>
+				<if test="userLoginPwd != null  and  userLoginPwd != '' " > 
+					, user_login_pwd = #{userLoginPwd}
+				</if>
+				<if test="userEmail != null  and  userEmail != '' " > 
+					, user_email = #{userEmail}
+				</if>
+				<if test="userPhone != null  and  userPhone != '' " > 
+					, user_phone = #{userPhone}
+				</if>
+				<if test="userStatus != null  and  userStatus != '' " > 
+					, user_status = #{userStatus}
+				</if>
+				<if test="userAddTime != null  and  userAddTime != '' " > 
+					, user_add_time = #{userAddTime}
+				</if>
+				<if test="userAddBy != null  and  userAddBy != '' " > 
+					, user_add_by = #{userAddBy}
+				</if>
+				<if test="userDelTime != null  and  userDelTime != '' " > 
+					, user_del_time = #{userDelTime}
+				</if>
+				<if test="userDelBy != null  and  userDelBy != '' " > 
+					, user_del_by = #{userDelBy}
+				</if>
+				<if test="userType != null  and  userType != '' " > 
+					, user_type = #{userType}
+				</if>
+				<if test="userAddType != null  and  userAddType != '' " > 
+					, user_add_type = #{userAddType}
+				</if>
+				<if test="userIsDelete != null  and  userIsDelete != '' " > 
+					, user_is_delete = #{userIsDelete}
+				</if>
+	    WHERE 1 = 1
+				and user_uuid = #{userUuid}
+	</update>
+
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="AuthorityUserPO">
+		select 
+			<include refid="Base_Column_List" /> 
+		from authority_user  
+		where 1 = 1
+				<if test="userUuid != null  and  userUuid != '' " > 
+					and user_uuid = #{userUuid}
+				</if>
+				<if test="userLoginName != null  and  userLoginName != '' " > 
+					and user_login_name = #{userLoginName}
+				</if>
+				<if test="userLoginPwd != null  and  userLoginPwd != '' " > 
+					and user_login_pwd = #{userLoginPwd}
+				</if>
+				<if test="userEmail != null  and  userEmail != '' " > 
+					and user_email = #{userEmail}
+				</if>
+				<if test="userPhone != null  and  userPhone != '' " > 
+					and user_phone = #{userPhone}
+				</if>
+				<if test="userStatus != null  and  userStatus != '' " > 
+					and user_status = #{userStatus}
+				</if>
+				<if test="userAddTime != null  and  userAddTime != '' " > 
+					and user_add_time = #{userAddTime}
+				</if>
+				<if test="userAddBy != null  and  userAddBy != '' " > 
+					and user_add_by = #{userAddBy}
+				</if>
+				<if test="userDelTime != null  and  userDelTime != '' " > 
+					and user_del_time = #{userDelTime}
+				</if>
+				<if test="userDelBy != null  and  userDelBy != '' " > 
+					and user_del_by = #{userDelBy}
+				</if>
+				<if test="userType != null  and  userType != '' " > 
+					and user_type = #{userType}
+				</if>
+				<if test="userAddType != null  and  userAddType != '' " > 
+					and user_add_type = #{userAddType}
+				</if>
+				<if test="userIsDelete != null  and  userIsDelete != '' " > 
+					and user_is_delete = #{userIsDelete}
+				</if>
+	</select>
+	
+	<select id="selectCountByCondition" resultType="int" parameterType="AuthorityUserPO">
+		select count(1) 
+			from authority_user 
+			where 1 = 1
+					<if test="userUuid != null  and  userUuid != '' " > 
+						and user_uuid = #{userUuid}
+					</if>		        	
+					<if test="userLoginName != null  and  userLoginName != '' " > 
+						and user_login_name = #{userLoginName}
+					</if>		        	
+					<if test="userLoginPwd != null  and  userLoginPwd != '' " > 
+						and user_login_pwd = #{userLoginPwd}
+					</if>		        	
+					<if test="userEmail != null  and  userEmail != '' " > 
+						and user_email = #{userEmail}
+					</if>		        	
+					<if test="userPhone != null  and  userPhone != '' " > 
+						and user_phone = #{userPhone}
+					</if>		        	
+					<if test="userStatus != null  and  userStatus != '' " > 
+						and user_status = #{userStatus}
+					</if>		        	
+					<if test="userAddTime != null  and  userAddTime != '' " > 
+						and user_add_time = #{userAddTime}
+					</if>		        	
+					<if test="userAddBy != null  and  userAddBy != '' " > 
+						and user_add_by = #{userAddBy}
+					</if>		        	
+					<if test="userDelTime != null  and  userDelTime != '' " > 
+						and user_del_time = #{userDelTime}
+					</if>		        	
+					<if test="userDelBy != null  and  userDelBy != '' " > 
+						and user_del_by = #{userDelBy}
+					</if>		        	
+					<if test="userType != null  and  userType != '' " > 
+						and user_type = #{userType}
+					</if>		        	
+					<if test="userAddType != null  and  userAddType != '' " > 
+						and user_add_type = #{userAddType}
+					</if>		        	
+					<if test="userIsDelete != null  and  userIsDelete != '' " > 
+						and user_is_delete = #{userIsDelete}
+					</if>		        	
+	</select>	
+	
+</mapper>
+
