@@ -11,7 +11,7 @@ import  net.wangxj.authority.Response;
 import net.wangxj.authority.dto.AuthorityUserDTO;
 import net.wangxj.authority.web.service.AuthorityUserWebService;
 
-@RequestMapping("authorityUser")
+@RequestMapping("/user")
 @Controller
 public class AuthorityUserController{
 	
@@ -19,15 +19,14 @@ public class AuthorityUserController{
 	private AuthorityUserWebService authorityUserWebService;
 	
 	
-	@RequestMapping("/info")
+	@RequestMapping("/")
 	public ModelAndView selectInfo(){
 		
 		Response<AuthorityUserDTO> selectInfo = authorityUserWebService.selectInfo();
 		
 		ModelAndView module = new ModelAndView();
 		
-		module.addObject("test", selectInfo);
-		module.setViewName("test");
+		module.setViewName("user");
 		return module;
 	}
 	

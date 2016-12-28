@@ -19,15 +19,14 @@ public class PlatformController{
 	private PlatformWebService platformWebService;
 	
 	
-	@RequestMapping("/info")
+	@RequestMapping("/")
 	public String selectInfo(){
 		
 		Response<PlatformDTO> selectInfo = platformWebService.selectInfo();
 		
 		ModelAndView module = new ModelAndView();
 		
-		module.addObject("test", selectInfo);
-		return "test";
+		return "platform/platform";
 	}
 	
 }

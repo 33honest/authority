@@ -29,42 +29,23 @@
 		<listener-class>com.huoshan.util.listener.ConfigLog4jListener</listener-class>
 	</listener>
 	
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.css</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.js</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.ico</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.gif</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.bmp</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.jpg</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.png</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.xml</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.txt</url-pattern>
-	</servlet-mapping>
+	<!-- <servlet-mapping>    
+     <servlet-name>default</servlet-name>    
+     <url-pattern>*.js</url-pattern>    
+     <url-pattern>*.css</url-pattern>    
+     <url-pattern>*.ico</url-pattern>
+     <url-pattern>*.gif</url-pattern>    
+     <url-pattern>*.bmp</url-pattern>    
+     <url-pattern>*.jpg</url-pattern>
+     <url-pattern>*.png</url-pattern>
+     <url-pattern>*.xml</url-pattern>
+     <url-pattern>*.txt</url-pattern>
+     <url-pattern>/img/*</url-pattern>
+     <url-pattern>/fonts/*</url-pattern>
+     <url-pattern>/css/*</url-pattern>
+     <url-pattern>/js/*</url-pattern>
+	</servlet-mapping>  -->
+	 
 	<!-- 解决乱码问题 -->
 	<filter>  
         <filter-name>characterEncodingFilter</filter-name>  
