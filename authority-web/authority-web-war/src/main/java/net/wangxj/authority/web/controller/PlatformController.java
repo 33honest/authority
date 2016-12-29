@@ -2,31 +2,39 @@
 package net.wangxj.authority.web.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import  net.wangxj.authority.Response;
-import net.wangxj.authority.dto.PlatformDTO;
-import net.wangxj.authority.web.service.PlatformWebService;
+import com.alibaba.fastjson.JSONObject;
 
 @RequestMapping("platform")
 @Controller
 public class PlatformController{
 	
 	@Resource
-	private PlatformWebService platformWebService;
+	private net.wangxj.authority.web.service.PlatformWebService platformWebService;
 	
 	
 	@RequestMapping("/")
-	public String selectInfo(){
-		
-		Response<PlatformDTO> selectInfo = platformWebService.selectInfo();
-		
-		ModelAndView module = new ModelAndView();
+	public String toPlatform(){
 		
 		return "platform/platform";
+	}
+	
+	@RequestMapping("/list")
+	@ResponseBody
+	public String platformList(@RequestBody String jsonStr){
+		JSONObject jsonObj = JSONObject.parseObject(jsonStr);
+		String order = jsonObj.getString("order");
+		Integer limit = jsonObj.getInteger("limit");
+		Integer offset = jsonObj.getInteger("offset");
+		
+		return platformWebService.getPlatformList(order,limit,offset);
+		
 	}
 	
 }

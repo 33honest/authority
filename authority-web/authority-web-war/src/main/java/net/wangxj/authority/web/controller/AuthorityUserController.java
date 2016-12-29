@@ -9,14 +9,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import  net.wangxj.authority.Response;
 import net.wangxj.authority.dto.AuthorityUserDTO;
-import net.wangxj.authority.web.service.AuthorityUserWebService;
 
 @RequestMapping("/user")
 @Controller
 public class AuthorityUserController{
 	
 	@Resource
-	private AuthorityUserWebService authorityUserWebService;
+	private net.wangxj.authority.web.service.AuthorityUserWebService authorityUserWebService;
 	
 	
 	@RequestMapping("/")

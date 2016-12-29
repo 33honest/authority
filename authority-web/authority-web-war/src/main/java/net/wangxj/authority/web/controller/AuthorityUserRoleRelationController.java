@@ -9,14 +9,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import  net.wangxj.authority.Response;
 import net.wangxj.authority.dto.AuthorityUserRoleRelationDTO;
-import net.wangxj.authority.web.service.AuthorityUserRoleRelationWebService;
 
 @RequestMapping("authorityUserRoleRelation")
 @Controller
 public class AuthorityUserRoleRelationController{
 	
 	@Resource
-	private AuthorityUserRoleRelationWebService authorityUserRoleRelationWebService;
+	private net.wangxj.authority.web.service.AuthorityUserRoleRelationWebService authorityUserRoleRelationWebService;
 	
 	
 	@RequestMapping("/info")

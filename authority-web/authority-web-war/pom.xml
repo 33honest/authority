@@ -13,6 +13,12 @@
   <description>web端war模块</description>
   
   <dependencies>
+  	<dependency>
+	  <groupId>javax.servlet</groupId>
+	  <artifactId>javax.servlet-api</artifactId>
+	  <version>3.1.0</version>
+	</dependency>
+	
    	<dependency>
 		<groupId>net.wangxj.authority</groupId>
   		<artifactId>authority-web-service</artifactId>
