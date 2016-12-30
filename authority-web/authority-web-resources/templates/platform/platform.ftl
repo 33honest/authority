@@ -47,29 +47,39 @@
                 <div class="row row-lg">
                     <div class="col-sm-12">
                         <h4 class="example-title">从URL加载</h4>
+                        <div id="toolbar">
+					        <button id="remove" class="btn btn-danger" disabled>
+					            <i class="glyphicon glyphicon-remove"></i> Delete
+					        </button>
+					    </div>
                         <div class="example">
-                            <table data-toggle="table" data-side-pagination="server" data-search=true data-url="/platform/list" data-method="post" data-pagination='true' data-pagination=true data-height="500">
-                                <thead>
-                                    <tr>
-                                        <th data-field="platformUuid">PlatformUUID</th>
-                                        <th data-field="platformName">平台名</th>
-                                        <th data-field="platformSign">平台标识</th>
-                                        <th data-field="platformDomainName">平台域名</th>
-                                        <th data-field="platformAddTime">增加时间</th>
-                                        <th data-field="platformAddBy">增加人</th>
-                                        <th data-field="platformStatus">平台状态</th>
-                                        <th data-field="platformDomainName">编辑</th>
-                                        <th data-field="platformDomainName">详情</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                        	<table id="platform_table"
+                        		   data-toolbar="#toolbar"
+						           data-search="true"
+						           data-show-refresh="true"
+						           data-show-toggle="true"
+						           data-show-columns="true"
+						           data-show-export="true"
+						           data-detail-view="true"
+						           data-detail-formatter="detailFormatter"
+						           data-minimum-count-columns="2"
+						           data-show-pagination-switch="true"
+						           data-pagination="true"
+						           data-id-field="id"
+						           data-page-list="[10, 25, 50, 100, ALL]"
+						           data-show-footer="false"
+						           data-side-pagination="server"
+						           data-url="/platform/list"
+						         
+						           data-method="post">
+                        	</table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+   
     <!-- 全局js -->
     <script src="/js/jquery.min.js?v=2.1.4"></script>
     <script src="/js/bootstrap.min.js?v=3.3.6"></script>
@@ -86,6 +96,92 @@
     <!-- Peity -->
     <script src="/js/demo/bootstrap-table-demo.js"></script>
 
+     <script>
+    	var $table = $('#platform_table'),
+        $remove = $('#remove'),
+        selections = [];
+        initTable();
+        
+        function initTable() {
+	        $table.bootstrapTable({
+	            columns: [
+	                    {
+	                        field: 'platformUuid',
+	                        title: 'PlatformUUID',
+	                        sortable: true,
+	                        align: 'center'
+	                    }, {
+	                        field: 'platformName',
+	                        title: '平台名',
+	                        sortable: true,
+	                        align: 'center',
+	                        editable: {
+	                            type: 'text',
+	                            title: '平台名'
+	                        }
+	                    }, {
+	                    	field: 'platformSign',
+	                    	title: '平台标识',
+	                    	sortable: true,
+	                    	align: 'center',
+	                    	editable: {
+	                    		type: 'text',
+	                    		title: '平台标识',
+	                    		validate: validateFun(this.value)
+	                    	}
+	                    },{
+	                    	field: 'platformDomainName',
+	                    	title: '平台域名',
+	                    	sortable: true,
+	                    	align: 'center',
+	                    	editable: {
+	                    		type: 'text',
+	                    		title: '平台域名'
+	                    	}
+	                    },{
+	                    	field: 'platformAddTime',
+	                    	title: '增加时间',
+	                    	sortable: true,
+	                    	align: 'center'
+	                    },{
+	                    	field: 'platformAddBy',
+	                    	title: '增加人',
+	                    	sortable: true,
+	                    	align: 'center'
+	                    },{
+	                    	field: 'platformStatus',
+	                    	title: '平台状态',
+	                    	sortable: true,
+	                    	align: 'center',
+	                    	editable: {
+	                    		type: 'text',
+	                    		title: '平台状态'
+	                    	}
+	                    }
+	                ]
+	        });
+        }
+        
+        function detailFormatter(index, row) {
+	        var html = [];
+	        $.each(row, function (key, value) {
+	            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+	        });
+	        return html.join('');
+	    }
+        
+    	function validateFun(value){
+            value = $.trim(value);
+            if (!value) {
+                return '该字段必须不可为空';
+            }
+            var data = $table.bootstrapTable('getData'),
+                index = $(this).parents('tr').data('index');
+            console.log(data[index]);
+            return '';
+    	}
+    	
+    </script>
     
     
 
