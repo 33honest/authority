@@ -13,6 +13,8 @@ import net.wangxj.authority.po.PlatformPO;
 import net.wangxj.authority.service.PlatformService;
 import org.springframework.stereotype.Service;
 
+import com.huoshan.util.string.StringUtil;
+
 /**
  * created by	: wangxj
  * created time	: 2016-12-26 18:06:44
@@ -38,9 +40,10 @@ public class PlatformServiceImpl implements PlatformService{
 	}
 	
 	@Override
-	public List<PlatformPO> queryPageListByCondition(PlatformPO platformPo, int pageNum, int limit) {
+	public List<PlatformPO> queryPageListByCondition(PlatformPO platformPo, int pageNum, int limit,String order,String sort) {
 		
-		return platformDao.selectPageListByCondition(platformPo, pageNum, limit);
+		sort = StringUtil.getNumpReverse(sort);
+		return platformDao.selectPageListByCondition(platformPo, pageNum, limit,order,sort);
 	}
 
 

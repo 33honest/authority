@@ -1,9 +1,6 @@
 
 package net.wangxj.authority.po;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 /**
  * created by	: wangxj
  * created time	: 2016-12-26 18:06:44
@@ -30,22 +27,32 @@ public class PlatformPO{
 	private java.lang.Integer platformStatus;
     // 是否已被删除: 0：未 1：已被删除 	
 	private java.lang.Integer platformIsDelete;
+	//平台状态显示名称
+	private String platformStatusName;
+	//是否删除显示名
+	private String platformIsDeleteName;
+		
 	
 	public PlatformPO(){
 		super();
 	}
 	
-	public PlatformPO(String platformUuid,String platformName,String platformSign,String platformDomainName,String platformAddTime,String platformAddBy,String platformDelTime,String platformDelBy,java.lang.Integer platformStatus,java.lang.Integer platformIsDelete){
-			this.platformUuid = platformUuid;
-			this.platformName = platformName;
-			this.platformSign = platformSign;
-			this.platformDomainName = platformDomainName;
-			this.platformAddTime = platformAddTime;
-			this.platformAddBy = platformAddBy;
-			this.platformDelTime = platformDelTime;
-			this.platformDelBy = platformDelBy;
-			this.platformStatus = platformStatus;
-			this.platformIsDelete = platformIsDelete;
+	public PlatformPO(String platformUuid, String platformName, String platformSign, String platformDomainName,
+			String platformAddTime, String platformAddBy, String platformDelTime, String platformDelBy,
+			Integer platformStatus, Integer platformIsDelete, String platformStatusName, String platformIsDeleteName) {
+		this();
+		this.platformUuid = platformUuid;
+		this.platformName = platformName;
+		this.platformSign = platformSign;
+		this.platformDomainName = platformDomainName;
+		this.platformAddTime = platformAddTime;
+		this.platformAddBy = platformAddBy;
+		this.platformDelTime = platformDelTime;
+		this.platformDelBy = platformDelBy;
+		this.platformStatus = platformStatus;
+		this.platformIsDelete = platformIsDelete;
+		this.platformStatusName = platformStatusName;
+		this.platformIsDeleteName = platformIsDeleteName;
 	}
 
 	public void setPlatformUuid(String value) {
@@ -105,18 +112,36 @@ public class PlatformPO{
 		return this.platformDelBy;
 	}
 	public void setPlatformStatus(java.lang.Integer value) {
-		this.platformStatus = value;
+			this.platformStatus = value;
 	}
 	
 	public java.lang.Integer getPlatformStatus() {
 		return this.platformStatus;
 	}
 	public void setPlatformIsDelete(java.lang.Integer value) {
-		this.platformIsDelete = value;
+			this.platformIsDelete = value;
 	}
 	
 	public java.lang.Integer getPlatformIsDelete() {
 		return this.platformIsDelete;
 	}
+
+	public String getPlatformStatusName() {
+		return platformStatusName;
+	}
+
+	public void setPlatformStatusName(String platform) {
+			this.platformStatusName = platform;
+	}
+
+	public String getPlatformIsDeleteName() {
+		return platformIsDeleteName;
+	}
+
+	public void setPlatformIsDeleteName(String platformIsDeleteName) {
+			this.platformIsDeleteName = platformIsDeleteName;
+	}
+	
+	
 }
 

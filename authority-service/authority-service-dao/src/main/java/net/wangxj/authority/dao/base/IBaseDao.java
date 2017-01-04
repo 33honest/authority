@@ -41,9 +41,11 @@ public interface IBaseDao<T> {
 	 * @param po
 	 * @param pageNum 页码
 	 * @param limit	  每页条数
+	 * @param order   排序方式desc asc
+	 * @param sort    排序字段
 	 * @return 结果List
 	 */
-	public List<T> selectPageListByCondition(T po, int pageNum, int limit);
+	public List<T> selectPageListByCondition(T po, int pageNum, int limit,String order,String sort);
 
 	/**
 	 * 查询符合条件的数量

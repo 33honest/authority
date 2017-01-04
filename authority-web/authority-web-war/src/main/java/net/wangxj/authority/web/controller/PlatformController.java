@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 
+import net.wangxj.authority.constant.DataDictionaryConstant;
+
 @RequestMapping("platform")
 @Controller
 public class PlatformController{
@@ -28,12 +30,13 @@ public class PlatformController{
 	@RequestMapping("/list")
 	@ResponseBody
 	public String platformList(@RequestBody String jsonStr){
-		JSONObject jsonObj = JSONObject.parseObject(jsonStr);
-		String order = jsonObj.getString("order");
-		Integer limit = jsonObj.getInteger("limit");
-		Integer offset = jsonObj.getInteger("offset");
-		
-		return platformWebService.getPlatformList(order,limit,offset);
+		return platformWebService.getPlatformList(jsonStr);
+	}
+	
+	@RequestMapping("/getStatusList")
+	@ResponseBody
+	public String getStatusList(){
+		return JSONObject.toJSONString(DataDictionaryConstant.platformStatusKeyValueMap);
 		
 	}
 	

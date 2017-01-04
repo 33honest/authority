@@ -120,36 +120,40 @@
 			<include refid="Base_Column_List" /> 
 		from platform  
 		where 1 = 1
-				<if test="platformUuid != null  and  platformUuid != '' " > 
-					and platform_uuid = #{platformUuid}
+				<if test="platform.platformUuid != null  and  platform.platformUuid != '' " > 
+					and platform_uuid = #{platform.platformUuid}
 				</if>
-				<if test="platformName != null  and  platformName != '' " > 
-					and platform_name = #{platformName}
+				<if test="platform.platformName != null  and  platform.platformName != '' " > 
+					and platform_name = #{platform.platformName}
 				</if>
-				<if test="platformSign != null  and  platformSign != '' " > 
-					and platform_sign = #{platformSign}
+				<if test="platform.platformSign != null  and  platform.platformSign != '' " > 
+					and platform_sign = #{platform.platformSign}
 				</if>
-				<if test="platformDomainName != null  and  platformDomainName != '' " > 
-					and platform_domain_name = #{platformDomainName}
+				<if test="platform.platformDomainName != null  and  platform.platformDomainName != '' " > 
+					and platform_domain_name = #{platform.platformDomainName}
 				</if>
-				<if test="platformAddTime != null  and  platformAddTime != '' " > 
-					and platform_add_time = #{platformAddTime}
+				<if test="platform.platformAddTime != null  and  platform.platformAddTime != '' " > 
+					and platform_add_time = #{platform.platformAddTime}
 				</if>
-				<if test="platformAddBy != null  and  platformAddBy != '' " > 
-					and platform_add_by = #{platformAddBy}
+				<if test="platform.platformAddBy != null  and  platform.platformAddBy != '' " > 
+					and platform_add_by = #{platform.platformAddBy}
 				</if>
-				<if test="platformDelTime != null  and  platformDelTime != '' " > 
-					and platform_del_time = #{platformDelTime}
+				<if test="platform.platformDelTime != null  and  platform.platformDelTime != '' " > 
+					and platform_del_time = #{platform.platformDelTime}
 				</if>
-				<if test="platformDelBy != null  and  platformDelBy != '' " > 
-					and platform_del_by = #{platformDelBy}
+				<if test="platform.platformDelBy != null  and  platform.platformDelBy != '' " > 
+					and platform_del_by = #{platform.platformDelBy}
 				</if>
-				<if test="platformStatus != null  and  platformStatus != '' " > 
-					and platform_status = #{platformStatus}
+				<if test="platform.platformStatus != null  and  platform.platformStatus != '' " > 
+					and platform_status = #{platform.platformStatus}
 				</if>
-				<if test="platformIsDelete != null  and  platformIsDelete != '' " > 
-					and platform_is_delete = #{platformIsDelete}
+				<if test="platform.platformIsDelete != null  and  platform.platformIsDelete != '' " > 
+					and platform_is_delete = #{platform.platformIsDelete}
 				</if>
+				<if test="order != null  and  order != '' and sort != null and sort != '' " > 
+					ORDER BY ${sort} ${order}
+				</if>
+				
 	</select>
 	
 	<select id="selectCountByCondition" resultType="int" parameterType="PlatformPO">

@@ -51,7 +51,7 @@ public class AuthorityUserRoleRelationDaoImpl extends BaseSessionDaoSupport impl
 	}
 	
 	@Override
-	public List<AuthorityUserRoleRelationPO> selectPageListByCondition(AuthorityUserRoleRelationPO authorityUserRoleRelationPo, int pageNum, int limit) {
+	public List<AuthorityUserRoleRelationPO> selectPageListByCondition(AuthorityUserRoleRelationPO authorityUserRoleRelationPo, int pageNum, int limit,String order,String sort) {
 		PageHelper.startPage(pageNum, limit);
 		return super.getSqlSession().selectList("AuthorityUserRoleRelationPOMapper.selectByCondition", authorityUserRoleRelationPo);
 	}

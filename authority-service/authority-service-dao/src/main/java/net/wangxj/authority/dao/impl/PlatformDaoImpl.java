@@ -2,6 +2,7 @@
 
 package net.wangxj.authority.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,9 +52,13 @@ public class PlatformDaoImpl extends BaseSessionDaoSupport implements PlatformDa
 	}
 	
 	@Override
-	public List<PlatformPO> selectPageListByCondition(PlatformPO platformPo, int pageNum, int limit) {
+	public List<PlatformPO> selectPageListByCondition(PlatformPO platformPo, int pageNum, int limit,String order,String sort) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("platform", platformPo);
+		map.put("order", order);
+		map.put("sort", sort);
 		PageHelper.startPage(pageNum, limit);
-		return super.getSqlSession().selectList("PlatformPOMapper.selectByCondition", platformPo);
+		return super.getSqlSession().selectList("PlatformPOMapper.selectByCondition", map);
 	}
 
 	@Override

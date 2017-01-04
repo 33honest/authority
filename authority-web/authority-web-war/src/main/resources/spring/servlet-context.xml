@@ -25,7 +25,17 @@
 	</bean>
  	<context:component-scan base-package="${component.scan.package}"/> 
     <!-- 注解支持 -->
-	<mvc:annotation-driven />
+	<mvc:annotation-driven>
+	    <mvc:message-converters>
+	        <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+	            <property name="supportedMediaTypes">
+	                <list>
+	                    <value>application/json;charset=UTF-8</value>
+	                </list>
+	            </property>
+	        </bean>
+	    </mvc:message-converters>
+	</mvc:annotation-driven>
 	<!-- <mvc:default-servlet-handler/> -->
 	   <mvc:resources location="/img/" mapping="/img/**"/>        
         <mvc:resources location="/js/" mapping="/js/**"/>        

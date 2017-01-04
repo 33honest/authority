@@ -25,25 +25,31 @@ public class PlatformWebServiceImpl implements PlatformWebService {
 	private PlatformShareService platformShareService;
 	
 	@Override
-	public String getPlatformList(String order,Integer limit,Integer offset ){
+	public String getPlatformList(String jsonStr){
+		JSONObject jsonObj = JSONObject.parseObject(jsonStr);
+		String order = jsonObj.getString("order");
+		Integer limit = jsonObj.getInteger("limit");
+		Integer offset = jsonObj.getInteger("offset");
+		String sort = jsonObj.getString("sort");
+		
 		PlatformDTO platformDto = new PlatformDTO();
 		Integer pageNum = offset/limit + 1;
 		Integer page = 0;
 		Integer count = 0;
 		String jsonString="[]";
 		//条件查询
-		Response<PlatformDTO> platformResponse = platformShareService.queryPageListByCondition(platformDto, pageNum, limit);
+		Response<PlatformDTO> platformResponse = platformShareService.queryPageListByCondition(platformDto, pageNum, limit,order,sort);
 		Response<Integer> countRespo = platformShareService.getCountByCondition(platformDto);
 		logger.debug(platformResponse.getMessage());
 		if(platformResponse.getCode() == 0L && countRespo.getCode() == 0L){
 			List<PlatformDTO> data = platformResponse.getData();
 			count = countRespo.getResObject();
 			page = count/limit + 1;
-			JSONObject jsonObj = new JSONObject();
-			jsonObj.put("rows", data);
-			jsonObj.put("total", count);
-			jsonObj.put("page", page);
-			jsonString = JSON.toJSONString(jsonObj);
+			JSONObject json = new JSONObject();
+			json.put("rows", data);
+			json.put("total", count);
+			json.put("page", page);
+			jsonString = JSON.toJSONString(json);
 		}
 		
 		return jsonString;

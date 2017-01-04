@@ -51,7 +51,7 @@ public class AuthorityRoleDaoImpl extends BaseSessionDaoSupport implements Autho
 	}
 	
 	@Override
-	public List<AuthorityRolePO> selectPageListByCondition(AuthorityRolePO authorityRolePo, int pageNum, int limit) {
+	public List<AuthorityRolePO> selectPageListByCondition(AuthorityRolePO authorityRolePo, int pageNum, int limit,String order,String sort) {
 		PageHelper.startPage(pageNum, limit);
 		return super.getSqlSession().selectList("AuthorityRolePOMapper.selectByCondition", authorityRolePo);
 	}

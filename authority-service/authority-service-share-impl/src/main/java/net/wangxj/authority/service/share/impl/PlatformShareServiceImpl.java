@@ -115,7 +115,7 @@ public class PlatformShareServiceImpl implements PlatformShareService{
 	}
 	
 	@Override
-	public Response<PlatformDTO> queryPageListByCondition(PlatformDTO platformDto, int pageNum, int limit){
+	public Response<PlatformDTO> queryPageListByCondition(PlatformDTO platformDto, int pageNum, int limit, String order, String sort){
 		
 		Response<PlatformDTO> response = new Response<>();
 		if(platformDto == null){
@@ -127,7 +127,7 @@ public class PlatformShareServiceImpl implements PlatformShareService{
 		List<PlatformDTO> listDto = new ArrayList<>();
 		BeanUtils.copyProperties(platformDto, platformPo);
 		
-		listPo = platformService.queryPageListByCondition(platformPo,pageNum,limit);
+		listPo = platformService.queryPageListByCondition(platformPo,pageNum,limit,order,sort);
 		for (PlatformPO platformPo2 : listPo) {
 			PlatformDTO platformDto2 = new PlatformDTO();
 			BeanUtils.copyProperties(platformPo2, platformDto2);
@@ -160,6 +160,4 @@ public class PlatformShareServiceImpl implements PlatformShareService{
 			
 		return response;
 	}
-	
-
 }

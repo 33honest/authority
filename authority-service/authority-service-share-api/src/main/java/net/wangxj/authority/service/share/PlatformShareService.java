@@ -39,8 +39,10 @@ public interface PlatformShareService{
 	 * 条件分页查询
 	 * @param pageNum: 页码
 	 * @param limit:   每页条数
+	 * @param order:   排序方式 asc desc
+	 * @param sort:    排序字段
 	 */
-	public Response<PlatformDTO> queryPageListByCondition(PlatformDTO platformDto, int pageNum, int limit);
+	public Response<PlatformDTO> queryPageListByCondition(PlatformDTO platformDto, int pageNum, int limit,String order,String sort);
 	
 	/**
 	 * 条件数量查询

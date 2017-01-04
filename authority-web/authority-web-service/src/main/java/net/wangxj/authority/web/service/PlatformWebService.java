@@ -2,6 +2,11 @@ package net.wangxj.authority.web.service;
 
 public interface PlatformWebService {
 
-	public String getPlatformList(String order, Integer limit, Integer offset);
+	/**
+	 * 分页查询
+	 * @param jsonStr
+	 * @return
+	 */
+	public String getPlatformList(String jsonStr);
 
 }

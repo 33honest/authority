@@ -51,7 +51,7 @@ public class AuthorityResourcesDaoImpl extends BaseSessionDaoSupport implements 
 	}
 	
 	@Override
-	public List<AuthorityResourcesPO> selectPageListByCondition(AuthorityResourcesPO authorityResourcesPo, int pageNum, int limit) {
+	public List<AuthorityResourcesPO> selectPageListByCondition(AuthorityResourcesPO authorityResourcesPo, int pageNum, int limit,String order,String sort) {
 		PageHelper.startPage(pageNum, limit);
 		return super.getSqlSession().selectList("AuthorityResourcesPOMapper.selectByCondition", authorityResourcesPo);
 	}

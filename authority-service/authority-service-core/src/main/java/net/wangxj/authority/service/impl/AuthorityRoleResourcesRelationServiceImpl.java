@@ -40,7 +40,7 @@ public class AuthorityRoleResourcesRelationServiceImpl implements AuthorityRoleR
 	@Override
 	public List<AuthorityRoleResourcesRelationPO> queryPageListByCondition(AuthorityRoleResourcesRelationPO authorityRoleResourcesRelationPo, int pageNum, int limit) {
 		
-		return authorityRoleResourcesRelationDao.selectPageListByCondition(authorityRoleResourcesRelationPo, pageNum, limit);
+		return authorityRoleResourcesRelationDao.selectPageListByCondition(authorityRoleResourcesRelationPo, pageNum, limit, null, null);
 	}
 
 

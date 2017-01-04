@@ -40,7 +40,7 @@ public class AuthorityResourcesServiceImpl implements AuthorityResourcesService{
 	@Override
 	public List<AuthorityResourcesPO> queryPageListByCondition(AuthorityResourcesPO authorityResourcesPo, int pageNum, int limit) {
 		
-		return authorityResourcesDao.selectPageListByCondition(authorityResourcesPo, pageNum, limit);
+		return authorityResourcesDao.selectPageListByCondition(authorityResourcesPo, pageNum, limit, null, null);
 	}
 
 

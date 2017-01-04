@@ -37,7 +37,7 @@ public interface PlatformService{
 	/**
 	 * 条件分页查询
 	 */
-	public List<PlatformPO> queryPageListByCondition(PlatformPO platformPo, int pageNum, int limit);
+	public List<PlatformPO> queryPageListByCondition(PlatformPO platformPo, int pageNum, int limit,String order,String sort);
 	
 	/**
 	 * 条件数量查询

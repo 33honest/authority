@@ -40,7 +40,7 @@ public class AuthorityUserRoleRelationServiceImpl implements AuthorityUserRoleRe
 	@Override
 	public List<AuthorityUserRoleRelationPO> queryPageListByCondition(AuthorityUserRoleRelationPO authorityUserRoleRelationPo, int pageNum, int limit) {
 		
-		return authorityUserRoleRelationDao.selectPageListByCondition(authorityUserRoleRelationPo, pageNum, limit);
+		return authorityUserRoleRelationDao.selectPageListByCondition(authorityUserRoleRelationPo, pageNum, limit, null, null);
 	}
 
 

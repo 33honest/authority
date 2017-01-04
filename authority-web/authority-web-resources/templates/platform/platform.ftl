@@ -47,11 +47,14 @@
                 <div class="row row-lg">
                     <div class="col-sm-12">
                         <h4 class="example-title">从URL加载</h4>
-                        <div id="toolbar">
-					        <button id="remove" class="btn btn-danger" disabled>
-					            <i class="glyphicon glyphicon-remove"></i> Delete
-					        </button>
-					    </div>
+                        <div class="btn-group hidden-xs" id="toolbar" role="group">
+                        	<button type="button" class="btn btn-outline btn-default"  id="remove" disabled>
+                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline btn-default" data-toggle="modal" data-target="#addPage">
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                            </button>
+                        </div>
                         <div class="example">
                         	<table id="platform_table"
                         		   data-toolbar="#toolbar"
@@ -70,7 +73,6 @@
 						           data-show-footer="false"
 						           data-side-pagination="server"
 						           data-url="/platform/list"
-						         
 						           data-method="post">
                         	</table>
                         </div>
@@ -79,6 +81,51 @@
             </div>
         </div>
     </div>
+    <div class="modal inmodal fade" id="addPage" tabindex="-1" role="dialog"  aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">增加平台</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ibox-content">
+	                        <form class="form-horizontal m-t" id="addForm">
+	                            <div class="form-group">
+	                                <label class="col-sm-3 control-label">平台名：</label>
+	                                <div class="col-sm-8">
+	                                    <input id="platformName" name="platformName" class="form-control" type="text">
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label class="col-sm-3 control-label">平台标识：</label>
+	                                <div class="col-sm-8">
+	                                    <input id="platformSign" name="platformSign" class="form-control" type="text">
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label class="col-sm-3 control-label">平台域名：</label>
+	                                <div class="col-sm-8">
+	                                    <input id="platformDomainName" name="platformDomainName" class="form-control" type="text">
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label class="col-sm-3 control-label">平台状态：</label>
+	                                <div class="col-sm-8">
+	                                   <select class="form-control" id="status" name="platformStatus"></select> 
+	                                </div>
+	                            </div>
+	                        </form>
+	                    </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
    
     <!-- 全局js -->
     <script src="/js/jquery.min.js?v=2.1.4"></script>
@@ -92,98 +139,11 @@
     <script src="/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
     <script src="/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
     <script src="/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
-
-    <!-- Peity -->
-    <script src="/js/demo/bootstrap-table-demo.js"></script>
-
-     <script>
-    	var $table = $('#platform_table'),
-        $remove = $('#remove'),
-        selections = [];
-        initTable();
-        
-        function initTable() {
-	        $table.bootstrapTable({
-	            columns: [
-	                    {
-	                        field: 'platformUuid',
-	                        title: 'PlatformUUID',
-	                        sortable: true,
-	                        align: 'center'
-	                    }, {
-	                        field: 'platformName',
-	                        title: '平台名',
-	                        sortable: true,
-	                        align: 'center',
-	                        editable: {
-	                            type: 'text',
-	                            title: '平台名'
-	                        }
-	                    }, {
-	                    	field: 'platformSign',
-	                    	title: '平台标识',
-	                    	sortable: true,
-	                    	align: 'center',
-	                    	editable: {
-	                    		type: 'text',
-	                    		title: '平台标识',
-	                    		validate: validateFun(this.value)
-	                    	}
-	                    },{
-	                    	field: 'platformDomainName',
-	                    	title: '平台域名',
-	                    	sortable: true,
-	                    	align: 'center',
-	                    	editable: {
-	                    		type: 'text',
-	                    		title: '平台域名'
-	                    	}
-	                    },{
-	                    	field: 'platformAddTime',
-	                    	title: '增加时间',
-	                    	sortable: true,
-	                    	align: 'center'
-	                    },{
-	                    	field: 'platformAddBy',
-	                    	title: '增加人',
-	                    	sortable: true,
-	                    	align: 'center'
-	                    },{
-	                    	field: 'platformStatus',
-	                    	title: '平台状态',
-	                    	sortable: true,
-	                    	align: 'center',
-	                    	editable: {
-	                    		type: 'text',
-	                    		title: '平台状态'
-	                    	}
-	                    }
-	                ]
-	        });
-        }
-        
-        function detailFormatter(index, row) {
-	        var html = [];
-	        $.each(row, function (key, value) {
-	            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
-	        });
-	        return html.join('');
-	    }
-        
-    	function validateFun(value){
-            value = $.trim(value);
-            if (!value) {
-                return '该字段必须不可为空';
-            }
-            var data = $table.bootstrapTable('getData'),
-                index = $(this).parents('tr').data('index');
-            console.log(data[index]);
-            return '';
-    	}
-    	
-    </script>
+    <!-- jQuery Validation plugin javascript-->
+    <script src="/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/js/plugins/validate/messages_zh.min.js"></script>
     
-    
+    <script src="/js/platform/platform.js"></script>
 
 </body>
 
