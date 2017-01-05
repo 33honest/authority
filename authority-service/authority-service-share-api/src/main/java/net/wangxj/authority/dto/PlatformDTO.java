@@ -3,7 +3,15 @@ package net.wangxj.authority.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 import net.wangxj.authority.constant.DataDictionaryConstant;
+import net.wangxj.authority.constant.RegexConstant;
 
 /**
  * created by	: wangxj
@@ -18,11 +26,16 @@ public class PlatformDTO implements Serializable{
 	private static final long serialVersionUID = -7577136037165710823L;
 	// 主键 	
 	private String platformUuid;
-    // 平台名 	
+    // 平台名
+	@NotBlank(message="平台名是必填项")
 	private String platformName;
-    // 平台标识 	
+    // 平台标识
+	@Pattern(regexp=RegexConstant.LETTER_UNDERLINE,message="平台表示必须是字母或大小写组成的字符串，下划线不可开头")
+	@NotBlank(message="平台标识为必填项")
 	private String platformSign;
-    // 平台域名 	
+    // 平台域名
+	@Pattern(regexp=RegexConstant.DOMAIN,message="平台域名不符合域名格式")
+	@NotBlank(message="平台域名为必填值")
 	private String platformDomainName;
     // 添加时间 yyyy-MM-dd HH:mm:ss 	
 	private String platformAddTime;
@@ -32,7 +45,10 @@ public class PlatformDTO implements Serializable{
 	private String platformDelTime;
     // 删除人uuid 	
 	private String platformDelBy;
-    // 平台状态： 初始化: 0 激活: 1 注销: 2 	
+    // 平台状态： 初始化: 0 激活: 1 注销: 2
+	@Min(value=0,message="输入的平台状态不合法")
+	@Max(value=2,message="输入的平台状态不合法")
+	@NotNull(message="平台状态为必填项")
 	private java.lang.Integer platformStatus;
 	//平台状态显示名称
 	private String platformStatusName;
