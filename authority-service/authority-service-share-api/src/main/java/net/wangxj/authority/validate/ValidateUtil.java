@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.Payload;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
@@ -20,19 +21,26 @@ public class ValidateUtil {
 	
 	/**
 	 * 校验实体
+	 * @param <F>
 	 * @param obj
 	 * @return
 	 */
-	public static <T> ValidationResult validateEntity(T obj){
-		ValidationResult result = new ValidationResult();
-		 Set<ConstraintViolation<T>> set = validator.validate(obj,Default.class);
+	public static <T, F> ValidationResult validateEntity(T obj,Class<F> clazz){
+		 ValidationResult result = new ValidationResult();
+		 Set<ConstraintViolation<T>> set = validator.validate(obj, clazz);
 		 if(set != null && set.size()>0){
-			 result.setHasErrors(true);
-			 Map<String,String> errorMsg = new HashMap<String,String>();
+			 Map<String,Map<String, Set<Class<? extends Payload>>>> errorMsg = new HashMap();
 			 for(ConstraintViolation<T> cv : set){
-				 errorMsg.put(cv.getPropertyPath().toString(), cv.getMessage());
+				 Set<Class<? extends Payload>> payloads = cv.getConstraintDescriptor().getPayload();
+				 //存放错误信息与错误级别
+				 Map<String, Set<Class<? extends Payload>>> errPayload = new HashMap<>();
+				 errPayload.put(cv.getMessage(), payloads);
+				 errorMsg.put(cv.getPropertyPath().toString(), errPayload);
 			 }
 			 result.setErrorMsg(errorMsg);
+		 }
+		 else{
+			 result.setPass(true);
 		 }
 		 return result;
 	}
@@ -47,10 +55,13 @@ public class ValidateUtil {
 		ValidationResult result = new ValidationResult();
 		 Set<ConstraintViolation<T>> set = validator.validateProperty(obj,propertyName,Default.class);
 		 if( set != null && set.size()>0){
-			 result.setHasErrors(true);
-			 Map<String,String> errorMsg = new HashMap<String,String>();
+			 Map<String,Map<String, Set<Class<? extends Payload>>>> errorMsg = new HashMap();
 			 for(ConstraintViolation<T> cv : set){
-				 errorMsg.put(propertyName, cv.getMessage());
+				 Set<Class<? extends Payload>> payloads = cv.getConstraintDescriptor().getPayload();
+				 //存放错误信息与错误级别
+				 Map<String, Set<Class<? extends Payload>>> errPayload = new HashMap<>();
+				 errPayload.put(cv.getMessage(), payloads);
+				 errorMsg.put(propertyName, errPayload);
 			 }
 			 result.setErrorMsg(errorMsg);
 		 }

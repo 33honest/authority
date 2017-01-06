@@ -1,6 +1,9 @@
 package net.wangxj.authority.validate;
 
 import java.util.Map;
+import java.util.Set;
+
+import javax.validation.Payload;
 
 /**
  * 校验结果
@@ -9,32 +12,25 @@ import java.util.Map;
  */
 public class ValidationResult {
 
-	//校验结果是否有错
-	private boolean hasErrors;
+	//校验结果是否通过
+	private boolean isPass = false;
+	//校验信息
+	private Map<String,Map<String,Set<Class<? extends Payload>>>> errorMsg;
 	
-	//校验错误信息
-	private Map<String,String> errorMsg;
-
-	public boolean isHasErrors() {
-		return hasErrors;
+	public boolean isPass() {
+		return isPass;
 	}
-
-	public void setHasErrors(boolean hasErrors) {
-		this.hasErrors = hasErrors;
+	public void setPass(boolean isPass) {
+		this.isPass = isPass;
 	}
-
-	public Map<String, String> getErrorMsg() {
+	public Map<String, Map<String, Set<Class<? extends Payload>>>> getErrorMsg() {
 		return errorMsg;
 	}
-
-	public void setErrorMsg(Map<String, String> errorMsg) {
+	public void setErrorMsg(Map<String, Map<String, Set<Class<? extends Payload>>>> errorMsg) {
 		this.errorMsg = errorMsg;
 	}
-	
 	@Override
 	public String toString() {
-		return "ValidationResult [hasErrors=" + hasErrors + ", errorMsg="
-				+ errorMsg + "]";
+		return "ValidationResult [isPass=" + isPass + ", errorMsg=" + errorMsg + "]";
 	}
-
 }

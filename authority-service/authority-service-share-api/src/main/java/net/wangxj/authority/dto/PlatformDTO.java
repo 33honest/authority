@@ -7,11 +7,18 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.groups.Default;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import net.wangxj.authority.constant.DataDictionaryConstant;
 import net.wangxj.authority.constant.RegexConstant;
+import net.wangxj.authority.validate.Severity;
+import net.wangxj.authority.validate.groups.AddValidate;
+import net.wangxj.authority.validate.groups.DeleteValidate;
+import net.wangxj.authority.validate.groups.EditValidate;
 
 /**
  * created by	: wangxj
@@ -27,43 +34,55 @@ public class PlatformDTO implements Serializable{
 	// 主键 	
 	private String platformUuid;
     // 平台名
-	@NotBlank(message="平台名是必填项")
+	@Pattern(regexp=RegexConstant.MORETHAN_TWO_CHINESECHAR, message="平台名必须是2-25个汉字", groups={AddValidate.class, EditValidate.class},payload=Severity.Info.class)
+	@NotBlank(message="平台名是必填项",groups={AddValidate.class},payload=Severity.Info.class)
 	private String platformName;
     // 平台标识
-	@Pattern(regexp=RegexConstant.LETTER_UNDERLINE,message="平台表示必须是字母或大小写组成的字符串，下划线不可开头")
-	@NotBlank(message="平台标识为必填项")
+	@Pattern(regexp=RegexConstant.LETTER_UNDERLINE,message="平台标识必须是字母或大小写组成的字符串，下划线不可开头", groups={AddValidate.class,EditValidate.class},payload=Severity.Info.class)
+	@NotBlank(message="平台标识为必填项", groups={AddValidate.class},payload=Severity.Info.class)
 	private String platformSign;
     // 平台域名
-	@Pattern(regexp=RegexConstant.DOMAIN,message="平台域名不符合域名格式")
-	@NotBlank(message="平台域名为必填值")
+	@Pattern(regexp=RegexConstant.DOMAIN,message="平台域名不符合域名格式", groups={AddValidate.class,EditValidate.class},payload=Severity.Info.class)
+	@NotBlank(message="平台域名为必填值", groups={AddValidate.class},payload=Severity.Info.class)
+	@Length(min=5,max=30,message="平台域名长度不合法",groups={AddValidate.class,EditValidate.class},payload=Severity.Info.class)
 	private String platformDomainName;
     // 添加时间 yyyy-MM-dd HH:mm:ss 	
 	private String platformAddTime;
-    // 添加人uuid 	
+    // 添加人uuid
+	@Pattern(regexp=net.wangxj.authority.constant.RegexConstant.UUID_32, message="增加人非法格式", groups=AddValidate.class,payload=Severity.Error.class)
+	@NotBlank(message="增加人为必填值",groups=AddValidate.class,payload=Severity.Error.class)
 	private String platformAddBy;
     // 删除时间 yyyy-MM-dd HH:mm:ss 	
 	private String platformDelTime;
     // 删除人uuid 	
+	@Pattern(regexp=RegexConstant.UUID_32,message="删除人错误", groups={DeleteValidate.class},payload=Severity.Error.class)
+	@NotBlank(message="删除人为必填值",groups={DeleteValidate.class},payload=Severity.Error.class)
 	private String platformDelBy;
     // 平台状态： 初始化: 0 激活: 1 注销: 2
-	@Min(value=0,message="输入的平台状态不合法")
-	@Max(value=2,message="输入的平台状态不合法")
-	@NotNull(message="平台状态为必填项")
+	@Min(value=0,message="输入的平台状态不合法", groups={AddValidate.class, EditValidate.class},payload=Severity.Info.class)
+	@Max(value=2,message="输入的平台状态不合法", groups={AddValidate.class, EditValidate.class},payload=Severity.Info.class)
+	@NotNull(message="平台状态为必填项", groups={AddValidate.class},payload=Severity.Info.class)
 	private java.lang.Integer platformStatus;
 	//平台状态显示名称
 	private String platformStatusName;
     // 是否已被删除: 0：未 1：已被删除 	
+	@Min(value=0, message="删除错误", groups={DeleteValidate.class},payload=Severity.Error.class)
+	@Max(value=1, message="删除错误", groups={DeleteValidate.class},payload=Severity.Error.class)
+	@NotNull(message="删除错误", groups={DeleteValidate.class},payload=Severity.Error.class)
 	private java.lang.Integer platformIsDelete;
 	//是否删除显示名
 	private String platformIsDeleteName;
-	
+	//编辑人uuid
+	@Pattern(regexp=RegexConstant.UUID_32,message="编辑人不合法",groups=EditValidate.class,payload=Severity.Error.class)
+	@NotBlank(message="编辑人是必填值",groups=EditValidate.class,payload=Severity.Error.class)
+	public String platformEditBy;
+	//编辑时间
+	public String platformEditTime;
 	
 	public PlatformDTO(){
 		super();
 	}
 	
-	
-
 	public PlatformDTO(String platformUuid, String platformName, String platformSign, String platformDomainName,
 			String platformAddTime, String platformAddBy, String platformDelTime, String platformDelBy,
 			Integer platformStatus, String platformStatusName, Integer platformIsDelete, String platformIsDeleteName) {
