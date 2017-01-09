@@ -7,6 +7,9 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import net.wangxj.authority.service.share.PlatformShareService;
+import net.wangxj.util.validate.ValidateUtil;
+import net.wangxj.util.validate.ValidationResult;
+import net.wangxj.util.validate.groups.AddValidate;
 import net.wangxj.authority.Response;
 import net.wangxj.authority.dto.PlatformDTO;
 import net.wangxj.authority.po.PlatformPO;
@@ -32,14 +35,24 @@ public class PlatformShareServiceImpl implements PlatformShareService{
 			response.setMessage("传入参数不可为空");
 			return response;
 		}
-		
 		PlatformPO platformpo = new PlatformPO(); 
 		BeanUtils.copyProperties(platformDto, platformpo);
-		
+		//验证
+		ValidationResult validateRes = ValidateUtil.validateEntity(platformpo, AddValidate.class);
+		if(!validateRes.isPass()){
+			response.setCode(-1L);
+			response.setMessage("校验失败");
+			return response;
+		}
 		Integer uuid = platformService.add(platformpo);
-		logger.info("新增platformDTO成功");
-		response.setCode(0L);
-		response.setResObject(uuid);
+		if(uuid>0){
+			logger.info("新增platformDTO成功");
+			response.setCode(0L);
+			response.setResObject(uuid);
+		}
+		else{
+			logger.info("新增platformDTO失败");
+		}
 		return response;
 	}
 	

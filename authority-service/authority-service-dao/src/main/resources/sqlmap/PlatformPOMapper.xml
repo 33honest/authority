@@ -13,10 +13,13 @@
         <result property="platformDelBy" column="platform_del_by"/>
         <result property="platformStatus" column="platform_status"/>
         <result property="platformIsDelete" column="platform_is_delete"/>
+        <result property="platformEditBy" column="platform_edit_by"/>
+        <result property="platformEdtiTime" column="platform_edit_time"/>
     </resultMap>
 
 	<sql id="Base_Column_List">
-		platform_uuid,platform_name,platform_sign,platform_domain_name,platform_add_time,platform_add_by,platform_del_time,platform_del_by,platform_status,platform_is_delete
+		platform_uuid,platform_name,platform_sign,platform_domain_name,platform_add_time,platform_add_by,
+		platform_del_time,platform_del_by,platform_status,platform_is_delete,platform_edit_by,platform_edit_time
 	</sql>
 	
 	<insert id="insert" parameterType="PlatformPO" >
@@ -49,6 +52,12 @@
 				<if test="platformIsDelete != null  and  platformIsDelete != '' " > 
 					, platform_is_delete
 				</if>
+				<if test="platformEditBy != null  and  platformEditBy != '' " > 
+					, platform_edit_by
+				</if>
+				<if test="platformEditTime != null  and  platformEditTime != '' " > 
+					, platform_edit_time
+				</if>
 		 ) VALUES (
 				#{platformUuid}
 				<if test="platformName != null  and  platformName != '' " > 
@@ -77,6 +86,12 @@
 				</if>
 				<if test="platformIsDelete != null  and  platformIsDelete != '' " > 
 					, #{platformIsDelete}
+				</if>
+				<if test="platformEditBy != null  and  platformEditBy != '' " > 
+					, #{platformEditBy}
+				</if>
+				<if test="platformEditTime != null  and  platformEditTime != '' " > 
+					, #{platformEditTime}
 				</if>
 		 )
 	</insert>
@@ -110,6 +125,12 @@
 				</if>
 				<if test="platformIsDelete != null  and  platformIsDelete != '' " > 
 					, platform_is_delete = #{platformIsDelete}
+				</if>
+				<if test="platformEditBy != null  and  platformEditBy != '' " > 
+					, platform_edit_by = #{platformEditBy}
+				</if>
+				<if test="platformEditTime != null  and  platformEditTime != '' " > 
+					, platform_edit_time = #{platformEditTime}
 				</if>
 	    WHERE 1 = 1
 				and platform_uuid = #{platformUuid}
@@ -150,10 +171,15 @@
 				<if test="platform.platformIsDelete != null  and  platform.platformIsDelete != '' " > 
 					and platform_is_delete = #{platform.platformIsDelete}
 				</if>
+				<if test="platform.platformEditBy != null  and  platform.platformEditBy != '' " > 
+					and platform_edit_by = #{platform.platformEditBy}
+				</if>
+				<if test="platform.platformEditTime != null  and  platform.platformEditTime != '' " > 
+					and platform_edit_time = #{platform.platformEditTime}
+				</if>
 				<if test="order != null  and  order != '' and sort != null and sort != '' " > 
 					ORDER BY ${sort} ${order}
 				</if>
-				
 	</select>
 	
 	<select id="selectCountByCondition" resultType="int" parameterType="PlatformPO">
@@ -189,6 +215,12 @@
 					</if>		        	
 					<if test="platformIsDelete != null  and  platformIsDelete != '' " > 
 						and platform_is_delete = #{platformIsDelete}
+					</if>
+					<if test="platformEditBy != null  and  platformEditBy != '' " > 
+						and platform_edit_by = #{platformEditBy}
+					</if>
+					<if test="platformEditTime != null  and  platformEditTime != '' " > 
+						and platform_edit_time = #{platformEditTime}
 					</if>		        	
 	</select>	
 	

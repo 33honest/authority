@@ -13,11 +13,10 @@
 	  	<artifactId>authority-service-dao</artifactId>
 	  	<version>0.01-SNAPSHOT</version>
 	</dependency>
-	
 	<dependency>
-		<groupId>net.wangxj.util</groupId>
-  		<artifactId>wangxj-util</artifactId>
-  		<version>0.0.3-SNAPSHOT</version>
-	</dependency>
+  		<groupId>net.wangxj.authority</groupId>
+	  	<artifactId>authority-service-share-api</artifactId>
+	  	<version>0.01-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>

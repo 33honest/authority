@@ -105,23 +105,59 @@ window.operateEvents = {
         });
     }
 };
+
+function initStatus(){
+	$("#status").html("");
+	$.ajax({  
+	       url: "/platform/getStatusList",  
+	       dataType: "json",  
+	       success: function (data) {  
+	           $.each(data, function (key, value) {  
+	               $("#status").append("<option value="+value+">" +key + "</option>");  
+	           });  
+	       },  
+	       error: function (XMLHttpRequest, textStatus, errorThrown) {  
+	           alert("error");  
+	       }  
+	   });  
+}
         
 $(function () {
    initTable();
+   initStatus();
    
-   $("#status").bind("click", function () {
-	   $("#status").html("");
-       $.ajax({  
-           url: "/platform/getStatusList",  
-           dataType: "json",  
-           success: function (data) {  
-               $.each(data, function (key, value) {  
-                   $("#status").append("<option value="+value+">" +key + "</option>");  
-               });  
-           },  
-           error: function (XMLHttpRequest, textStatus, errorThrown) {  
-               alert("error");  
-           }  
-       });  
-   });
+});
+
+// validate signup form on keyup and submit
+var icon = "<i class='fa fa-times-circle'></i> ";
+$("#addForm").validate({
+    rules: {
+    	platformName:{
+    	 	required:true,
+    	 	
+    	}
+       
+    },
+    messages: {
+        firstname: icon + "请输入你的姓",
+        lastname: icon + "请输入您的名字",
+        username: {
+            required: icon + "请输入您的用户名",
+            minlength: icon + "用户名必须两个字符以上"
+        },
+        password: {
+            required: icon + "请输入您的密码",
+            minlength: icon + "密码必须5个字符以上"
+        },
+        confirm_password: {
+            required: icon + "请再次输入密码",
+            minlength: icon + "密码必须5个字符以上",
+            equalTo: icon + "两次输入的密码不一致"
+        },
+        email: icon + "请输入您的E-mail",
+        agree: {
+            required: icon + "必须同意协议后才能注册",
+            element: '#agree-error'
+        }
+    }
 });

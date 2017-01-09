@@ -89,34 +89,32 @@
                         <h4 class="modal-title">增加平台</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="ibox-content">
 	                        <form class="form-horizontal m-t" id="addForm">
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台名：</label>
-	                                <div class="col-sm-8">
+	                                <div class="col-sm-6">
 	                                    <input id="platformName" name="platformName" class="form-control" type="text">
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台标识：</label>
-	                                <div class="col-sm-8">
+	                                <div class="col-sm-6">
 	                                    <input id="platformSign" name="platformSign" class="form-control" type="text">
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台域名：</label>
-	                                <div class="col-sm-8">
+	                                <div class="col-sm-6">
 	                                    <input id="platformDomainName" name="platformDomainName" class="form-control" type="text">
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台状态：</label>
-	                                <div class="col-sm-8">
+	                                <div class="col-sm-6">
 	                                   <select class="form-control" id="status" name="platformStatus"></select> 
 	                                </div>
 	                            </div>
 	                        </form>
-	                    </div>
                     </div>
 
                     <div class="modal-footer">

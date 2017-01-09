@@ -26,7 +26,7 @@
 	</context-param>
 
 	<listener>
-		<listener-class>com.huoshan.util.listener.ConfigLog4jListener</listener-class>
+		<listener-class>net.wangxj.util.listener.ConfigLog4jListener</listener-class>
 	</listener>
 	
 	<!-- <servlet-mapping>    

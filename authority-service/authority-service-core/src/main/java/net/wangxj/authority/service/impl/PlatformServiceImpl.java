@@ -8,12 +8,17 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
+
+import net.wangxj.authority.constant.DataDictionaryConstant;
 import net.wangxj.authority.dao.PlatformDao;
 import net.wangxj.authority.po.PlatformPO;
 import net.wangxj.authority.service.PlatformService;
+import net.wangxj.util.string.StringUtil;
+import net.wangxj.util.string.TimeUtil;
+import net.wangxj.util.string.UuidUtil;
+
 import org.springframework.stereotype.Service;
 
-import com.huoshan.util.string.StringUtil;
 
 /**
  * created by	: wangxj
@@ -30,7 +35,9 @@ public class PlatformServiceImpl implements PlatformService{
 	
 	@Override
 	public Integer add(PlatformPO platformPo) {
-		
+		platformPo.setPlatformUuid(UuidUtil.newGUID());
+		platformPo.setPlatformAddTime(TimeUtil.getNowStr());
+		platformPo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		return platformDao.insert(platformPo);
 	}
 	

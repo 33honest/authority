@@ -80,6 +80,12 @@
 			<version>4.2.1.RELEASE</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>net.wangxj.util</groupId>
+	  		<artifactId>wangxj-util</artifactId>
+	  		<version>0.0.4-SNAPSHOT</version>
+		</dependency>
+		
   </dependencies>
   
   

@@ -1,37 +1,69 @@
 
 package net.wangxj.authority.po;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
+import net.wangxj.util.constant.RegexConstant;
+import net.wangxj.util.validate.Severity;
+import net.wangxj.util.validate.groups.AddValidate;
+import net.wangxj.util.validate.groups.DeleteValidate;
+import net.wangxj.util.validate.groups.EditValidate;
+
 /**
  * created by	: wangxj
  * created time	: 2016-12-26 18:06:44
  */
 public class PlatformPO{
 	
-    // 主键 	
+	// 主键 	
 	private String platformUuid;
-    // 平台名 	
+    // 平台名
+	@Pattern(regexp=RegexConstant.MORETHAN_TWO_CHINESECHAR, message="平台名必须是2-25个汉字", groups={AddValidate.class, EditValidate.class},payload=Severity.Info.class)
+	@NotBlank(message="平台名是必填项",groups={AddValidate.class},payload=Severity.Info.class)
 	private String platformName;
-    // 平台标识 	
+    // 平台标识
+	@Pattern(regexp=RegexConstant.LETTER_UNDERLINE,message="平台标识必须是字母或大小写组成的字符串，下划线不可开头", groups={AddValidate.class,EditValidate.class},payload=Severity.Info.class)
+	@NotBlank(message="平台标识为必填项", groups={AddValidate.class},payload=Severity.Info.class)
 	private String platformSign;
-    // 平台域名 	
+    // 平台域名
+	@Pattern(regexp=RegexConstant.DOMAIN,message="平台域名不符合域名格式", groups={AddValidate.class,EditValidate.class},payload=Severity.Info.class)
+	@NotBlank(message="平台域名为必填值", groups={AddValidate.class},payload=Severity.Info.class)
+	@Length(min=5,max=30,message="平台域名长度不合法",groups={AddValidate.class,EditValidate.class},payload=Severity.Info.class)
 	private String platformDomainName;
     // 添加时间 yyyy-MM-dd HH:mm:ss 	
 	private String platformAddTime;
-    // 添加人uuid 	
+    // 添加人uuid
+	@Pattern(regexp=RegexConstant.UUID_32, message="增加人非法格式", groups=AddValidate.class,payload=Severity.Error.class)
+	@NotBlank(message="增加人为必填值",groups=AddValidate.class,payload=Severity.Error.class)
 	private String platformAddBy;
     // 删除时间 yyyy-MM-dd HH:mm:ss 	
 	private String platformDelTime;
     // 删除人uuid 	
+	@Pattern(regexp=RegexConstant.UUID_32,message="删除人错误", groups={DeleteValidate.class},payload=Severity.Error.class)
+	@NotBlank(message="删除人为必填值",groups={DeleteValidate.class},payload=Severity.Error.class)
 	private String platformDelBy;
-    // 平台状态： 初始化: 0 激活: 1 注销: 2 	
+    // 平台状态： 初始化: 0 激活: 1 注销: 2
+	@Min(value=0,message="输入的平台状态不合法", groups={AddValidate.class, EditValidate.class},payload=Severity.Info.class)
+	@Max(value=2,message="输入的平台状态不合法", groups={AddValidate.class, EditValidate.class},payload=Severity.Info.class)
+	@NotNull(message="平台状态为必填项", groups={AddValidate.class},payload=Severity.Info.class)
 	private java.lang.Integer platformStatus;
     // 是否已被删除: 0：未 1：已被删除 	
+	@Min(value=0, message="删除错误", groups={DeleteValidate.class},payload=Severity.Error.class)
+	@Max(value=1, message="删除错误", groups={DeleteValidate.class},payload=Severity.Error.class)
+	@NotNull(message="删除错误", groups={DeleteValidate.class},payload=Severity.Error.class)
 	private java.lang.Integer platformIsDelete;
-	//平台状态显示名称
-	private String platformStatusName;
-	//是否删除显示名
-	private String platformIsDeleteName;
-		
+	//编辑人uuid
+	@Pattern(regexp=RegexConstant.UUID_32,message="编辑人不合法",groups=EditValidate.class,payload=Severity.Error.class)
+	@NotBlank(message="编辑人是必填值",groups=EditValidate.class,payload=Severity.Error.class)
+	private String platformEditBy;
+	//编辑时间
+	private String platformEditTime;
 	
 	public PlatformPO(){
 		super();
@@ -39,8 +71,8 @@ public class PlatformPO{
 	
 	public PlatformPO(String platformUuid, String platformName, String platformSign, String platformDomainName,
 			String platformAddTime, String platformAddBy, String platformDelTime, String platformDelBy,
-			Integer platformStatus, Integer platformIsDelete, String platformStatusName, String platformIsDeleteName) {
-		this();
+			Integer platformStatus, Integer platformIsDelete, String platformEditBy, String platformEditTime) {
+		super();
 		this.platformUuid = platformUuid;
 		this.platformName = platformName;
 		this.platformSign = platformSign;
@@ -51,9 +83,11 @@ public class PlatformPO{
 		this.platformDelBy = platformDelBy;
 		this.platformStatus = platformStatus;
 		this.platformIsDelete = platformIsDelete;
-		this.platformStatusName = platformStatusName;
-		this.platformIsDeleteName = platformIsDeleteName;
+		this.platformEditBy = platformEditBy;
+		this.platformEditTime = platformEditTime;
 	}
+
+
 
 	public void setPlatformUuid(String value) {
 		this.platformUuid = value;
@@ -125,23 +159,21 @@ public class PlatformPO{
 	public java.lang.Integer getPlatformIsDelete() {
 		return this.platformIsDelete;
 	}
-
-	public String getPlatformStatusName() {
-		return platformStatusName;
+	public String getPlatformEditBy() {
+		return platformEditBy;
 	}
 
-	public void setPlatformStatusName(String platform) {
-			this.platformStatusName = platform;
+	public void setPlatformEditBy(String platformEditBy) {
+		this.platformEditBy = platformEditBy;
 	}
 
-	public String getPlatformIsDeleteName() {
-		return platformIsDeleteName;
+	public String getPlatformEditTime() {
+		return platformEditTime;
 	}
 
-	public void setPlatformIsDeleteName(String platformIsDeleteName) {
-			this.platformIsDeleteName = platformIsDeleteName;
+	public void setPlatformEditTime(String platformEditTime) {
+		this.platformEditTime = platformEditTime;
 	}
-	
 	
 }
 

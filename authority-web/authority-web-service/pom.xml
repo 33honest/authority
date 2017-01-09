@@ -40,9 +40,9 @@
   
     <!-- 工具包 -->
     <dependency>
-	  <groupId>com.huoshan.util</groupId>
-	  <artifactId>huoshan-util</artifactId>
-	  <version>0.0.1-SNAPSHOT</version>
+	  <groupId>net.wangxj.util</groupId>
+	  <artifactId>wangxj-util</artifactId>
+	  <version>0.0.4-SNAPSHOT</version>
 	</dependency>
     <!-- fileupload -->
     <dependency>
