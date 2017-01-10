@@ -11,7 +11,7 @@ public class DataDictionaryConstant {
 	
 	/*********   平台状态开始   ********/
 	public static String PLATFORM_STATUS_INIT_KEY = "初始化";
-	public static Integer PLATFORM_STATUS_INIT_VALUE = 0;
+	public static Integer PLATFORM_STATUS_INIT_VALUE = 3;
 	
 	public static String PLATFORM_STATUS_ACTIVE_KEY = "激活";
 	public static Integer PLATFORM_STATUS_ACTIVE_VALUE = 1;

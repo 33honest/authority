@@ -125,39 +125,75 @@ function initStatus(){
 $(function () {
    initTable();
    initStatus();
+   validate();
    
+   $("#save").on("click",function(){
+	   $("#addForm").submit();
+   })
 });
 
-// validate signup form on keyup and submit
-var icon = "<i class='fa fa-times-circle'></i> ";
-$("#addForm").validate({
-    rules: {
-    	platformName:{
-    	 	required:true,
-    	 	
-    	}
-       
-    },
-    messages: {
-        firstname: icon + "请输入你的姓",
-        lastname: icon + "请输入您的名字",
-        username: {
-            required: icon + "请输入您的用户名",
-            minlength: icon + "用户名必须两个字符以上"
-        },
-        password: {
-            required: icon + "请输入您的密码",
-            minlength: icon + "密码必须5个字符以上"
-        },
-        confirm_password: {
-            required: icon + "请再次输入密码",
-            minlength: icon + "密码必须5个字符以上",
-            equalTo: icon + "两次输入的密码不一致"
-        },
-        email: icon + "请输入您的E-mail",
-        agree: {
-            required: icon + "必须同意协议后才能注册",
-            element: '#agree-error'
-        }
-    }
-});
+
+function validate(){
+	// validate signup form on keyup and submit
+	var icon = "<i class='fa fa-times-circle'></i> ";
+	$("#addForm").validate({
+	    rules: {
+	    	platformName:{
+	    	 	required:true,
+	    	 	checkPlatName: true,
+	    	 	rangelength:[2,25]
+	    	},
+	    	platformSign:{
+	    		required: true,
+	    		checkPlatSign: true,
+	    		rangelength:[2,32]
+	    	},
+	    	platformDomainName:{
+	    		required: true,
+	    		checkDomain: true
+	    	}
+	       
+	    },
+	    messages: {
+	    	platformName:{
+	    		required: icon+"平台名是必填项"
+	    	},
+	    	platformSign:{
+	    		required: icon+"平台标识是必填项"
+	    	},
+	    	platformDomainName:{
+	    		required: icon+"平台域名是必填项"
+	    	}
+	    },
+	    submitHandler: function(form){
+	    	$(form).ajaxSubmit({
+	    		type: "POST",
+	    		dataType: "json",
+	    		success: function(data){
+	    			if(data.code == 0 && data.resObject == 1){
+	    				$("#addPage").modal('hide');
+	    				swal(data.message);
+	    			}
+	    		}
+	    	});
+	    }
+	});
+
+	//自定义正则表达示验证方法  
+	$.validator.addMethod("checkPlatName",function(value,element,params){  
+	        var checkPlatName = /^[\u4e00-\u9fa5]{2,25}$/;  
+	        return this.optional(element)||(checkPlatName.test(value));  
+	    },"平台名必须是2-25个汉字");  
+	    
+	$.validator.addMethod("checkPlatSign",function(value,element,params){  
+	    var checkPlatSign = /(^[A-Za-z]+_?[A-Za-z]{2,32})+$/;                                                                                 
+	    return this.optional(element)||(checkPlatSign.test(value));  
+	},"平台标识必须是字母或大小写组成的字符串，下划线不可开头");
+
+	$.validator.addMethod("checkDomain",function(value,element,params){  
+	    var checkDomain = /^((http:\/\/)|(https:\/\/))?([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}/;  
+	    return this.optional(element)||(checkDomain.test(value));  
+	},"平台域名不符合域名格式");
+}
+
+

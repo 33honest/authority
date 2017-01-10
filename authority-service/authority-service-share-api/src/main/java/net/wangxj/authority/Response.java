@@ -14,6 +14,7 @@ public class Response<T>  implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -7685798307803897767L;
+	//-1失败　１校验失败　0成功
 	Long code=-1L;
 	T resObject;
 	String message="失败";

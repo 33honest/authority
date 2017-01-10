@@ -35,9 +35,7 @@ public class PlatformServiceImpl implements PlatformService{
 	
 	@Override
 	public Integer add(PlatformPO platformPo) {
-		platformPo.setPlatformUuid(UuidUtil.newGUID());
-		platformPo.setPlatformAddTime(TimeUtil.getNowStr());
-		platformPo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
+		
 		return platformDao.insert(platformPo);
 	}
 	

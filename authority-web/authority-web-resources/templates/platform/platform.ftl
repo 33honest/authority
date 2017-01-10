@@ -89,7 +89,7 @@
                         <h4 class="modal-title">增加平台</h4>
                     </div>
                     <div class="modal-body">
-	                        <form class="form-horizontal m-t" id="addForm">
+	                        <form class="form-horizontal m-t" id="addForm" action="/platform/add">
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台名：</label>
 	                                <div class="col-sm-6">
@@ -119,12 +119,12 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-primary">保存</button>
+                        <button type="button" class="btn btn-primary" id="save">保存</button>
                     </div>
                 </div>
             </div>
         </div>
-   
+   <div class="modal-dialog" id="showModal" role="document"></div>
     <!-- 全局js -->
     <script src="/js/jquery.min.js?v=2.1.4"></script>
     <script src="/js/bootstrap.min.js?v=3.3.6"></script>
@@ -134,10 +134,13 @@
 
 
     <!-- Bootstrap table -->
+    
     <script src="/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
     <script src="/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
     <script src="/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    
     <!-- jQuery Validation plugin javascript-->
+    <script src="/js/jquery.form.js"></script>
     <script src="/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="/js/plugins/validate/messages_zh.min.js"></script>
     

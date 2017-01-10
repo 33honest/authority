@@ -15,6 +15,9 @@ import net.wangxj.authority.Response;
 import net.wangxj.authority.dto.PlatformDTO;
 import net.wangxj.authority.service.share.PlatformShareService;
 import net.wangxj.authority.web.service.PlatformWebService;
+import net.wangxj.util.string.UuidUtil;
+import net.wangxj.util.validate.Severity.Error;
+import net.wangxj.util.validate.ValidationResult;
 
 @Service(value="PlatformWebService")
 public class PlatformWebServiceImpl implements PlatformWebService {
@@ -53,6 +56,23 @@ public class PlatformWebServiceImpl implements PlatformWebService {
 		}
 		
 		return jsonString;
+	}
+
+	@Override
+	public String add(PlatformDTO platformDto) {
+		platformDto.setPlatformAddBy(UuidUtil.newGUID());
+		Response<Integer> addRes = platformShareService.add(platformDto);
+		String message = addRes.getMessage();
+		Long code = addRes.getCode();
+		logger.debug(message);
+		boolean isError= message.indexOf(Error.class.getSimpleName())>=0;
+		if((code == 1L && isError) || code == -1L){
+			addRes.setCode(-1L);
+			addRes.setMessage("增加失败");
+			addRes.setData(null);
+			return JSON.toJSONString(addRes);
+		}
+		return JSON.toJSONString(addRes);
 	}
 	
 }

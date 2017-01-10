@@ -6,11 +6,17 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
+
+import com.alibaba.fastjson.JSON;
+
 import net.wangxj.authority.service.share.PlatformShareService;
+import net.wangxj.util.string.TimeUtil;
+import net.wangxj.util.string.UuidUtil;
 import net.wangxj.util.validate.ValidateUtil;
 import net.wangxj.util.validate.ValidationResult;
 import net.wangxj.util.validate.groups.AddValidate;
 import net.wangxj.authority.Response;
+import net.wangxj.authority.constant.DataDictionaryConstant;
 import net.wangxj.authority.dto.PlatformDTO;
 import net.wangxj.authority.po.PlatformPO;
 import net.wangxj.authority.service.PlatformService;
@@ -33,22 +39,28 @@ public class PlatformShareServiceImpl implements PlatformShareService{
 		
 		if(platformDto == null){
 			response.setMessage("传入参数不可为空");
+			response.setCode(1L);
 			return response;
 		}
 		PlatformPO platformpo = new PlatformPO(); 
 		BeanUtils.copyProperties(platformDto, platformpo);
+		platformpo.setPlatformUuid(UuidUtil.newGUID());
+		platformpo.setPlatformAddTime(TimeUtil.getNowStr());
+		platformpo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		//验证
 		ValidationResult validateRes = ValidateUtil.validateEntity(platformpo, AddValidate.class);
 		if(!validateRes.isPass()){
-			response.setCode(-1L);
-			response.setMessage("校验失败");
+			response.setCode(1L);
+			response.setMessage(JSON.toJSONString(validateRes));
 			return response;
 		}
+		
 		Integer uuid = platformService.add(platformpo);
 		if(uuid>0){
 			logger.info("新增platformDTO成功");
 			response.setCode(0L);
 			response.setResObject(uuid);
+			response.setMessage("添加成功");
 		}
 		else{
 			logger.info("新增platformDTO失败");
