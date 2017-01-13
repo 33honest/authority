@@ -74,5 +74,18 @@ public class PlatformWebServiceImpl implements PlatformWebService {
 		}
 		return JSON.toJSONString(addRes);
 	}
+
+	@Override
+	public String isRepeatField(PlatformDTO platformDto) {
+		Response<Integer> countByCondition = platformShareService.getCountByCondition(platformDto);
+		Response<Integer> allCountResp = platformShareService.getCountByCondition(new PlatformDTO());
+		if(countByCondition.getCode() == 0L && allCountResp.getCode()==0L){
+			logger.debug("查询是否重复字段成功");
+			Integer count = countByCondition.getResObject();
+			Integer allCount = allCountResp.getResObject();
+			return (count > 0 && count < allCount) ? "true" : "false"; 
+		}
+		return JSON.toJSONString(countByCondition);
+	}
 	
 }

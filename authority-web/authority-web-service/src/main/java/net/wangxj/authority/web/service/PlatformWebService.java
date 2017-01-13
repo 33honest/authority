@@ -17,5 +17,11 @@ public interface PlatformWebService {
 	 * @return
 	 */
 	public String add(PlatformDTO platformDto);
+	/**
+	 * 检测某字段是否重复
+	 * @param platformDto
+	 * @return
+	 */
+	public String isRepeatField(PlatformDTO platformDto);
 
 }

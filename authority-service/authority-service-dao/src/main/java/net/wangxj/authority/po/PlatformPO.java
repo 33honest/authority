@@ -49,8 +49,8 @@ public class PlatformPO{
 	@NotBlank(message="删除人为必填值",groups={DeleteValidate.class},payload=Severity.Error.class)
 	private String platformDelBy;
     // 平台状态： 初始化: 0 激活: 1 注销: 2
-	@Min(value=0,message="输入的平台状态不合法", groups={AddValidate.class, EditValidate.class},payload=Severity.Info.class)
-	@Max(value=2,message="输入的平台状态不合法", groups={AddValidate.class, EditValidate.class},payload=Severity.Info.class)
+	@Min(value=1,message="输入的平台状态不合法", groups={AddValidate.class, EditValidate.class},payload=Severity.Info.class)
+	@Max(value=3,message="输入的平台状态不合法", groups={AddValidate.class, EditValidate.class},payload=Severity.Info.class)
 	@NotNull(message="平台状态为必填项", groups={AddValidate.class},payload=Severity.Info.class)
 	private java.lang.Integer platformStatus;
     // 是否已被删除: 0：未 1：已被删除 	

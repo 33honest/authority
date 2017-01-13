@@ -1,7 +1,7 @@
 var $table = $('#platform_table'),
     $remove = $('#remove'),
     selections = [];
-        
+//初始化表格       
 function initTable() {
     $table.bootstrapTable({
     	  icons: {
@@ -106,33 +106,8 @@ window.operateEvents = {
     }
 };
 
-function initStatus(){
-	$("#status").html("");
-	$.ajax({  
-	       url: "/platform/getStatusList",  
-	       dataType: "json",  
-	       success: function (data) {  
-	           $.each(data, function (key, value) {  
-	               $("#status").append("<option value="+value+">" +key + "</option>");  
-	           });  
-	       },  
-	       error: function (XMLHttpRequest, textStatus, errorThrown) {  
-	           alert("error");  
-	       }  
-	   });  
-}
-        
-$(function () {
-   initTable();
-   initStatus();
-   validate();
-   
-   $("#save").on("click",function(){
-	   $("#addForm").submit();
-   })
-});
 
-
+//验证
 function validate(){
 	// validate signup form on keyup and submit
 	var icon = "<i class='fa fa-times-circle'></i> ";
@@ -141,25 +116,30 @@ function validate(){
 	    	platformName:{
 	    	 	required:true,
 	    	 	checkPlatName: true,
-	    	 	rangelength:[2,25]
+	    	 	rangelength:[2,25],
+	    	 	
 	    	},
 	    	platformSign:{
 	    		required: true,
 	    		checkPlatSign: true,
-	    		rangelength:[2,32]
+	    		rangelength:[2,32],
+	    		checkSignRepeat: true
 	    	},
 	    	platformDomainName:{
 	    		required: true,
-	    		checkDomain: true
+	    		checkDomain: true,
+	    		checkDomainRepeat: true
 	    	}
 	       
 	    },
 	    messages: {
 	    	platformName:{
-	    		required: icon+"平台名是必填项"
+	    		required: icon+"平台名是必填项",
+	    		rangelength:icon+"长度必须在2-25个字符"
 	    	},
 	    	platformSign:{
-	    		required: icon+"平台标识是必填项"
+	    		required: icon+"平台标识是必填项",
+	    		rangelength:icon+"长度必须在2-32个字符"
 	    	},
 	    	platformDomainName:{
 	    		required: icon+"平台域名是必填项"
@@ -172,28 +152,113 @@ function validate(){
 	    		success: function(data){
 	    			if(data.code == 0 && data.resObject == 1){
 	    				$("#addPage").modal('hide');
-	    				swal(data.message);
+	    				$table.bootstrapTable('refresh');
+	    				swal({
+	    					title: "",
+	    					text: "增加成功",
+	    					type: "success"
+	    				});
+	    				
 	    			}
 	    		}
 	    	});
 	    }
 	});
 
-	//自定义正则表达示验证方法  
-	$.validator.addMethod("checkPlatName",function(value,element,params){  
-	        var checkPlatName = /^[\u4e00-\u9fa5]{2,25}$/;  
-	        return this.optional(element)||(checkPlatName.test(value));  
-	    },"平台名必须是2-25个汉字");  
+	$.validator.addMethod("checkDomainRepeat",function(value,element,params){  
+		var param = {};
+		param.platformDomainName = value;
+		var result;
+		$.ajax({  
+	       url: "/platform/isRepeat",  
+	       dataType: "json", 
+	       data: param,
+	       async:false,
+	       success: function (data) {  
+	    	   if(typeof data == 'boolean'){
+	    		  result=data;
+	    	   }
+	    	   else{
+	    		   alert("error");
+	    		   return;
+	    	   }
+	       },  
+	       error: function (XMLHttpRequest, textStatus, errorThrown) {  
+	    	   alert("error");
+	       }  
+	   });  
+		return this.optional(element)||!result;  
+    },"已存在该域名");  
+	
+	$.validator.addMethod("checkSignRepeat",function(value,element,params){  
+		var param = {};
+		param.platformSign = value;
+		var result;
+		$.ajax({  
+		       url: "/platform/isRepeat",  
+		       dataType: "json", 
+		       data: param,
+		       async:false,
+		       success: function (data) {  
+		    	   if(typeof data == 'boolean'){
+		    		   result=data;
+		    	   }else{
+		    		   alert("error");
+		    		   return;
+		    	   }
+		       },  
+		       error: function (XMLHttpRequest, textStatus, errorThrown) {  
+		    	   alert("error");
+		       }  
+		   });  
+		return this.optional(element)||!result;  
+	    },"已存在该平台标识");  
 	    
+	$.validator.addMethod("checkPlatName",function(value,element,params){  
+        var checkPlatName = /^[\u4e00-\u9fa5]{2,25}$/;  
+        return this.optional(element)||(checkPlatName.test(value));  
+    },"平台名必须是2-25个汉字"); 
+	
 	$.validator.addMethod("checkPlatSign",function(value,element,params){  
-	    var checkPlatSign = /(^[A-Za-z]+_?[A-Za-z]{2,32})+$/;                                                                                 
+	    var checkPlatSign = /(^[A-Za-z]+_?[A-Za-z]+)+$/;                                                                                 
 	    return this.optional(element)||(checkPlatSign.test(value));  
-	},"平台标识必须是字母或大小写组成的字符串，下划线不可开头");
+	},"平台标识必须是字母或大小写组成的字符串，下划线不可开头和结尾");
 
 	$.validator.addMethod("checkDomain",function(value,element,params){  
 	    var checkDomain = /^((http:\/\/)|(https:\/\/))?([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}/;  
 	    return this.optional(element)||(checkDomain.test(value));  
 	},"平台域名不符合域名格式");
+	
 }
+
+//初始化下拉列表
+function initStatus(){
+	$("#status").html("");
+	$.ajax({  
+	       url: "/platform/getStatusList",  
+	       dataType: "json",  
+	       success: function (data) {  
+	    	   $.each(data, function (key, value) {  
+	    	        $("#status").append("<option value="+value+">" +key + "</option>");  
+	    	    });  
+	       },  
+	       error: function (XMLHttpRequest, textStatus, errorThrown) {  
+	    	   return "error";
+	       }  
+	   });  
+}
+        
+$(function () {
+	
+   initTable();
+   initStatus();
+   validate();
+   
+   $("#save").on("click",function(){
+	   $("#addForm").submit();
+   })
+   
+   
+});
 
 

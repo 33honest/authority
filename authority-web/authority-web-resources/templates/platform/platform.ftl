@@ -16,7 +16,7 @@
     <link href="/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/style.css?v=4.1.0" rel="stylesheet">
-    
+    <link href="/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 
 </head>
 
@@ -73,7 +73,9 @@
 						           data-show-footer="false"
 						           data-side-pagination="server"
 						           data-url="/platform/list"
-						           data-method="post">
+						           data-method="post"
+						           data-sort-name="platformAddTime"
+						           data-sort-order="desc">
                         	</table>
                         </div>
                     </div>
@@ -124,14 +126,9 @@
                 </div>
             </div>
         </div>
-   <div class="modal-dialog" id="showModal" role="document"></div>
     <!-- 全局js -->
     <script src="/js/jquery.min.js?v=2.1.4"></script>
     <script src="/js/bootstrap.min.js?v=3.3.6"></script>
-
-    <!-- 自定义js -->
-    <script src="/js/content.js?v=1.0.0"></script>
-
 
     <!-- Bootstrap table -->
     
@@ -143,7 +140,7 @@
     <script src="/js/jquery.form.js"></script>
     <script src="/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="/js/plugins/validate/messages_zh.min.js"></script>
-    
+    <script src="/js/plugins/sweetalert/sweetalert.min.js"></script>
     <script src="/js/platform/platform.js"></script>
 
 </body>

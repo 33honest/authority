@@ -45,9 +45,13 @@ public class PlatformController{
 	@RequestMapping("/add")
 	@ResponseBody
 	public String addPlatform(PlatformDTO platformDto){
-		
 		return platformWebService.add(platformDto);
-		
+	}
+	
+	@RequestMapping("/isRepeat")
+	@ResponseBody
+	public String isRepeatField(PlatformDTO platformDto){
+		return platformWebService.isRepeatField(platformDto);
 	}
 	
 }
