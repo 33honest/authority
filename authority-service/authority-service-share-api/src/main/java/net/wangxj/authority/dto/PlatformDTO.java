@@ -10,7 +10,7 @@ import net.wangxj.authority.constant.DataDictionaryConstant;
  * created time	: 2016-12-26 18:06:44
  */
 
-public class PlatformDTO implements Serializable{ 
+public class PlatformDTO implements Serializable,DTO{ 
 	
     /**
 	 * 
@@ -28,10 +28,12 @@ public class PlatformDTO implements Serializable{
 	private String platformAddTime;
     // 添加人uuid
 	private String platformAddBy;
+	private String platformAddByName;
     // 删除时间 yyyy-MM-dd HH:mm:ss 	
 	private String platformDelTime;
     // 删除人uuid 	
 	private String platformDelBy;
+	private String platformDelByName;
     // 平台状态： 初始化: 0 激活: 1 注销: 2
 	private java.lang.Integer platformStatus;
 	//平台状态显示名称
@@ -42,6 +44,7 @@ public class PlatformDTO implements Serializable{
 	private String platformIsDeleteName;
 	//编辑人uuid
 	public String platformEditBy;
+	public String platformEditByName;
 	//编辑时间
 	public String platformEditTime;
 	
@@ -173,16 +176,43 @@ public class PlatformDTO implements Serializable{
 	public void setPlatformEditTime(String platformEditTime) {
 		this.platformEditTime = platformEditTime;
 	}
+	
+	public String getPlatformAddByName() {
+		return platformAddByName;
+	}
+
+	public void setPlatformAddByName(String platformAddByName) {
+		this.platformAddByName = platformAddByName;
+	}
+
+	public String getPlatformDelByName() {
+		return platformDelByName;
+	}
+
+	public void setPlatformDelByName(String platformDelByName) {
+		this.platformDelByName = platformDelByName;
+	}
+
+	public String getPlatformEditByName() {
+		return platformEditByName;
+	}
+
+	public void setPlatformEditByName(String platformEditByName) {
+		this.platformEditByName = platformEditByName;
+	}
 
 	@Override
 	public String toString() {
 		return "PlatformDTO [platformUuid=" + platformUuid + ", platformName=" + platformName + ", platformSign="
 				+ platformSign + ", platformDomainName=" + platformDomainName + ", platformAddTime=" + platformAddTime
-				+ ", platformAddBy=" + platformAddBy + ", platformDelTime=" + platformDelTime + ", platformDelBy="
-				+ platformDelBy + ", platformStatus=" + platformStatus + ", platformStatusName=" + platformStatusName
+				+ ", platformAddBy=" + platformAddBy + ", platformAddByName=" + platformAddByName + ", platformDelTime="
+				+ platformDelTime + ", platformDelBy=" + platformDelBy + ", platformDelByName=" + platformDelByName
+				+ ", platformStatus=" + platformStatus + ", platformStatusName=" + platformStatusName
 				+ ", platformIsDelete=" + platformIsDelete + ", platformIsDeleteName=" + platformIsDeleteName
-				+ ", platformEditBy=" + platformEditBy + ", platformEditTime=" + platformEditTime + "]";
+				+ ", platformEditBy=" + platformEditBy + ", platformEditByName=" + platformEditByName
+				+ ", platformEditTime=" + platformEditTime + "]";
 	}
 
+	
 }
 

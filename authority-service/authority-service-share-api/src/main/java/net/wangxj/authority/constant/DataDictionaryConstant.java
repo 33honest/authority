@@ -46,7 +46,7 @@ public class DataDictionaryConstant {
 	public static Integer ISDELETE_YES_VALUE = 1;
 	
 	public static String ISDELETE_NO_KEY = "未删除";
-	public static Integer ISDELETE_NO_VALUE = 0;
+	public static Integer ISDELETE_NO_VALUE = 2;
 	
 	public static LinkedHashMap<String, Integer> isDeleteKeyValueMap = new LinkedHashMap<>();
 	public static LinkedHashMap<Integer, String> isDeleteValueKeyMap = new LinkedHashMap<>();

@@ -9,14 +9,10 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 
-import net.wangxj.authority.constant.DataDictionaryConstant;
 import net.wangxj.authority.dao.PlatformDao;
 import net.wangxj.authority.po.PlatformPO;
 import net.wangxj.authority.service.PlatformService;
 import net.wangxj.util.string.StringUtil;
-import net.wangxj.util.string.TimeUtil;
-import net.wangxj.util.string.UuidUtil;
-
 import org.springframework.stereotype.Service;
 
 
@@ -68,6 +64,12 @@ public class PlatformServiceImpl implements PlatformService{
 	public Integer getCountByCondition(PlatformPO platformPo) {
 		
 		return platformDao.getCountByCondition(platformPo);
+	}
+
+	@Override
+	public Integer modifyByBatch(List<PlatformPO> platformPoList) {
+		
+		return platformDao.modifyByBatch(platformPoList);
 	}
 
 }

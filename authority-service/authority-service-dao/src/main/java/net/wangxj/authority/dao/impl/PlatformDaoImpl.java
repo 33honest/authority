@@ -66,5 +66,15 @@ public class PlatformDaoImpl extends BaseSessionDaoSupport implements PlatformDa
 		
 		return (Integer)super.getSqlSession().selectOne("PlatformPOMapper.selectCountByCondition", platformPo);
 	}
+
+	@Override
+	public Integer modifyByBatch(List<PlatformPO> platformPoList) {
+		int count = 0;
+		for (PlatformPO platformPO : platformPoList) {
+			this.updateByUuid(platformPO);
+			count++;
+		}
+		return count;
+	}
 	
 }

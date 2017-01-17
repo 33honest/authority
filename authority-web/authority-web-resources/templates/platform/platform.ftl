@@ -51,7 +51,7 @@
                         	<button type="button" class="btn btn-outline btn-default"  id="remove" disabled>
                                 <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
                             </button>
-                            <button type="button" class="btn btn-outline btn-default" data-toggle="modal" data-target="#addPage">
+                            <button type="button" class="btn btn-outline btn-default" data-toggle="modal" id="addButton">
                                 <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -88,7 +88,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title">增加平台</h4>
+                        <h4 class="modal-title" id="adddPageTitle">增加平台</h4>
                     </div>
                     <div class="modal-body">
 	                        <form class="form-horizontal m-t" id="addForm" action="/platform/add">
@@ -101,19 +101,19 @@
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台标识：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="platformSign" name="platformSign" class="form-control" type="text">
+	                                    <input id="platformSign" name="platformSign" class="form-control" type="text"><span class="help-block m-b-none">一旦确定不可再修改</span>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台域名：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="platformDomainName" name="platformDomainName" class="form-control" type="text">
+	                                    <input id="platformDomainName" name="platformDomainName" class="form-control" type="text"><span class="help-block m-b-none">一旦确定不可再修改</span>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台状态：</label>
 	                                <div class="col-sm-6">
-	                                   <select class="form-control" id="status" name="platformStatus"></select> 
+	                                   <select class="form-control" id="platformStatus" name="platformStatus"></select> 
 	                                </div>
 	                            </div>
 	                        </form>

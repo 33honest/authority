@@ -44,4 +44,10 @@ public interface PlatformService{
 	 * @return
 	 */
 	public Integer getCountByCondition(PlatformPO platformPo);
+	/**
+	 * 批量修改
+	 * @param platformPoList
+	 * @return
+	 */
+	public Integer modifyByBatch(List<PlatformPO> platformPoList);
 }

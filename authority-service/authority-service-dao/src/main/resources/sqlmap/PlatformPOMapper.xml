@@ -14,7 +14,7 @@
         <result property="platformStatus" column="platform_status"/>
         <result property="platformIsDelete" column="platform_is_delete"/>
         <result property="platformEditBy" column="platform_edit_by"/>
-        <result property="platformEdtiTime" column="platform_edit_time"/>
+        <result property="platformEditTime" column="platform_edit_time"/>
     </resultMap>
 
 	<sql id="Base_Column_List">

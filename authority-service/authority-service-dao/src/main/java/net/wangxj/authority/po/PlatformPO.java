@@ -19,7 +19,7 @@ import net.wangxj.util.validate.groups.EditValidate;
  * created by	: wangxj
  * created time	: 2016-12-26 18:06:44
  */
-public class PlatformPO{
+public class PlatformPO implements PO{
 	
 	// 主键 	
 	private String platformUuid;
@@ -54,9 +54,6 @@ public class PlatformPO{
 	@NotNull(message="平台状态为必填项", groups={AddValidate.class},payload=Severity.Info.class)
 	private java.lang.Integer platformStatus;
     // 是否已被删除: 0：未 1：已被删除 	
-	@Min(value=0, message="删除错误", groups={DeleteValidate.class},payload=Severity.Error.class)
-	@Max(value=1, message="删除错误", groups={DeleteValidate.class},payload=Severity.Error.class)
-	@NotNull(message="删除错误", groups={DeleteValidate.class},payload=Severity.Error.class)
 	private java.lang.Integer platformIsDelete;
 	//编辑人uuid
 	@Pattern(regexp=RegexConstant.UUID_32,message="编辑人不合法",groups=EditValidate.class,payload=Severity.Error.class)

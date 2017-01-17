@@ -1,6 +1,8 @@
 
 package net.wangxj.authority.web.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -46,6 +48,25 @@ public class PlatformController{
 	@ResponseBody
 	public String addPlatform(PlatformDTO platformDto){
 		return platformWebService.add(platformDto);
+	}
+	
+	@RequestMapping("/edit")
+	@ResponseBody
+	public String editPlatform(PlatformDTO platformDto){
+		return platformWebService.edit(platformDto);
+	}
+	
+	@RequestMapping("/deleteBatch")
+	@ResponseBody
+	public String deleteByBatch(@RequestBody String uuidJson){
+		List<String> uuidList = (List<String>) JSONObject.parse(uuidJson);
+		return platformWebService.deleteBatch(uuidList);
+	}
+	
+	@RequestMapping("/delete")
+	@ResponseBody
+	public String deletePlatfom(PlatformDTO platformDto){
+		return platformWebService.delete(platformDto);
 	}
 	
 	@RequestMapping("/isRepeat")

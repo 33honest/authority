@@ -1,5 +1,7 @@
 package net.wangxj.authority.web.service;
 
+import java.util.List;
+
 import net.wangxj.authority.dto.PlatformDTO;
 
 public interface PlatformWebService {
@@ -23,5 +25,24 @@ public interface PlatformWebService {
 	 * @return
 	 */
 	public String isRepeatField(PlatformDTO platformDto);
+	/**
+	 * 编辑平台
+	 * @param platformDto
+	 * @return
+	 */
+	public String edit(PlatformDTO platformDto);
+	/**
+	 *　删除
+	 * @param platformDto
+	 * @return
+	 */
+	public String delete(PlatformDTO platformDto);
+
+	/**
+	 * 批量删除
+	 * @param uuidList
+	 * @return
+	 */
+	public String deleteBatch(List<String> uuidList);
 
 }

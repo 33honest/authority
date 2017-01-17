@@ -33,7 +33,7 @@ public interface PlatformShareService{
 	/**
 	 * 条件查询
 	 */
-	public Response<PlatformDTO> queryListByCondition(PlatformDTO platformDto);
+	public Response<PlatformDTO> queryListByCondition(PlatformDTO platformDto,boolean noDelete);
 	
 	/**
 	 * 条件分页查询
@@ -48,7 +48,20 @@ public interface PlatformShareService{
 	 * 条件数量查询
 	 * @return
 	 */
-	public Response<Integer> getCountByCondition(PlatformDTO platformDto);
+	public Response<Integer> getCountByCondition(PlatformDTO platformDto,boolean noDelete);
+	
+	/**
+	 * 根据uuid删除
+	 * @param platformDto
+	 * @return
+	 */
+	public Response<Integer> deleteByUuid(PlatformDTO platformDto);
+	/**
+	 * 批量删除
+	 * @param platformList
+	 * @return
+	 */
+	public Response<Integer> deleteByBatch(List<PlatformDTO> platformList);
 	
 
 }

@@ -1,6 +1,7 @@
 
 package net.wangxj.authority.web.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -42,7 +43,7 @@ public class PlatformWebServiceImpl implements PlatformWebService {
 		String jsonString="[]";
 		//条件查询
 		Response<PlatformDTO> platformResponse = platformShareService.queryPageListByCondition(platformDto, pageNum, limit,order,sort);
-		Response<Integer> countRespo = platformShareService.getCountByCondition(platformDto);
+		Response<Integer> countRespo = platformShareService.getCountByCondition(platformDto,true);
 		logger.debug(platformResponse.getMessage());
 		if(platformResponse.getCode() == 0L && countRespo.getCode() == 0L){
 			List<PlatformDTO> data = platformResponse.getData();
@@ -60,7 +61,7 @@ public class PlatformWebServiceImpl implements PlatformWebService {
 
 	@Override
 	public String add(PlatformDTO platformDto) {
-		platformDto.setPlatformAddBy(UuidUtil.newGUID());
+		platformDto.setPlatformAddBy(getUserId());
 		Response<Integer> addRes = platformShareService.add(platformDto);
 		String message = addRes.getMessage();
 		Long code = addRes.getCode();
@@ -74,18 +75,80 @@ public class PlatformWebServiceImpl implements PlatformWebService {
 		}
 		return JSON.toJSONString(addRes);
 	}
+	
+	@Override
+	public String edit(PlatformDTO platformDto) {
+		platformDto.setPlatformEditBy(getUserId());
+		Response<Integer> editRes = platformShareService.modifyByUuid(platformDto);
+		String message = editRes.getMessage();
+		Long code = editRes.getCode();
+		logger.debug(message);
+		boolean isError = message.indexOf(Error.class.getSimpleName())>=0;
+		if((code == 1L && isError) || code == -1L){
+			editRes.setCode(-1L);
+			editRes.setMessage("编辑失败");
+			editRes.setData(null);
+			return JSON.toJSONString(editRes);
+		}
+		return JSON.toJSONString(editRes);
+	}
 
 	@Override
 	public String isRepeatField(PlatformDTO platformDto) {
-		Response<Integer> countByCondition = platformShareService.getCountByCondition(platformDto);
-		Response<Integer> allCountResp = platformShareService.getCountByCondition(new PlatformDTO());
+		Response<Integer> countByCondition = platformShareService.getCountByCondition(platformDto,false);
+		Response<Integer> allCountResp = platformShareService.getCountByCondition(new PlatformDTO(),false);
 		if(countByCondition.getCode() == 0L && allCountResp.getCode()==0L){
 			logger.debug("查询是否重复字段成功");
 			Integer count = countByCondition.getResObject();
 			Integer allCount = allCountResp.getResObject();
-			return (count > 0 && count < allCount) ? "true" : "false"; 
+			return (count > 0 && count <= allCount) ? "true" : "false"; 
 		}
 		return JSON.toJSONString(countByCondition);
 	}
+	
+	public String getUserId(){
+		return "de0c7b2480494fda98db82f7a4707649";
+	}
+
+	@Override
+	public String delete(PlatformDTO platformDto) {
+		platformDto.setPlatformDelBy(getUserId());
+		Response<Integer> deleteRespon = platformShareService.deleteByUuid(platformDto);
+		String message = deleteRespon.getMessage();
+		Long code = deleteRespon.getCode();
+		logger.debug(message);
+		boolean isError = message.indexOf(Error.class.getSimpleName())>=0;
+		if((code == 1L && isError) || code == -1L){
+			deleteRespon.setCode(-1L);
+			deleteRespon.setMessage("删除失败");
+			deleteRespon.setData(null);
+			return JSON.toJSONString(deleteRespon);
+		}
+		return JSON.toJSONString(deleteRespon);
+	}
+
+	@Override
+	public String deleteBatch(List<String> uuidList) {
+		List<PlatformDTO> platformList = new ArrayList<>();
+		uuidList.forEach(uuid -> {
+			PlatformDTO platformDto = new PlatformDTO();
+			platformDto.setPlatformUuid(uuid);
+			platformDto.setPlatformDelBy(getUserId());
+			platformList.add(platformDto);
+			});
+		Response<Integer> countRespo = platformShareService.deleteByBatch(platformList);
+		String message = countRespo.getMessage();
+		Long code = countRespo.getCode();
+		logger.debug(message);
+		boolean isError = message.indexOf(Error.class.getSimpleName()) >=0;
+		if((code == 1L && isError) || code == -1L){
+			countRespo.setCode(-1L);
+			countRespo.setMessage("删除失败");
+			countRespo.setData(null);
+			return JSON.toJSONString(countRespo);
+		}
+		return JSON.toJSONString(countRespo);
+	}
+
 	
 }
