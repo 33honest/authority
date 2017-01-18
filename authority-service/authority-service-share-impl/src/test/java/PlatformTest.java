@@ -28,7 +28,7 @@ public class PlatformTest{
 		
 		PlatformDTO platformDto =  new PlatformDTO();
 		
-		Response<PlatformDTO> response = platformShareService.queryListByCondition(platformDto);
+		Response<PlatformDTO> response = platformShareService.queryListByCondition(platformDto,false);
 		
 		System.out.println(response);
 		System.out.println(response.getData());
