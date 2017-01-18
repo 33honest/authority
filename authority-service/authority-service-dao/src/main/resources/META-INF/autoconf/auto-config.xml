@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <group>
-        <property name="database.url" description="数据库URL" defaultValue="jdbc:mysql://localhost:3306/authority?useUnicode=true&characterEncoding=UTF-8" required="true"/> 
+        <property name="database.url" description="数据库URL" defaultValue="jdbc:mysql://localhost:3306/authority" required="true"/> 
 		<property name="database.username" description="连接数据库用户名" defaultValue="root" required="true"/>		    
 		<property name="database.password" description="连接数据库密码" defaultValue="llhua123" required="true"/>				    
 		<property name="database.maxActive" description="最大连接池数量" defaultValue="30" required="true">
