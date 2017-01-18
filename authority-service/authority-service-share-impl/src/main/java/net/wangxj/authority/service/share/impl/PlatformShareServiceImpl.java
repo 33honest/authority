@@ -7,14 +7,10 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 
-import com.alibaba.fastjson.JSON;
-
 import net.wangxj.authority.service.share.BaseAbstractAuthorityShareService;
 import net.wangxj.authority.service.share.PlatformShareService;
 import net.wangxj.util.string.TimeUtil;
 import net.wangxj.util.string.UuidUtil;
-import net.wangxj.util.validate.ValidateUtil;
-import net.wangxj.util.validate.ValidationResult;
 import net.wangxj.util.validate.groups.AddValidate;
 import net.wangxj.util.validate.groups.DeleteValidate;
 import net.wangxj.util.validate.groups.EditValidate;
@@ -43,7 +39,7 @@ public class PlatformShareServiceImpl extends BaseAbstractAuthorityShareService 
 	public Response<Integer> add(PlatformDTO platformDto){
 		
 		Response<Integer> response = new Response<Integer>();
-		PlatformPO platformpo = new PlatformPO(); 
+		PlatformPO platformpo = new PlatformPO();
 		//验证
 		String validateRes = validateDto(platformDto, platformpo, AddValidate.class);
 		if(validateRes != null){
@@ -253,4 +249,5 @@ public class PlatformShareServiceImpl extends BaseAbstractAuthorityShareService 
 		}
 		return response;
 	}
+	
 }

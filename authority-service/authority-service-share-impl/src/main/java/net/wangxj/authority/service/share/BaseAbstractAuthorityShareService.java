@@ -9,9 +9,11 @@ import org.springframework.beans.BeanUtils;
 
 import com.alibaba.fastjson.JSON;
 
+import net.wangxj.authority.Response;
 import net.wangxj.authority.dto.DTO;
 import net.wangxj.authority.po.PO;
 import net.wangxj.util.validate.Severity.Error;
+import net.wangxj.util.validate.groups.AddValidate;
 import net.wangxj.util.validate.ValidateUtil;
 import net.wangxj.util.validate.ValidationResult;
 
@@ -26,6 +28,7 @@ public abstract class BaseAbstractAuthorityShareService implements AuthorityShar
 	 */
 	public String validateDto(DTO dto,PO po,Class clazz){
 		ValidationResult validateRes = new ValidationResult();
+		//dto不可为空，为空errorLevel为ERROR
 		if(dto == null){
 			validateRes.setPass(false);
 			//设置验证结果
@@ -45,4 +48,6 @@ public abstract class BaseAbstractAuthorityShareService implements AuthorityShar
 		}
 		return null;
 	}
+	
+	
 }
