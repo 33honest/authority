@@ -40,7 +40,7 @@ public interface AuthorityUserShareService{
 	 * @param pageNum: 页码
 	 * @param limit:   每页条数
 	 */
-	public Response<AuthorityUserDTO> queryPageListByCondition(AuthorityUserDTO authorityUserDto, int pageNum, int limit);
+	public Response<AuthorityUserDTO> queryPageListByCondition(AuthorityUserDTO authorityUserDto, int pageNum, int limit,String order,String sort);
 	
 	/**
 	 * 条件数量查询

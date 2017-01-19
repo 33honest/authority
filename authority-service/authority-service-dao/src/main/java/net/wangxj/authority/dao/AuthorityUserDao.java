@@ -2,6 +2,8 @@
 
 package net.wangxj.authority.dao;
 
+import java.util.List;
+
 import net.wangxj.authority.dao.base.IBaseDao;
 import net.wangxj.authority.po.AuthorityUserPO;
 
@@ -11,5 +13,7 @@ import net.wangxj.authority.po.AuthorityUserPO;
  */
 
 public interface AuthorityUserDao extends IBaseDao<AuthorityUserPO>{
+
+	Integer modifyByBatch(List<AuthorityUserPO> userList);
 	
 }

@@ -37,11 +37,18 @@ public interface AuthorityUserService{
 	/**
 	 * 条件分页查询
 	 */
-	public List<AuthorityUserPO> queryPageListByCondition(AuthorityUserPO authorityUserPo, int pageNum, int limit);
+	public List<AuthorityUserPO> queryPageListByCondition(AuthorityUserPO authorityUserPo, int pageNum, int limit,String order,String sort);
 	
 	/**
 	 * 条件数量查询
 	 * @return
 	 */
 	public Integer getCountByCondition(AuthorityUserPO authorityUserPo);
+
+	/**
+	 * 批量更新
+	 * @param userList
+	 * @return
+	 */
+	Integer modifyByBatch(List<AuthorityUserPO> userList);
 }

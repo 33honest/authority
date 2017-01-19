@@ -171,6 +171,15 @@ public class PlatformPO implements PO{
 	public void setPlatformEditTime(String platformEditTime) {
 		this.platformEditTime = platformEditTime;
 	}
+
+	@Override
+	public String toString() {
+		return "PlatformPO [platformUuid=" + platformUuid + ", platformName=" + platformName + ", platformSign="
+				+ platformSign + ", platformDomainName=" + platformDomainName + ", platformAddTime=" + platformAddTime
+				+ ", platformAddBy=" + platformAddBy + ", platformDelTime=" + platformDelTime + ", platformDelBy="
+				+ platformDelBy + ", platformStatus=" + platformStatus + ", platformIsDelete=" + platformIsDelete
+				+ ", platformEditBy=" + platformEditBy + ", platformEditTime=" + platformEditTime + "]";
+	}
 	
 }
 

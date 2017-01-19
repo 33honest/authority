@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import net.wangxj.authority.service.share.AuthorityUserShareService;
+import net.wangxj.authority.service.share.BaseAbstractAuthorityShareService;
 import net.wangxj.authority.Response;
 import net.wangxj.authority.dto.AuthorityUserDTO;
 import net.wangxj.authority.po.AuthorityUserPO;
@@ -16,7 +17,7 @@ import net.wangxj.authority.service.AuthorityUserService;
  * created by	: wangxj
  * created time	: 2016-12-26 18:06:42
  */
-public class AuthorityUserShareServiceImpl implements AuthorityUserShareService{
+public class AuthorityUserShareServiceImpl extends BaseAbstractAuthorityShareService implements AuthorityUserShareService{
 
 	private static Logger logger = Logger.getLogger(AuthorityUserShareServiceImpl.class);
 	
@@ -115,7 +116,7 @@ public class AuthorityUserShareServiceImpl implements AuthorityUserShareService{
 	}
 	
 	@Override
-	public Response<AuthorityUserDTO> queryPageListByCondition(AuthorityUserDTO authorityUserDto, int pageNum, int limit){
+	public Response<AuthorityUserDTO> queryPageListByCondition(AuthorityUserDTO authorityUserDto, int pageNum, int limit,String order,String sort){
 		
 		Response<AuthorityUserDTO> response = new Response<>();
 		if(authorityUserDto == null){
@@ -127,7 +128,7 @@ public class AuthorityUserShareServiceImpl implements AuthorityUserShareService{
 		List<AuthorityUserDTO> listDto = new ArrayList<>();
 		BeanUtils.copyProperties(authorityUserDto, authorityUserPo);
 		
-		listPo = authorityUserService.queryPageListByCondition(authorityUserPo,pageNum,limit);
+		listPo = authorityUserService.queryPageListByCondition(authorityUserPo,pageNum,limit,order,sort);
 		for (AuthorityUserPO authorityUserPo2 : listPo) {
 			AuthorityUserDTO authorityUserDto2 = new AuthorityUserDTO();
 			BeanUtils.copyProperties(authorityUserPo2, authorityUserDto2);

@@ -38,9 +38,9 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	}
 	
 	@Override
-	public List<AuthorityUserPO> queryPageListByCondition(AuthorityUserPO authorityUserPo, int pageNum, int limit) {
+	public List<AuthorityUserPO> queryPageListByCondition(AuthorityUserPO authorityUserPo, int pageNum, int limit,String order,String sort) {
 		
-		return authorityUserDao.selectPageListByCondition(authorityUserPo, pageNum, limit, null, null);
+		return authorityUserDao.selectPageListByCondition(authorityUserPo, pageNum, limit, order, sort);
 	}
 
 
@@ -60,6 +60,12 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	public Integer getCountByCondition(AuthorityUserPO authorityUserPo) {
 		
 		return authorityUserDao.getCountByCondition(authorityUserPo);
+	}
+	
+	@Override
+	public Integer modifyByBatch(List<AuthorityUserPO> userList) {
+		
+		return authorityUserDao.modifyByBatch(userList);
 	}
 
 }

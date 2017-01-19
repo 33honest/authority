@@ -16,10 +16,12 @@
         <result property="userType" column="user_type"/>
         <result property="userAddType" column="user_add_type"/>
         <result property="userIsDelete" column="user_is_delete"/>
+        <result property="userEditBy" column="user_edit_by"/>
+        <result property="userEditTime" column="user_edit_time"/>
     </resultMap>
 
 	<sql id="Base_Column_List">
-		user_uuid,user_login_name,user_login_pwd,user_email,user_phone,user_status,user_add_time,user_add_by,user_del_time,user_del_by,user_type,user_add_type,user_is_delete
+		user_uuid,user_login_name,user_login_pwd,user_email,user_phone,user_status,user_add_time,user_add_by,user_del_time,user_del_by,user_type,user_add_type,user_is_delete,user_edit_by,user_edit_time
 	</sql>
 	
 	<insert id="insert" parameterType="AuthorityUserPO" >
@@ -61,6 +63,12 @@
 				<if test="userIsDelete != null  and  userIsDelete != '' " > 
 					, user_is_delete
 				</if>
+				<if test="userEditBy != null  and  userEditBy != '' " > 
+					, user_edit_by
+				</if>
+				<if test="userEditTime != null  and  userEditTime != '' " > 
+					, user_edit_time
+				</if>
 		 ) VALUES (
 				#{userUuid}
 				<if test="userLoginName != null  and  userLoginName != '' " > 
@@ -98,6 +106,12 @@
 				</if>
 				<if test="userIsDelete != null  and  userIsDelete != '' " > 
 					, #{userIsDelete}
+				</if>
+				<if test="userEditBy != null  and  userEditBy != '' " > 
+					, #{userEditBy}
+				</if>
+				<if test="userEditTime != null  and  userEditTime != '' " > 
+					, #{userEditTime}
 				</if>
 		 )
 	</insert>
@@ -141,6 +155,12 @@
 				<if test="userIsDelete != null  and  userIsDelete != '' " > 
 					, user_is_delete = #{userIsDelete}
 				</if>
+				<if test="userEditBy != null  and  userEditBy != '' " > 
+					, user_edit_by = #{userEditBy}
+				</if>
+				<if test="userEditTime != null  and  userEditTime != '' " > 
+					, user_edit_time = #{userEditTime}
+				</if>
 	    WHERE 1 = 1
 				and user_uuid = #{userUuid}
 	</update>
@@ -150,44 +170,50 @@
 			<include refid="Base_Column_List" /> 
 		from authority_user  
 		where 1 = 1
-				<if test="userUuid != null  and  userUuid != '' " > 
-					and user_uuid = #{userUuid}
+				<if test="user.userUuid != null  and  user.userUuid != '' " > 
+					and user_uuid = #{user.userUuid}
 				</if>
-				<if test="userLoginName != null  and  userLoginName != '' " > 
-					and user_login_name = #{userLoginName}
+				<if test="user.userLoginName != null  and  user.userLoginName != '' " > 
+					and user_login_name = #{user.userLoginName}
 				</if>
-				<if test="userLoginPwd != null  and  userLoginPwd != '' " > 
-					and user_login_pwd = #{userLoginPwd}
+				<if test="user.userLoginPwd != null  and  user.userLoginPwd != '' " > 
+					and user_login_pwd = #{user.userLoginPwd}
 				</if>
-				<if test="userEmail != null  and  userEmail != '' " > 
-					and user_email = #{userEmail}
+				<if test="user.userEmail != null  and  user.userEmail != '' " > 
+					and user_email = #{user.userEmail}
 				</if>
-				<if test="userPhone != null  and  userPhone != '' " > 
-					and user_phone = #{userPhone}
+				<if test="user.userPhone != null  and  user.userPhone != '' " > 
+					and user_phone = #{user.userPhone}
 				</if>
-				<if test="userStatus != null  and  userStatus != '' " > 
-					and user_status = #{userStatus}
+				<if test="user.userStatus != null  and  user.userStatus != '' " > 
+					and user_status = #{user.userStatus}
 				</if>
-				<if test="userAddTime != null  and  userAddTime != '' " > 
-					and user_add_time = #{userAddTime}
+				<if test="user.userAddTime != null  and  user.userAddTime != '' " > 
+					and user_add_time = #{user.userAddTime}
 				</if>
-				<if test="userAddBy != null  and  userAddBy != '' " > 
-					and user_add_by = #{userAddBy}
+				<if test="user.userAddBy != null  and  user.userAddBy != '' " > 
+					and user_add_by = #{user.userAddBy}
 				</if>
-				<if test="userDelTime != null  and  userDelTime != '' " > 
-					and user_del_time = #{userDelTime}
+				<if test="user.userDelTime != null  and  user.userDelTime != '' " > 
+					and user_del_time = #{user.userDelTime}
 				</if>
-				<if test="userDelBy != null  and  userDelBy != '' " > 
-					and user_del_by = #{userDelBy}
+				<if test="user.userDelBy != null  and  user.userDelBy != '' " > 
+					and user_del_by = #{user.userDelBy}
 				</if>
-				<if test="userType != null  and  userType != '' " > 
-					and user_type = #{userType}
+				<if test="user.userType != null  and  user.userType != '' " > 
+					and user_type = #{user.userType}
 				</if>
-				<if test="userAddType != null  and  userAddType != '' " > 
-					and user_add_type = #{userAddType}
+				<if test="user.userAddType != null  and  user.userAddType != '' " > 
+					and user_add_type = #{user.userAddType}
 				</if>
-				<if test="userIsDelete != null  and  userIsDelete != '' " > 
-					and user_is_delete = #{userIsDelete}
+				<if test="user.userEditBy != null  and  user.userEditBy != '' " > 
+					and user_edit_by = #user.{userEditBy}
+				</if>
+				<if test="user.userEditTime != null  and user.userEditTime != '' " > 
+					and user_edit_time = #{user.userEditTime}
+				</if>
+				<if test="order != null  and  order != '' and sort != null and sort != '' " > 
+					ORDER BY ${sort} ${order}
 				</if>
 	</select>
 	
@@ -233,6 +259,12 @@
 					</if>		        	
 					<if test="userIsDelete != null  and  userIsDelete != '' " > 
 						and user_is_delete = #{userIsDelete}
+					</if>
+					<if test="user.userEditBy != null  and  user.userEditBy != '' " > 
+						and user_edit_by = #user.{userEditBy}
+					</if>
+					<if test="user.userEditTime != null  and user.userEditTime != '' " > 
+						and user_edit_time = #{user.userEditTime}
 					</if>		        	
 	</select>	
 	

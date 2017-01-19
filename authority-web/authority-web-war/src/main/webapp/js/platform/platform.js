@@ -333,7 +333,7 @@ function validate(){
     },icon+"平台名必须是2-25个汉字"); 
 	
 	$.validator.addMethod("checkPlatSign",function(value,element,params){  
-	    var checkPlatSign = /(^[A-Za-z]+_?[A-Za-z]+)+$/;                                                                                 
+	    var checkPlatSign = /^(?!_)(?!.*?_$)[a-zA-Z_]+$/;                                                                                 
 	    return this.optional(element)||(checkPlatSign.test(value));  
 	},icon+"平台标识必须是字母或大小写组成的字符串，下划线不可开头和结尾");
 

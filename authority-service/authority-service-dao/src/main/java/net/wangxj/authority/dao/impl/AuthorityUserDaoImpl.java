@@ -2,6 +2,7 @@
 
 package net.wangxj.authority.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +53,10 @@ public class AuthorityUserDaoImpl extends BaseSessionDaoSupport implements Autho
 	
 	@Override
 	public List<AuthorityUserPO> selectPageListByCondition(AuthorityUserPO authorityUserPo, int pageNum, int limit,String order,String sort) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("user", authorityUserPo);
+		map.put("order", order);
+		map.put("sort", sort);
 		PageHelper.startPage(pageNum, limit);
 		return super.getSqlSession().selectList("AuthorityUserPOMapper.selectByCondition", authorityUserPo);
 	}
@@ -60,6 +65,16 @@ public class AuthorityUserDaoImpl extends BaseSessionDaoSupport implements Autho
 	public Integer getCountByCondition(AuthorityUserPO authorityUserPo) {
 		
 		return (Integer)super.getSqlSession().selectOne("AuthorityUserPOMapper.selectCountByCondition", authorityUserPo);
+	}
+	
+	@Override
+	public Integer modifyByBatch(List<AuthorityUserPO> userList) {
+		int count = 0;
+		for (AuthorityUserPO usePo : userList) {
+			this.updateByUuid(usePo);
+			count++;
+		}
+		return count;
 	}
 	
 }
