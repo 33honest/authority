@@ -8,6 +8,7 @@
   <artifactId>authority-service-dao</artifactId>
   
   <dependencies>
+  		
   		<!-- oracle数据库驱动 -->
 		<dependency>
 			<groupId>com.oracle</groupId>

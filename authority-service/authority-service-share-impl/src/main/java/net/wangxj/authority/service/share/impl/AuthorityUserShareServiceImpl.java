@@ -8,8 +8,15 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import net.wangxj.authority.service.share.AuthorityUserShareService;
 import net.wangxj.authority.service.share.BaseAbstractAuthorityShareService;
+import net.wangxj.util.string.TimeUtil;
+import net.wangxj.util.string.UuidUtil;
+import net.wangxj.util.validate.groups.AddValidate;
+import net.wangxj.util.validate.groups.DeleteValidate;
+import net.wangxj.util.validate.groups.EditValidate;
 import net.wangxj.authority.Response;
+import net.wangxj.authority.constant.DataDictionaryConstant;
 import net.wangxj.authority.dto.AuthorityUserDTO;
+import net.wangxj.authority.dto.PlatformDTO;
 import net.wangxj.authority.po.AuthorityUserPO;
 import net.wangxj.authority.service.AuthorityUserService;
 
@@ -28,19 +35,28 @@ public class AuthorityUserShareServiceImpl extends BaseAbstractAuthorityShareSer
 	public Response<Integer> add(AuthorityUserDTO authorityUserDto){
 		
 		Response<Integer> response = new Response<Integer>();
-		
-		if(authorityUserDto == null){
-			response.setMessage("传入参数不可为空");
+		AuthorityUserPO authorityUserpo = new AuthorityUserPO(); 
+		//验证
+		String validateRes = validateDto(authorityUserDto, authorityUserpo, AddValidate.class);
+		if(validateRes != null){
+			response.setCode(1L);
+			response.setMessage(validateRes);
 			return response;
 		}
-		
-		AuthorityUserPO authorityUserpo = new AuthorityUserPO(); 
-		BeanUtils.copyProperties(authorityUserDto, authorityUserpo);
-		
+		//设置增加时间，主键
+		authorityUserpo.setUserAddTime(TimeUtil.getNowStr());
+		authorityUserpo.setUserIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
+		authorityUserpo.setUserUuid(UuidUtil.newGUID());
 		Integer uuid = authorityUserService.add(authorityUserpo);
-		logger.info("新增authorityUserDTO成功");
-		response.setCode(0L);
-		response.setResObject(uuid);
+		if(uuid>0){
+			logger.debug("新增authorityUserDTO成功");
+			response.setCode(0L);
+			response.setResObject(uuid);
+			response.setMessage("添加成功");
+		}
+		else{
+			logger.debug("新增authorityUserDTO失败");
+		}
 		return response;
 	}
 	
@@ -61,7 +77,7 @@ public class AuthorityUserShareServiceImpl extends BaseAbstractAuthorityShareSer
 			listPo.add(authorityUserPo);
 		}
 		Integer count = authorityUserService.addBatch(listPo);
-		logger.info("新增listauthorityUserDTO成功");
+		logger.debug("新增listauthorityUserDTO成功");
 		response.setCode(0L);
 		response.setResObject(count);
 		return response;
@@ -71,25 +87,31 @@ public class AuthorityUserShareServiceImpl extends BaseAbstractAuthorityShareSer
 	public Response<Integer> modifyByUuid(AuthorityUserDTO authorityUserDto){
 		
 		Response<Integer> response = new Response<>();
-		if(authorityUserDto == null){
-			response.setMessage("authorityUserDto参数不可为空");
+		AuthorityUserPO authorityUserpo = new AuthorityUserPO(); 
+		//验证
+		String validateRes = validateDto(authorityUserDto, authorityUserpo, EditValidate.class);
+		if(validateRes != null){
+			response.setCode(1L);
+			response.setMessage(validateRes);
 			return response;
 		}
-		AuthorityUserPO authorityUserpo = new AuthorityUserPO(); 
-		BeanUtils.copyProperties(authorityUserDto, authorityUserpo);
-		
+		authorityUserpo.setUserEditTime(TimeUtil.getNowStr());
 		Integer count = authorityUserService.modifyByUuid(authorityUserpo);
-		logger.info("modifyauthorityUserDTO修改成功");
-			
-		response.setCode(0L);
-		response.setResObject(count);
-		response.setMessage("成功");
+		if(count > 0){
+			logger.debug("authorityUser修改成功");
+			response.setCode(0L);
+			response.setResObject(count);
+			response.setMessage("成功");
+		}
+		else{
+			logger.debug("修改authorityUser失败");
+		}
 			
 		return response;
 	}
 	
 	@Override
-	public Response<AuthorityUserDTO> queryListByCondition(AuthorityUserDTO authorityUserDto){
+	public Response<AuthorityUserDTO> queryListByCondition(AuthorityUserDTO authorityUserDto,boolean noDelete){
 		
 		Response<AuthorityUserDTO> response = new Response<>();
 		if(authorityUserDto == null){
@@ -100,9 +122,11 @@ public class AuthorityUserShareServiceImpl extends BaseAbstractAuthorityShareSer
 		List<AuthorityUserPO> listPo = new ArrayList<>();
 		List<AuthorityUserDTO> listDto = new ArrayList<>();
 		BeanUtils.copyProperties(authorityUserDto, authorityUserPo);
-		
+		if(noDelete){
+			authorityUserPo.setUserIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
+		}
 		listPo = authorityUserService.queryListByCondition(authorityUserPo);
-		logger.info("查询queryList成功");
+		logger.debug("查询queryList成功");
 		for (AuthorityUserPO authorityUserPo2 : listPo) {
 			AuthorityUserDTO authorityUserDto2 = new AuthorityUserDTO();
 			BeanUtils.copyProperties(authorityUserPo2, authorityUserDto2);
@@ -127,11 +151,28 @@ public class AuthorityUserShareServiceImpl extends BaseAbstractAuthorityShareSer
 		List<AuthorityUserPO> listPo = new ArrayList<>();
 		List<AuthorityUserDTO> listDto = new ArrayList<>();
 		BeanUtils.copyProperties(authorityUserDto, authorityUserPo);
-		
+		authorityUserPo.setUserIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		listPo = authorityUserService.queryPageListByCondition(authorityUserPo,pageNum,limit,order,sort);
 		for (AuthorityUserPO authorityUserPo2 : listPo) {
+			//添加人
+			AuthorityUserPO userPo = new AuthorityUserPO();
+			userPo.setUserUuid(authorityUserPo2.getUserAddBy());
+			AuthorityUserPO addUserPo = authorityUserService.queryListByCondition(userPo).get(0);
+			//编辑人
+			AuthorityUserPO editUserPo = new AuthorityUserPO();
+			editUserPo.setUserUuid(authorityUserPo2.getUserEditBy());
+			List<AuthorityUserPO> editUserList = authorityUserService.queryListByCondition(editUserPo);
+			
+			//删除人
+			AuthorityUserPO delUserPo = new AuthorityUserPO();
+			delUserPo.setUserUuid(authorityUserPo2.getUserDelBy());
+			List<AuthorityUserPO> delUserList = authorityUserService.queryListByCondition(delUserPo);
+			
 			AuthorityUserDTO authorityUserDto2 = new AuthorityUserDTO();
 			BeanUtils.copyProperties(authorityUserPo2, authorityUserDto2);
+			authorityUserDto2.setUserAddByName(addUserPo.getUserLoginName());
+			authorityUserDto2.setUserEditByName(editUserList.isEmpty() ? "" : editUserList.get(0).getUserLoginName());
+			authorityUserDto2.setUserDelByName(delUserList.isEmpty() ? "" : delUserList.get(0).getUserLoginName());
 			listDto.add(authorityUserDto2);
 		}
 		response.setCode(0L);
@@ -142,7 +183,7 @@ public class AuthorityUserShareServiceImpl extends BaseAbstractAuthorityShareSer
 	}
 	
 	@Override
-	public Response<Integer> getCountByCondition(AuthorityUserDTO authorityUserDto){
+	public Response<Integer> getCountByCondition(AuthorityUserDTO authorityUserDto,boolean noDelete){
 		
 		Response<Integer> response = new Response<>();
 		if(authorityUserDto == null){
@@ -151,9 +192,11 @@ public class AuthorityUserShareServiceImpl extends BaseAbstractAuthorityShareSer
 		}
 		AuthorityUserPO authorityUserpo = new AuthorityUserPO(); 
 		BeanUtils.copyProperties(authorityUserDto, authorityUserpo);
-		
+		if(noDelete){
+			authorityUserpo.setUserIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
+		}
 		Integer count = authorityUserService.getCountByCondition(authorityUserpo);
-		logger.info("count查询成功");
+		logger.debug("count查询成功");
 		
 		response.setCode(0L);
 		response.setResObject(count);
@@ -161,6 +204,63 @@ public class AuthorityUserShareServiceImpl extends BaseAbstractAuthorityShareSer
 			
 		return response;
 	}
+	
+	@Override
+	public Response<Integer> deleteByUuid(AuthorityUserDTO authorityUserDto){
+		Response<Integer> response = new Response<>();
+		AuthorityUserPO authorityUserPo = new AuthorityUserPO();
+		//验证
+		String validateRes = validateDto(authorityUserDto, authorityUserPo, DeleteValidate.class);
+		if(validateRes != null){
+			response.setCode(1L);
+			response.setMessage(validateRes);
+			return response;
+		}
+		authorityUserPo.setUserDelTime(TimeUtil.getNowStr());
+		authorityUserPo.setUserIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
+		Integer count = authorityUserService.modifyByUuid(authorityUserPo);
+		if(count > 0){
+			logger.debug("删除authorityUser成功");
+			response.setCode(0L);
+			response.setResObject(count);
+			response.setMessage("成功");
+		}
+		else{
+			logger.debug("删除authorityUser失败");
+		}
+		return response;
+	}
+	
+	@Override
+	public Response<Integer> deleteByBatch(List<AuthorityUserDTO> authorityUserList ){
+		
+		Response<Integer> response = new Response<>();
+		List<AuthorityUserPO> userPoList = new ArrayList<>();
+		//验证
+		for (AuthorityUserDTO authorityDto : authorityUserList) {
+			AuthorityUserPO authorityPo = new AuthorityUserPO();
+			String validateRes = validateDto(authorityDto, authorityPo, DeleteValidate.class);
+			if(validateRes != null){
+				response.setCode(1L);
+				response.setMessage(validateRes);
+				return response;
+			}
+			authorityPo.setUserDelTime(TimeUtil.getNowStr());
+			authorityPo.setUserIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
+			userPoList.add(authorityPo);
+		}
+		Integer count = authorityUserService.modifyByBatch(userPoList);
+		if(count == authorityUserList.size()){
+			logger.debug("批量删除authorityUser成功");
+			response.setCode(0L);
+			response.setResObject(count);
+			response.setMessage("成功");
+		}
+		else{
+			logger.debug("删除authorityUser失败");
+		}
+		return response;
+	} 
 	
 
 }

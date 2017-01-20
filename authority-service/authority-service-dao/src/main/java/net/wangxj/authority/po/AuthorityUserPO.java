@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
@@ -24,7 +25,7 @@ import net.wangxj.util.validate.groups.EditValidate;
  * created by	: wangxj
  * created time	: 2016-12-26 18:06:42
  */
-public class AuthorityUserPO{
+public class AuthorityUserPO implements PO{
 	
     // 主键 	
 	private String userUuid;
@@ -47,7 +48,7 @@ public class AuthorityUserPO{
     // 用户状态: 已注册未激活: 1 已注册并激活:2 已锁定:3 	
 	@Min(value=1,message="用户状态不合法", groups={AddValidate.class, EditValidate.class}, payload=Info.class)
 	@Max(value=3,message="用户状态不合法", groups={AddValidate.class, EditValidate.class}, payload=Info.class)
-	@NotBlank(message="用户状态不可为空",groups={AddValidate.class})
+	@NotNull(message="用户状态不可为空",groups={AddValidate.class})
 	private java.lang.Integer userStatus;
     // 添加用户时间 yyyy-MM-dd HH:mm:ss 	
 	private String userAddTime;
@@ -64,12 +65,12 @@ public class AuthorityUserPO{
     // 用户类型： 内部用户:1 外部用户：2 	
 	@Min(value=1,message="用户类型不合法",groups={AddValidate.class,EditValidate.class}, payload=Info.class)
 	@Max(value=2,message="用户类型不合法",groups={AddValidate.class,EditValidate.class}, payload=Info.class)
-	@NotBlank(message="用户类型不可为空", groups={AddValidate.class}, payload=Info.class)
+	@NotNull(message="用户类型不可为空", groups={AddValidate.class}, payload=Info.class)
 	private java.lang.Integer userType;
     // 添加用户类型: 被内部用户添加：1 自己注册:2 	
 	@Min(value=1,message="添加用户类型非法", groups={AddValidate.class,EditValidate.class}, payload=Error.class)
 	@Max(value=2,message="添加用户类型非法", groups={AddValidate.class,EditValidate.class}, payload=Error.class)
-	@NotBlank(message="添加用户类型不可为空", groups=AddValidate.class, payload=Error.class)
+	@NotNull(message="添加用户类型不可为空", groups=AddValidate.class, payload=Error.class)
 	private java.lang.Integer userAddType;
     // 是否已被删除: 0：未 1：已被删除 	
 	private java.lang.Integer userIsDelete;

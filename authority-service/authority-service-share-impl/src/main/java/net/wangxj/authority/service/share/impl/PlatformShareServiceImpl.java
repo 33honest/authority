@@ -52,13 +52,13 @@ public class PlatformShareServiceImpl extends BaseAbstractAuthorityShareService 
 		platformpo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		Integer uuid = platformService.add(platformpo);
 		if(uuid>0){
-			logger.info("新增platformDTO成功");
+			logger.debug("新增platformDTO成功");
 			response.setCode(0L);
 			response.setResObject(uuid);
 			response.setMessage("添加成功");
 		}
 		else{
-			logger.info("新增platformDTO失败");
+			logger.debug("新增platformDTO失败");
 		}
 		return response;
 	}
@@ -128,7 +128,7 @@ public class PlatformShareServiceImpl extends BaseAbstractAuthorityShareService 
 			platformPo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		}
 		listPo = platformService.queryListByCondition(platformPo);
-		logger.info("查询queryList成功");
+		logger.debug("查询queryList成功");
 		for (PlatformPO platformPo2 : listPo) {
 			PlatformDTO platformDto2 = new PlatformDTO();
 			BeanUtils.copyProperties(platformPo2, platformDto2);
@@ -156,12 +156,25 @@ public class PlatformShareServiceImpl extends BaseAbstractAuthorityShareService 
 		platformPo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		listPo = platformService.queryPageListByCondition(platformPo,pageNum,limit,order,sort);
 		for (PlatformPO platformPo2 : listPo) {
+			//添加人
 			AuthorityUserPO userPo = new AuthorityUserPO();
 			userPo.setUserUuid(platformPo2.getPlatformAddBy());
 			AuthorityUserPO authorityUserPO = authorityUserService.queryListByCondition(userPo).get(0);
+			//编辑人
+			AuthorityUserPO editUserPo = new AuthorityUserPO();
+			editUserPo.setUserUuid(platformPo2.getPlatformEditBy());
+			List<AuthorityUserPO> editUserList = authorityUserService.queryListByCondition(editUserPo);
+			
+			//删除人
+			AuthorityUserPO delUserPo = new AuthorityUserPO();
+			delUserPo.setUserUuid(platformPo2.getPlatformDelBy());
+			List<AuthorityUserPO> delUserList = authorityUserService.queryListByCondition(delUserPo);
+			
 			PlatformDTO platformDto2 = new PlatformDTO();
 			BeanUtils.copyProperties(platformPo2, platformDto2);
 			platformDto2.setPlatformAddByName(authorityUserPO.getUserLoginName());
+			platformDto2.setPlatformEditByName(editUserList.isEmpty() ? "" : editUserList.get(0).getUserLoginName());
+			platformDto2.setPlatformDelByName(delUserList.isEmpty() ? "" : delUserList.get(0).getUserLoginName());
 			listDto.add(platformDto2);
 		}
 		response.setCode(0L);
@@ -185,7 +198,7 @@ public class PlatformShareServiceImpl extends BaseAbstractAuthorityShareService 
 			platformpo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		}
 		Integer count = platformService.getCountByCondition(platformpo);
-		logger.info("count查询成功");
+		logger.debug("count查询成功");
 		
 		response.setCode(0L);
 		response.setResObject(count);
@@ -209,7 +222,7 @@ public class PlatformShareServiceImpl extends BaseAbstractAuthorityShareService 
 		platformpo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
 		Integer count = platformService.modifyByUuid(platformpo);
 		if(count > 0){
-			logger.info("deleteplatformDTO修改成功");
+			logger.debug("deleteplatformDTO修改成功");
 			response.setCode(0L);
 			response.setResObject(count);
 			response.setMessage("成功");

@@ -33,7 +33,7 @@ public interface AuthorityUserShareService{
 	/**
 	 * 条件查询
 	 */
-	public Response<AuthorityUserDTO> queryListByCondition(AuthorityUserDTO authorityUserDto);
+	public Response<AuthorityUserDTO> queryListByCondition(AuthorityUserDTO authorityUserDto, boolean noDelete);
 	
 	/**
 	 * 条件分页查询
@@ -46,7 +46,19 @@ public interface AuthorityUserShareService{
 	 * 条件数量查询
 	 * @return
 	 */
-	public Response<Integer> getCountByCondition(AuthorityUserDTO authorityUserDto);
+	public Response<Integer> getCountByCondition(AuthorityUserDTO authorityUserDto, boolean noDelete);
+	/**
+	 * 更具uuid删除
+	 * @param authorityUserDto
+	 * @return
+	 */
+	Response<Integer> deleteByUuid(AuthorityUserDTO authorityUserDto);
+	/**
+	 * 批量删除
+	 * @param authorityUserList
+	 * @return
+	 */
+	Response<Integer> deleteByBatch(List<AuthorityUserDTO> authorityUserList);
 	
 
 }

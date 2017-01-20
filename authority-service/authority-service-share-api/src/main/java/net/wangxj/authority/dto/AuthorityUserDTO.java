@@ -10,7 +10,7 @@ import net.wangxj.authority.constant.DataDictionaryConstant;
  * created time	: 2016-12-26 18:06:42
  */
 
-public class AuthorityUserDTO implements Serializable{ 
+public class AuthorityUserDTO implements DTO,Serializable{ 
 	
     /**
 	 * 

@@ -28,7 +28,6 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	
 	@Override
 	public Integer add(AuthorityUserPO authorityUserPo) {
-		
 		return authorityUserDao.insert(authorityUserPo);
 	}
 	
