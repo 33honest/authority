@@ -15,13 +15,14 @@ import com.alibaba.fastjson.JSONObject;
 import net.wangxj.authority.Response;
 import net.wangxj.authority.dto.PlatformDTO;
 import net.wangxj.authority.service.share.PlatformShareService;
+import net.wangxj.authority.web.service.AuthorityWebService;
 import net.wangxj.authority.web.service.PlatformWebService;
 import net.wangxj.util.string.UuidUtil;
 import net.wangxj.util.validate.Severity.Error;
 import net.wangxj.util.validate.ValidationResult;
 
 @Service(value="PlatformWebService")
-public class PlatformWebServiceImpl implements PlatformWebService {
+public class PlatformWebServiceImpl implements AuthorityWebService<PlatformDTO>{
 	
 	private static Logger logger = Logger.getLogger(PlatformWebService.class);
 	
@@ -29,7 +30,7 @@ public class PlatformWebServiceImpl implements PlatformWebService {
 	private PlatformShareService platformShareService;
 	
 	@Override
-	public String getPlatformList(String jsonStr){
+	public String getPageList(String jsonStr){
 		JSONObject jsonObj = JSONObject.parseObject(jsonStr);
 		String order = jsonObj.getString("order");
 		Integer limit = jsonObj.getInteger("limit");
@@ -42,7 +43,7 @@ public class PlatformWebServiceImpl implements PlatformWebService {
 		Integer count = 0;
 		String jsonString="[]";
 		//条件查询
-		Response<PlatformDTO> platformResponse = platformShareService.queryPageListByCondition(platformDto, pageNum, limit,order,sort);
+		Response<PlatformDTO> platformResponse = platformShareService.queryPageListByCondition(platformDto, pageNum,limit,order,sort);
 		Response<Integer> countRespo = platformShareService.getCountByCondition(platformDto,true);
 		logger.debug(platformResponse.getMessage());
 		if(platformResponse.getCode() == 0L && countRespo.getCode() == 0L){
