@@ -17,6 +17,11 @@ import com.alibaba.fastjson.JSONObject;
 import net.wangxj.authority.constant.DataDictionaryConstant;
 import net.wangxj.authority.dto.PlatformDTO;
 
+/**
+ * 平台管理
+ * @author huoshan
+ *
+ */
 @RequestMapping("platform")
 @Controller
 public class PlatformController{
@@ -34,7 +39,7 @@ public class PlatformController{
 	@RequestMapping("/list")
 	@ResponseBody
 	public String platformList(@RequestBody String jsonStr){
-		return platformWebService.getPlatformList(jsonStr);
+		return platformWebService.getPageList(jsonStr);
 	}
 	
 	@RequestMapping("/getStatusList")

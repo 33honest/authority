@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>平台管理</title>
+    <title>用户管理</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
 
@@ -56,7 +56,7 @@
                             </button>
                         </div>
                         <div class="example">
-                        	<table id="platform_table"
+                        	<table id="user_table"
                         		   data-toolbar="#toolbar"
 						           data-search="true"
 						           data-show-refresh="true"
@@ -72,9 +72,9 @@
 						           data-page-list="[10, 25, 50, 100, ALL]"
 						           data-show-footer="false"
 						           data-side-pagination="server"
-						           data-url="/platform/list"
+						           data-url="/user/list"
 						           data-method="post"
-						           data-sort-name="platformAddTime"
+						           data-sort-name="userAddTime"
 						           data-sort-order="desc">
                         	</table>
                         </div>
@@ -88,32 +88,50 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="adddPageTitle">增加平台</h4>
+                        <h4 class="modal-title" id="adddPageTitle">增加用户</h4>
                     </div>
                     <div class="modal-body">
 	                        <form class="form-horizontal m-t" id="addForm" action="/platform/add">
 	                            <div class="form-group">
-	                                <label class="col-sm-3 control-label">平台名：</label>
+	                                <label class="col-sm-3 control-label">登录名：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="platformName" name="platformName" class="form-control" type="text">
+	                                    <input id="userLoginName" name="userLoginName" class="form-control" type="text">
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
-	                                <label class="col-sm-3 control-label">平台标识：</label>
+	                                <label class="col-sm-3 control-label">登录密码：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="platformSign" name="platformSign" class="form-control" type="text"><span class="help-block m-b-none">一旦确定不可再修改</span>
+	                                    <input id="userLoginPwd" name="userLoginPwd" class="form-control" type="text"/>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
-	                                <label class="col-sm-3 control-label">平台域名：</label>
+	                                <label class="col-sm-3 control-label">重复密码：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="platformDomainName" name="platformDomainName" class="form-control" type="text"><span class="help-block m-b-none">一旦确定不可再修改</span>
+	                                    <input id="reUserLoginPwd" name="reUserLoginPwd" class="form-control" type="text"/>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
-	                                <label class="col-sm-3 control-label">平台状态：</label>
+	                                <label class="col-sm-3 control-label">邮箱：</label>
 	                                <div class="col-sm-6">
-	                                   <select class="form-control" id="platformStatus" name="platformStatus"></select> 
+	                                   <input class="form-control" id="userEmail" name="userEmail"/><span class="help-block m-b-none">一旦确定不可再修改</span>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label class="col-sm-3 control-label">手机：</label>
+	                                <div class="col-sm-6">
+	                                   <input class="form-control" id="userPhone" name="userPhone"/>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label class="col-sm-3 control-label">用户状态：</label>
+	                                <div class="col-sm-6">
+	                                   <select class="form-control" id="userStatus" name="userStatus"/>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label class="col-sm-3 control-label">用户类型：</label>
+	                                <div class="col-sm-6">
+	                                   <select class="form-control" id="userType" name="userType"/>
 	                                </div>
 	                            </div>
 	                        </form>
@@ -141,7 +159,7 @@
     <script src="/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="/js/plugins/validate/messages_zh.min.js"></script>
     <script src="/js/plugins/sweetalert/sweetalert.min.js"></script>
-    <script src="/js/platform/platform.js"></script>
+    <script src="/js/user/user.js"></script>
 
 </body>
 

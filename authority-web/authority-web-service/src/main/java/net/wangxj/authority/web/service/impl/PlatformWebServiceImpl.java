@@ -22,7 +22,7 @@ import net.wangxj.util.validate.Severity.Error;
 import net.wangxj.util.validate.ValidationResult;
 
 @Service(value="PlatformWebService")
-public class PlatformWebServiceImpl implements AuthorityWebService<PlatformDTO>{
+public class PlatformWebServiceImpl implements PlatformWebService {
 	
 	private static Logger logger = Logger.getLogger(PlatformWebService.class);
 	

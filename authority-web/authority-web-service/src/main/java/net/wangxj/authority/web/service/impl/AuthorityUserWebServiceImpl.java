@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import net.wangxj.authority.Response;
+import net.wangxj.authority.constant.DataDictionaryConstant;
 import net.wangxj.authority.dto.AuthorityUserDTO;
 import net.wangxj.authority.service.share.AuthorityUserShareService;
 import net.wangxj.authority.web.service.AuthorityUserWebService;
@@ -60,6 +61,7 @@ public class AuthorityUserWebServiceImpl implements AuthorityUserWebService {
 	@Override
 	public String add(AuthorityUserDTO dto) {
 		dto.setUserAddBy(getUserId());
+		dto.setUserAddType(DataDictionaryConstant.USER_ADDTYPE_INNER_VALUE);
 		Response<Integer> addRes = authorityUserShareService.add(dto);
 		String message = addRes.getMessage();
 		Long code = addRes.getCode();
