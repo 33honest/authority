@@ -55,20 +55,20 @@ function initTable() {
                 	title: '增加时间',
                 	align: 'center'
                 },{
-                	field: '编辑人',
-                	title: 'userEditByName',
+                	field: 'userEditByName',
+                	title: '编辑人',
                 	align: 'center',
                 },{
-                	field: '编辑时间',
-                	title: 'userEditTime',
+                	field: 'userEditTime',
+                	title: '编辑时间',
                 	align: 'center',
                 },{
-                	field: '用户类型',
-                	title: 'userTypeName',
+                	field: 'userTypeName',
+                	title: '用户类型',
                 	align: 'center',
                 },{
-                	field: '添加用户方式',
-                	title: 'userAddTypeName',
+                	field: 'userAddTypeName',
+                	title: '添加用户方式',
                 	align: 'center',
                 }, {
                     field: 'operate',
@@ -433,8 +433,16 @@ function initStatus(){
 	       dataType: "json",  
 	       success: function (data) {  
 	    	   $.each(data, function (key, value) {  
-	    		   
-	    	        $("#platformStatus").append("<option value="+value+">" +key + "</option>");  
+	    		   	if("userStatus" == key){
+	    		   		$.each(value, function(key, value){
+	    		   			$("#userStatus").append("<option value="+value+">" +key + "</option>");
+	    		   		});
+	    		   	}
+	    		   	else if("userType" == key){
+	    		   		$.each(value, function(key, value){
+	    		   			$("#userType").append("<option value="+value+">" +key + "</option>");
+	    		   		});
+	    		   	}
 	    	    });  
 	       },  
 	       error: function (XMLHttpRequest, textStatus, errorThrown) {  

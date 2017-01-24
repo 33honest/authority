@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 import net.wangxj.authority.dao.AuthorityUserDao;
 import net.wangxj.authority.po.AuthorityUserPO;
 import net.wangxj.authority.service.AuthorityUserService;
+import net.wangxj.util.string.StringUtil;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,7 +40,7 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	
 	@Override
 	public List<AuthorityUserPO> queryPageListByCondition(AuthorityUserPO authorityUserPo, int pageNum, int limit,String order,String sort) {
-		
+		sort = StringUtil.getNumpReverse(sort);
 		return authorityUserDao.selectPageListByCondition(authorityUserPo, pageNum, limit, order, sort);
 	}
 

@@ -165,7 +165,7 @@
 				and user_uuid = #{userUuid}
 	</update>
 
-	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="AuthorityUserPO">
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select 
 			<include refid="Base_Column_List" /> 
 		from authority_user  
@@ -212,6 +212,9 @@
 				<if test="user.userEditTime != null  and user.userEditTime != '' " > 
 					and user_edit_time = #{user.userEditTime}
 				</if>
+				<if test="user.userIsDelete != null  and  user.userIsDelete != '' " > 
+						and user_is_delete = #{user.userIsDelete}
+					</if>
 				<if test="order != null  and  order != '' and sort != null and sort != '' " > 
 					ORDER BY ${sort} ${order}
 				</if>
@@ -260,11 +263,11 @@
 					<if test="userIsDelete != null  and  userIsDelete != '' " > 
 						and user_is_delete = #{userIsDelete}
 					</if>
-					<if test="user.userEditBy != null  and  user.userEditBy != '' " > 
-						and user_edit_by = #user.{userEditBy}
+					<if test="userEditBy != null  and  userEditBy != '' " > 
+						and user_edit_by = #{userEditBy}
 					</if>
-					<if test="user.userEditTime != null  and user.userEditTime != '' " > 
-						and user_edit_time = #{user.userEditTime}
+					<if test="userEditTime != null  and userEditTime != '' " > 
+						and user_edit_time = #{userEditTime}
 					</if>		        	
 	</select>	
 	

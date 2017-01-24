@@ -47,8 +47,9 @@ public class AuthorityUserDaoImpl extends BaseSessionDaoSupport implements Autho
 	
 	@Override
 	public List<AuthorityUserPO> selectListByCondition(AuthorityUserPO authorityUserPo) {
-		
-		return super.getSqlSession().selectList("AuthorityUserPOMapper.selectByCondition", authorityUserPo);
+		Map<String, Object> map = new HashMap<>();
+		map.put("user", authorityUserPo);
+		return super.getSqlSession().selectList("AuthorityUserPOMapper.selectByCondition", map);
 	}
 	
 	@Override
@@ -58,7 +59,7 @@ public class AuthorityUserDaoImpl extends BaseSessionDaoSupport implements Autho
 		map.put("order", order);
 		map.put("sort", sort);
 		PageHelper.startPage(pageNum, limit);
-		return super.getSqlSession().selectList("AuthorityUserPOMapper.selectByCondition", authorityUserPo);
+		return super.getSqlSession().selectList("AuthorityUserPOMapper.selectByCondition", map);
 	}
 
 	@Override

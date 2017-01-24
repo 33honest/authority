@@ -124,7 +124,7 @@
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">用户状态：</label>
-	                                <div class="col-sm-6">
+	                                <div class="col-sm-6"> 
 	                                   <select class="form-control" id="userStatus" name="userStatus"/>
 	                                </div>
 	                            </div>
