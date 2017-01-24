@@ -1,4 +1,4 @@
-var $table = $('#platform_table'),
+var $table = $('#user_table'),
     $remove = $('#remove'),
     selections = [],
 	validator;
@@ -21,42 +21,54 @@ function initTable() {
 	                valign: 'middle'
 	            },
                 {
-                    field: 'platformUuid',
-                    title: 'PlatformUUID',
+                    field: 'userUuid',
+                    title: 'UserUUID',
                     sortable: true,
                     align: 'center'
                 }, {
-                    field: 'platformName',
-                    title: '平台名',
+                    field: 'userLoginName',
+                    title: '登录名',
                     sortable: true,
                     align: 'center',
                 }, {
-                	field: 'platformSign',
-                	title: '平台标识',
+                	field: 'userEmail',
+                	title: '邮箱',
                 	sortable: true,
                 	align: 'center',
                 },{
-                	field: 'platformDomainName',
-                	title: '平台域名',
+                	field: 'userPhone',
+                	title: '电话',
                 	sortable: true,
                 	align: 'center',
                 },{
-                	field: 'platformAddTime',
-                	title: '增加时间',
+                	field: 'userStatusName',
+                	title: '用户状态',
                 	sortable: true,
                 	align: 'center'
                 },{
-                	field: 'platformEditTime',
-                	title: '修改时间',
-                	sortable: true,
-                	align: 'center'
-                },{
-                	field: 'platformAddByName',
+                	field: 'userAddByName',
                 	title: '增加人',
+                	sortable: true,
                 	align: 'center'
                 },{
-                	field: 'platformStatusName',
-                	title: '平台状态',
+                	field: 'userAddTime',
+                	title: '增加时间',
+                	align: 'center'
+                },{
+                	field: '编辑人',
+                	title: 'userEditByName',
+                	align: 'center',
+                },{
+                	field: '编辑时间',
+                	title: 'userEditTime',
+                	align: 'center',
+                },{
+                	field: '用户类型',
+                	title: 'userTypeName',
+                	align: 'center',
+                },{
+                	field: '添加用户方式',
+                	title: 'userAddTypeName',
                 	align: 'center',
                 }, {
                     field: 'operate',
@@ -79,21 +91,24 @@ function initTable() {
         
 function getIdSelections() {
     return $.map($table.bootstrapTable('getSelections'), function (row) {
-        return row.platformUuid;
+        return row.userUuid;
     });
 }
         
 //详情
 function detailFormatter(index, row) {
     var html = [];
-    html.push('<p><b>' + 'PlatformUuid' + ':</b> ' + row.platformUuid + '</p>');
-    html.push('<p><b>' + '平台名' + ':</b> ' + row.platformName + '</p>');
-    html.push('<p><b>' + '平台标识' + ':</b> ' + row.platformSign + '</p>');
-    html.push('<p><b>' + '平台域名' + ':</b> ' + row.platformDomainName + '</p>');
-    html.push('<p><b>' + '增加时间' + ':</b> ' + row.platformAddTime + '</p>');
-    html.push('<p><b>' + '修改时间' + ':</b> ' + row.platformEditTime + '</p>');
-    html.push('<p><b>' + '增加人' + ':</b> ' + row.platformAddByName+ '</p>');
-    html.push('<p><b>' + '平台状态' + ':</b> ' + row.platformStatusName+ '</p>');
+    html.push('<p><b>' + 'UserUUID' + ':</b> ' + row.userUuid + '</p>');
+    html.push('<p><b>' + '登录名' + ':</b> ' + row.userLoginName + '</p>');
+    html.push('<p><b>' + '邮箱' + ':</b> ' + row.userEmail + '</p>');
+    html.push('<p><b>' + '手机' + ':</b> ' + row.userPhone + '</p>');
+    html.push('<p><b>' + '用户状态' + ':</b> ' + row.userStatusName + '</p>');
+    html.push('<p><b>' + '增加人' + ':</b> ' + row.userAddByName + '</p>');
+    html.push('<p><b>' + '增加时间' + ':</b> ' + row.userAddTime+ '</p>');
+    html.push('<p><b>' + '编辑人' + ':</b> ' + row.userEditByName+ '</p>');
+    html.push('<p><b>' + '编辑时间' + ':</b> ' + row.userEditTime+ '</p>');
+    html.push('<p><b>' + '用户类型' + ':</b> ' + row.userTypeName+ '</p>');
+    html.push('<p><b>' + '添加用户方式' + ':</b> ' + row.userAddTypeName+ '</p>');
     return html.join('');
 }
 //操作:删除,编辑
@@ -112,20 +127,20 @@ window.operateEvents = {
     	//重置校验
     	validator.resetForm();
     	//初始化编辑
-        $("#adddPageTitle").text("编辑平台");
-        $("#addForm").attr("action","/platform/edit");
+        $("#addPageTitle").text("编辑用户");
+        $("#addForm").attr("action","/user/edit");
         $("#save").text("修改");
         $("#addPage").attr("sign","edit");
         $("#addPage").modal("show");
-        if($("#platformuuid").length <= 0){
-        	uuidInput = '<input id="platformuuid" name="platformUuid" class="form-control" type="hidden" value="'+row.platformUuid+'">';
+        if($("#user_uuid").length <= 0){
+        	uuidInput = '<input id="user_uuid" name="userUuid" class="form-control" type="hidden" value="'+row.userUuid+'">';
             $("#addForm").append(uuidInput);
         }
         else{
-        	$("#platformuuid").val(row.platformUuid);
+        	$("#user_uuid").val(row.userUuid);
         }
         $.each(row, function(key, value){
-        	if(key == "platformSign" || key == "platformDomainName"){
+        	if(key == "userEmail"){
         		$("#"+key).val(value);
         		$("#"+key).attr("disabled",true);
         	}
@@ -136,7 +151,7 @@ window.operateEvents = {
     },
     'click .remove': function (e, value, row, index) {
     		var param = {};
-    		param.platformUuid = row.platformUuid;
+    		param.userUuid = row.userUuid;
     	    swal({
     	        title: "您确定要删除这条信息吗",
     	        text: "删除后将无法恢复，请谨慎操作！",
@@ -148,7 +163,7 @@ window.operateEvents = {
     	        closeOnConfirm: false
     	    }, function () {
 			    	    	$.ajax({  
-			    	  	       url: "/platform/delete",  
+			    	  	       url: "/user/delete",  
 			    	  	       dataType: "json", 
 			    	  	       data: param,
 			    	  	       success: function (data) {  
@@ -187,36 +202,64 @@ function validate(){
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	validator = $("#addForm").validate({
 			    rules: {
-			    	platformName:{
-			    	 	required:true,
-			    	 	checkPlatName: true,
-			    	 	rangelength:[2,25],
-			    	 	
+			    	userLoginName:{
+			    	 	checkLoginName: true,
+			    	 	rangelength:[2,64],
+			    	 	checkLoginRepeat: true
 			    	},
-			    	platformSign:{
+			    	userLoginPwd:{
 			    		required: true,
-			    		checkPlatSign: true,
-			    		rangelength:[2,32],
-			    		checkSignRepeat: true
+			    		checkPwd: true,
+			    		rangelength:[6,20]
 			    	},
-			    	platformDomainName:{
+			    	reUserLoginPwd:{
 			    		required: true,
-			    		checkDomain: true,
-			    		checkDomainRepeat: true
+			    		checkPwd: true,
+			    		rangelength:[6,20],
+			    		equalTo:"#userLoginPwd"
+			    	},
+			    	userEmail:{
+			    		required: true,
+			    		checkEmail: true,
+			    		checkEmailRepeat: true
+			    	},
+			    	userPhone:{
+			    		checkPhone: true,
+			    		checkPhoneRepeat: true
+			    	},
+			    	userStatus:{
+			    		required: true,
+			    		range: [1,3]
+			    	},
+			    	userType:{
+			    		required: true,
+			    		range: [1,2]
 			    	}
 			       
 			    },
 			    messages: {
-			    	platformName:{
-			    		required: icon+"平台名是必填项",
-			    		rangelength:icon+"长度必须在2-25个字符"
+			    	userLoginName:{
+			    		rangelength:icon+"长度必须在2-64个字符"
 			    	},
-			    	platformSign:{
-			    		required: icon+"平台标识是必填项",
-			    		rangelength:icon+"长度必须在2-32个字符"
+			    	userLoginPwd:{
+			    		required: icon+"登录密码是必填项",
+			    		rangelength:icon+"长度必须在6-20个字符"
 			    	},
-			    	platformDomainName:{
-			    		required: icon+"平台域名是必填项"
+			    	reUserLoginPwd:{
+			    		required: icon+"重复密码是必填项",
+			    		rangelength: icon+"长度必须在6-20个字符",
+			    		equalTo: icon+"两次输入密码不符"
+			    	},
+			    	userEmail:{
+			    		required: icon+"邮箱是必填项"
+			    	},
+			    	userStatus:{
+			    		required: icon+"用户状态是必填项",
+			    		range: icon+"输入项非法"
+			    	},
+			    	userType:{
+			    		required: icon+"用户类型是必填项",
+			    		range: icon+"输入项非法"
 			    	}
 			    },
 			    submitHandler: function(form){
@@ -262,12 +305,45 @@ function validate(){
 			    }
 			});
 
-	$.validator.addMethod("checkDomainRepeat",function(value,element,params){  
+			$.validator.addMethod("checkPhoneRepeat",function(value,element,params){  
+				var param = {};
+				param.userPhone = value;
+				var result;
+				$.ajax({  
+			       url: "/user/isRepeat",  
+			       dataType: "json", 
+			       data: param,
+			       async:false,
+			       success: function (data) {  
+			    	   if(typeof data == 'boolean'){
+			    		  result=data;
+			    	   }
+			    	   else{
+			    		   swal({
+			 					title: "",
+			 					text: "发生错误",
+			 					type: "error"
+			 				});
+			    		   return;
+			    	   }
+			       },  
+			       error: function (XMLHttpRequest, textStatus, errorThrown) {  
+			    	   swal({
+							title: "",
+							text: "发生错误",
+							type: "error"
+						});
+			       }  
+			   });  
+				return this.optional(element)||!result;  
+		    },icon+"已存在该手机号码");  
+			
+	$.validator.addMethod("checkLoginRepeat",function(value,element,params){  
 		var param = {};
-		param.platformDomainName = value;
+		param.userLoginName = value;
 		var result;
 		$.ajax({  
-	       url: "/platform/isRepeat",  
+	       url: "/user/isRepeat",  
 	       dataType: "json", 
 	       data: param,
 	       async:false,
@@ -295,12 +371,12 @@ function validate(){
 		return this.optional(element)||!result;  
     },icon+"已存在该域名");  
 	
-	$.validator.addMethod("checkSignRepeat",function(value,element,params){  
+	$.validator.addMethod("checkEmailRepeat",function(value,element,params){  
 		var param = {};
-		param.platformSign = value;
+		param.userEmail = value;
 		var result;
 		$.ajax({  
-		       url: "/platform/isRepeat",  
+		       url: "/user/isRepeat",  
 		       dataType: "json", 
 		       data: param,
 		       async:false,
@@ -325,33 +401,39 @@ function validate(){
 		       }  
 		   });  
 		return this.optional(element)||!result;  
-	    },icon+"已存在该平台标识");  
+	    },icon+"已存在该邮箱账号");  
 	    
-	$.validator.addMethod("checkPlatName",function(value,element,params){  
-        var checkPlatName = /^[\u4e00-\u9fa5]{2,25}$/;  
-        return this.optional(element)||(checkPlatName.test(value));  
-    },icon+"平台名必须是2-25个汉字"); 
+	$.validator.addMethod("checkLoginName",function(value,element,params){  
+        var loginNameRegex = /^(?!_)(?!.*?_$)[a-zA-Z0-9_]+$/;  
+        return this.optional(element)||(loginNameRegex.test(value));  
+    },icon+"登录名必须由字母数字下划线组合，下划线不可开头与结尾"); 
 	
-	$.validator.addMethod("checkPlatSign",function(value,element,params){  
-	    var checkPlatSign = /^(?!_)(?!.*?_$)[a-zA-Z_]+$/;                                                                                 
-	    return this.optional(element)||(checkPlatSign.test(value));  
-	},icon+"平台标识必须是字母或大小写组成的字符串，下划线不可开头和结尾");
+	$.validator.addMethod("checkPwd",function(value,element,params){  
+	    var pwdRegex = /^\\w+$/;                                                                                 
+	    return this.optional(element)||(pwdRegex.test(value));  
+	},icon+"必须由字母数字下划线自由组合");
 
-	$.validator.addMethod("checkDomain",function(value,element,params){  
-	    var checkDomain = /^((http:\/\/)|(https:\/\/))?([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}/;  
-	    return this.optional(element)||(checkDomain.test(value));  
-	},icon+"平台域名不符合域名格式");
+	$.validator.addMethod("checkEmail",function(value,element,params){  
+	    var emailRegex = /\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*/;  
+	    return this.optional(element)||(emailRegex.test(value));  
+	},icon+"不符合邮箱格式");
 	
+	$.validator.addMethod("checkPhone",function(value,element,params){  
+	    var phoneRegex = /(\\(\\d{3,4}\\)|\\d{3,4}-|\\s)?\\d{7,14}/;  
+	    return this.optional(element)||(phoneRegex.test(value));  
+	},icon+"不符合手机号码格式");
 }
 
 //初始化下拉列表
 function initStatus(){
-	$("#platformStatus").html("");
+	$("#userStatus").html("");
+	$("#userType").html("");
 	$.ajax({  
-	       url: "/platform/getStatusList",  
+	       url: "/user/getSelectList",  
 	       dataType: "json",  
 	       success: function (data) {  
 	    	   $.each(data, function (key, value) {  
+	    		   
 	    	        $("#platformStatus").append("<option value="+value+">" +key + "</option>");  
 	    	    });  
 	       },  
@@ -377,20 +459,22 @@ $(function () {
    })
    $("#addButton").on("click",function(){
 	   validator.resetForm();
-	   $("#adddPageTitle").text("增加平台");
-	    $("#addForm").attr("action","/platform/add");
+	   $("#addPageTitle").text("增加增加用户");
+	    $("#addForm").attr("action","/user/add");
 	    $("#save").text("保存");
 	    $("#addPage").attr("sign","add");
 	    $("#addPage").modal("show");
-	    if($("#platformuuid").length > 0){
-	    	$("#platformuuid").remove();
+	    if($("#user_uuid").length > 0){
+	    	$("#user_uuid").remove();
         }
-	    $("#platformName").val("");
-	    $("#platformSign").val("");
-	    $("#platformSign").attr("disabled",false);
-	    $("#platformDomainName").val("");
-	    $("#platformDomainName").attr("disabled",false);
-	    $("#platformStatus").val(3);
+	    $("#userLoginName").val("");
+	    $("#userLoginPwd").val("");
+	    $("#reUserLoginPwd").val("");
+	    $("#userEmail").val("");
+	    $("#userEmail").attr("disabled",false);
+	    $("#userPhone").val("");
+	    $("#userStatus").val(1);
+	    $("#userType").val(1);
    });
    $remove.on("click", function(){
 	   swal({
@@ -404,7 +488,7 @@ $(function () {
 	        closeOnConfirm: false
 	    }, function () {
 				    $.ajax({  
-					       url: "/platform/deleteBatch",  
+					       url: "/user/deleteBatch",  
 					       type: "POST",
 					       dataType: "json",  
 					       contentType:"application/json",

@@ -1,7 +1,9 @@
 
 package net.wangxj.authority.web.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 
+import net.wangxj.authority.constant.DataDictionaryConstant;
 import net.wangxj.authority.dto.AuthorityUserDTO;
 /**
  * 用户管理
@@ -68,6 +71,14 @@ public class AuthorityUserController{
 		return authorityUserWebService.isRepeatField(authorityDto);
 	}
 	
+	@RequestMapping("/getSelectList")
+	@ResponseBody
+	public String getSelectList(){
+		Map<String, Map<String,Integer>> map = new HashMap<>();
+		map.put("userStatus", DataDictionaryConstant.userStatusKeyValueMap);
+		map.put("userType", DataDictionaryConstant.userTypeKeyValueMap);
+		return JSONObject.toJSONString(map);
+	}
 	
 	
 	

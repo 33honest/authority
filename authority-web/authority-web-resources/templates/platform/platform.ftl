@@ -88,7 +88,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="adddPageTitle">增加平台</h4>
+                        <h4 class="modal-title" id="addPageTitle">增加平台</h4>
                     </div>
                     <div class="modal-body">
 	                        <form class="form-horizontal m-t" id="addForm" action="/platform/add">

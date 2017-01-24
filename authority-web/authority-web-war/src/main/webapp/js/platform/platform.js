@@ -112,7 +112,7 @@ window.operateEvents = {
     	//重置校验
     	validator.resetForm();
     	//初始化编辑
-        $("#adddPageTitle").text("编辑平台");
+        $("#addPageTitle").text("编辑平台");
         $("#addForm").attr("action","/platform/edit");
         $("#save").text("修改");
         $("#addPage").attr("sign","edit");
@@ -377,7 +377,7 @@ $(function () {
    })
    $("#addButton").on("click",function(){
 	   validator.resetForm();
-	   $("#adddPageTitle").text("增加平台");
+	   $("#addPageTitle").text("增加平台");
 	    $("#addForm").attr("action","/platform/add");
 	    $("#save").text("保存");
 	    $("#addPage").attr("sign","add");
