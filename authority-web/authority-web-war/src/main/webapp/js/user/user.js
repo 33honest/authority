@@ -114,11 +114,11 @@ function detailFormatter(index, row) {
 //操作:删除,编辑
 function operateFormatter(value, row, index) {
     return [
-        '<a class="edit" href="javascript:void(0)" title="edit">',
-        '<i class="glyphicon glyphicon-edit"></i>',
+        '<a class="edit" href="javascript:void(0)" title="编辑">',
+        '<i class="fa fa-edit"></i>',
         '</a>  　',
-        '<a class="remove" href="javascript:void(0)" title="Remove">',
-        '<i class="glyphicon glyphicon-remove"></i>',
+        '<a class="remove" href="javascript:void(0)" title="删除">',
+        '<i class="fa fa-remove"></i>',
         '</a>'
     ].join('');
 }
@@ -141,6 +141,10 @@ window.operateEvents = {
         }
         $.each(row, function(key, value){
         	if(key == "userEmail"){
+        		$("#"+key).val(value);
+        		$("#"+key).attr("disabled",true);
+        	}
+        	else if(key == "userLoginName"){
         		$("#"+key).val(value);
         		$("#"+key).attr("disabled",true);
         	}
@@ -409,17 +413,17 @@ function validate(){
     },icon+"登录名必须由字母数字下划线组合，下划线不可开头与结尾"); 
 	
 	$.validator.addMethod("checkPwd",function(value,element,params){  
-	    var pwdRegex = /^\\w+$/;                                                                                 
+	    var pwdRegex = /^\w+$/;                                                                                 
 	    return this.optional(element)||(pwdRegex.test(value));  
 	},icon+"必须由字母数字下划线自由组合");
 
 	$.validator.addMethod("checkEmail",function(value,element,params){  
-	    var emailRegex = /\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*/;  
+	    var emailRegex = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;  
 	    return this.optional(element)||(emailRegex.test(value));  
 	},icon+"不符合邮箱格式");
 	
 	$.validator.addMethod("checkPhone",function(value,element,params){  
-	    var phoneRegex = /(\\(\\d{3,4}\\)|\\d{3,4}-|\\s)?\\d{7,14}/;  
+	    var phoneRegex = /(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}/;  
 	    return this.optional(element)||(phoneRegex.test(value));  
 	},icon+"不符合手机号码格式");
 }
@@ -438,7 +442,7 @@ function initStatus(){
 	    		   			$("#userStatus").append("<option value="+value+">" +key + "</option>");
 	    		   		});
 	    		   	}
-	    		   	else if("userType" == key){
+	    		   	if("userType" == key){
 	    		   		$.each(value, function(key, value){
 	    		   			$("#userType").append("<option value="+value+">" +key + "</option>");
 	    		   		});

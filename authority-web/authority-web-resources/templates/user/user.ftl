@@ -12,8 +12,8 @@
     <meta name="description" content="">
 
     <link rel="shortcut icon" href="favicon.ico"> <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/style.css?v=4.1.0" rel="stylesheet">
     <link href="/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
@@ -95,25 +95,25 @@
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">登录名：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="userLoginName" name="userLoginName" class="form-control" type="text">
-	                                </div>
-	                            </div>
-	                            <div class="form-group">
-	                                <label class="col-sm-3 control-label">登录密码：</label>
-	                                <div class="col-sm-6">
-	                                    <input id="userLoginPwd" name="userLoginPwd" class="form-control" type="text"/>
-	                                </div>
-	                            </div>
-	                            <div class="form-group">
-	                                <label class="col-sm-3 control-label">重复密码：</label>
-	                                <div class="col-sm-6">
-	                                    <input id="reUserLoginPwd" name="reUserLoginPwd" class="form-control" type="text"/>
+	                                    <input id="userLoginName" name="userLoginName" class="form-control" type="text"/><span class="help-block m-b-none"><i class="fa fa-warning"></i>一旦确定不可再修改</span>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">邮箱：</label>
 	                                <div class="col-sm-6">
-	                                   <input class="form-control" id="userEmail" name="userEmail"/><span class="help-block m-b-none">一旦确定不可再修改</span>
+	                                   <input class="form-control" id="userEmail" name="userEmail"/><span class="help-block m-b-none"><i class="fa fa-warning"></i>一旦确定不可再修改</span>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label class="col-sm-3 control-label">登录密码：</label>
+	                                <div class="col-sm-6">
+	                                    <input id="userLoginPwd" name="userLoginPwd" class="form-control" type="password"/>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label class="col-sm-3 control-label">重复密码：</label>
+	                                <div class="col-sm-6">
+	                                    <input id="reUserLoginPwd" name="reUserLoginPwd" class="form-control" type="password"/>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
@@ -125,15 +125,16 @@
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">用户状态：</label>
 	                                <div class="col-sm-6"> 
-	                                   <select class="form-control" id="userStatus" name="userStatus"/>
+	                                   <select class="form-control" id="userStatus" name="userStatus"></select>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">用户类型：</label>
-	                                <div class="col-sm-6">
-	                                   <select class="form-control" id="userType" name="userType"/>
+	                                <div class="col-sm-6"> 
+	                                   <select class="form-control" id="userType" name="userType"></select>
 	                                </div>
-	                            </div>
+	                             </div>
+	                             
 	                        </form>
                     </div>
 

@@ -99,11 +99,11 @@ function detailFormatter(index, row) {
 //操作:删除,编辑
 function operateFormatter(value, row, index) {
     return [
-        '<a class="edit" href="javascript:void(0)" title="edit">',
-        '<i class="glyphicon glyphicon-edit"></i>',
+        '<a class="edit" href="javascript:void(0)" title="编辑">',
+        '<i class="fa fa-edit"></i>',
         '</a>  　',
-        '<a class="remove" href="javascript:void(0)" title="Remove">',
-        '<i class="glyphicon glyphicon-remove"></i>',
+        '<a class="remove" href="javascript:void(0)" title="删除">',
+        '<i class="fa fa-remove"></i>',
         '</a>'
     ].join('');
 }
