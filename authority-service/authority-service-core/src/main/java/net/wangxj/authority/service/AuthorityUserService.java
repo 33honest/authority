@@ -14,8 +14,9 @@ public interface AuthorityUserService{
 	/**
 	 * 新增
 	 * @return
+	 * @throws Exception 
 	 */
-	public Integer add(AuthorityUserPO authorityUserPo);
+	public Integer add(AuthorityUserPO authorityUserPo) throws Exception;
 	
 	/**
 	 * 批量添加

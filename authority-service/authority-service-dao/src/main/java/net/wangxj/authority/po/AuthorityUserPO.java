@@ -36,11 +36,11 @@ public class AuthorityUserPO implements PO{
     // 登陆密码 	
 	@Pattern(regexp=RegexConstant.LETTER_NUMBER_UNDERLINE_FREE,message="必须由字母数字下划线自由组合",groups={AddValidate.class,EditValidate.class},payload=Info.class)
 	@Length(min=6,max=20,message="长度必须在6-20个字符长度",groups={AddValidate.class,EditValidate.class},payload=Info.class)
-	@NotBlank(message="密码不可为空",groups={AddValidate.class,EditValidate.class}, payload=Info.class)
+	@NotBlank(message="密码不可为空",groups={AddValidate.class}, payload=Info.class)
 	private String userLoginPwd;
     // 用户邮箱 	
 	@Email(regexp=RegexConstant.EMAIL,message="不符合邮箱格式", groups={AddValidate.class,EditValidate.class}, payload=Info.class)
-	@NotBlank(message="邮箱不可为空", groups={AddValidate.class,EditValidate.class}, payload=Info.class)
+	@NotBlank(message="邮箱不可为空", groups={AddValidate.class}, payload=Info.class)
 	private String userEmail;
     // 用户电话 
 	@Pattern(regexp=RegexConstant.PHONE, message="不符合电话或手机格式", groups={AddValidate.class, EditValidate.class}, payload=Info.class)

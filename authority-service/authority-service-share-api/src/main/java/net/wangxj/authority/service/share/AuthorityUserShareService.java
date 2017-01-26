@@ -15,6 +15,7 @@ public interface AuthorityUserShareService{
 	/**
 	 * 添加AuthorityUserDTO
 	 * @return	新增主键
+	 * @throws Exception 
 	 */
 	public Response<Integer> add(AuthorityUserDTO authorityUserDto);
 	

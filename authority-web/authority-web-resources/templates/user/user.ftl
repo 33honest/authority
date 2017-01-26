@@ -98,19 +98,19 @@
 	                                    <input id="userLoginName" name="userLoginName" class="form-control" type="text"/><span class="help-block m-b-none"><i class="fa fa-warning"></i>一旦确定不可再修改</span>
 	                                </div>
 	                            </div>
-	                            <div class="form-group">
+	                            <div id="divEmail" class="form-group">
 	                                <label class="col-sm-3 control-label">邮箱：</label>
 	                                <div class="col-sm-6">
 	                                   <input class="form-control" id="userEmail" name="userEmail"/><span class="help-block m-b-none"><i class="fa fa-warning"></i>一旦确定不可再修改</span>
 	                                </div>
 	                            </div>
-	                            <div class="form-group">
+	                            <div id="divPass" class="form-group">
 	                                <label class="col-sm-3 control-label">登录密码：</label>
 	                                <div class="col-sm-6">
 	                                    <input id="userLoginPwd" name="userLoginPwd" class="form-control" type="password"/>
 	                                </div>
 	                            </div>
-	                            <div class="form-group">
+	                            <div id="divrePass" class="form-group">
 	                                <label class="col-sm-3 control-label">重复密码：</label>
 	                                <div class="col-sm-6">
 	                                    <input id="reUserLoginPwd" name="reUserLoginPwd" class="form-control" type="password"/>

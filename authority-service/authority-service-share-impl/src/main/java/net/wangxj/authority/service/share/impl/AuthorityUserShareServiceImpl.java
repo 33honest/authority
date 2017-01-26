@@ -47,16 +47,22 @@ public class AuthorityUserShareServiceImpl extends BaseAbstractAuthorityShareSer
 		authorityUserpo.setUserAddTime(TimeUtil.getNowStr());
 		authorityUserpo.setUserIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		authorityUserpo.setUserUuid(UuidUtil.newGUID());
-		Integer uuid = authorityUserService.add(authorityUserpo);
-		if(uuid>0){
-			logger.debug("新增authorityUserDTO成功");
-			response.setCode(0L);
-			response.setResObject(uuid);
-			response.setMessage("添加成功");
+		Integer uuid;
+		try {
+			uuid = authorityUserService.add(authorityUserpo);
+			if(uuid>0){
+				logger.debug("新增authorityUserDTO成功");
+				response.setCode(0L);
+				response.setResObject(uuid);
+				response.setMessage("添加成功");
+			}
+			else{
+				logger.debug("新增authorityUserDTO失败");
+			}
+		} catch (Exception e) {
+			logger.debug("增加失败", e);
 		}
-		else{
-			logger.debug("新增authorityUserDTO失败");
-		}
+		
 		return response;
 	}
 	
@@ -171,8 +177,8 @@ public class AuthorityUserShareServiceImpl extends BaseAbstractAuthorityShareSer
 			AuthorityUserDTO authorityUserDto2 = new AuthorityUserDTO();
 			BeanUtils.copyProperties(authorityUserPo2, authorityUserDto2);
 			authorityUserDto2.setUserAddByName(addUserPo.getUserLoginName());
-			authorityUserDto2.setUserEditByName(editUserList.isEmpty() ? "" : editUserList.get(0).getUserLoginName());
-			authorityUserDto2.setUserDelByName(delUserList.isEmpty() ? "" : delUserList.get(0).getUserLoginName());
+			authorityUserDto2.setUserEditByName(editUserList.size() != 1 ? "-" : editUserList.get(0).getUserLoginName());
+			authorityUserDto2.setUserDelByName(delUserList.size() != 1 ? "-" : delUserList.get(0).getUserLoginName());
 			listDto.add(authorityUserDto2);
 		}
 		response.setCode(0L);

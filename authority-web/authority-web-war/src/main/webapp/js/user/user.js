@@ -1,7 +1,20 @@
 var $table = $('#user_table'),
     $remove = $('#remove'),
     selections = [],
-	validator;
+	validator,
+	divPass = 	'<div id="divPass" class="form-group">' +
+				    '<label class="col-sm-3 control-label">登录密码：</label>' +
+				    '<div class="col-sm-6">' +
+				        '<input id="userLoginPwd" name="userLoginPwd" class="form-control" type="password"/>' +
+				    '</div>' +
+				'</div>' +
+				'<div id="divrePass" class="form-group">' +
+				    '<label class="col-sm-3 control-label">重复密码：</label>' +
+				    '<div class="col-sm-6">' +
+				        '<input id="reUserLoginPwd" name="reUserLoginPwd" class="form-control" type="password"/>' +
+				    '</div>' +
+				'</div>';
+
 //初始化表格       
 function initTable() {
     $table.bootstrapTable({
@@ -131,13 +144,17 @@ window.operateEvents = {
         $("#addForm").attr("action","/user/edit");
         $("#save").text("修改");
         $("#addPage").attr("sign","edit");
-        $("#addPage").modal("show");
         if($("#user_uuid").length <= 0){
         	uuidInput = '<input id="user_uuid" name="userUuid" class="form-control" type="hidden" value="'+row.userUuid+'">';
             $("#addForm").append(uuidInput);
         }
         else{
         	$("#user_uuid").val(row.userUuid);
+        }
+        
+       if($("#divPass").length > 0){
+        	$("#divPass").remove();
+        	$("#divrePass").remove();
         }
         $.each(row, function(key, value){
         	if(key == "userEmail"){
@@ -148,10 +165,15 @@ window.operateEvents = {
         		$("#"+key).val(value);
         		$("#"+key).attr("disabled",true);
         	}
+        	else if(key == "userPhone"){
+        		$("#"+key).val(value);
+        		$("#"+key).attr("disabled",true);
+        	}
         	else{
         		$("#"+key).val(value);
         	}
         });
+        $("#addPage").modal("show");
     },
     'click .remove': function (e, value, row, index) {
     		var param = {};
@@ -471,22 +493,27 @@ $(function () {
    })
    $("#addButton").on("click",function(){
 	   validator.resetForm();
-	   $("#addPageTitle").text("增加增加用户");
+	   $("#addPageTitle").text("增加用户");
 	    $("#addForm").attr("action","/user/add");
 	    $("#save").text("保存");
 	    $("#addPage").attr("sign","add");
-	    $("#addPage").modal("show");
 	    if($("#user_uuid").length > 0){
 	    	$("#user_uuid").remove();
+        }
+	    if($("#divPass").length <= 0){
+	    	 $(divPass).insertAfter($("#divEmail"));
         }
 	    $("#userLoginName").val("");
 	    $("#userLoginPwd").val("");
 	    $("#reUserLoginPwd").val("");
 	    $("#userEmail").val("");
 	    $("#userEmail").attr("disabled",false);
+	    $("#userLoginName").attr("disabled",false);
+	    $("#userPhone").attr("disabled",false);
 	    $("#userPhone").val("");
 	    $("#userStatus").val(1);
 	    $("#userType").val(1);
+	    $("#addPage").modal("show");
    });
    $remove.on("click", function(){
 	   swal({

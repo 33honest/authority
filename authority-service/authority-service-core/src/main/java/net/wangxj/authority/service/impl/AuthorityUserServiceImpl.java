@@ -3,6 +3,8 @@
 package net.wangxj.authority.service.impl;
 
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 
@@ -11,6 +13,7 @@ import org.apache.log4j.Logger;
 import net.wangxj.authority.dao.AuthorityUserDao;
 import net.wangxj.authority.po.AuthorityUserPO;
 import net.wangxj.authority.service.AuthorityUserService;
+import net.wangxj.util.encry.PBKDF2SHA1;
 import net.wangxj.util.string.StringUtil;
 
 import org.springframework.stereotype.Service;
@@ -29,7 +32,14 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	private AuthorityUserDao authorityUserDao;
 	
 	@Override
-	public Integer add(AuthorityUserPO authorityUserPo) {
+	public Integer add(AuthorityUserPO authorityUserPo) throws Exception {
+		try {
+			String userLoginPwd = authorityUserPo.getUserLoginPwd();
+			authorityUserPo.setUserLoginPwd(PBKDF2SHA1.generateStorngPasswordHash(userLoginPwd));
+		} catch (Exception e) {
+			logger.debug("加密失败", e);
+			throw e;
+		}
 		return authorityUserDao.insert(authorityUserPo);
 	}
 	
