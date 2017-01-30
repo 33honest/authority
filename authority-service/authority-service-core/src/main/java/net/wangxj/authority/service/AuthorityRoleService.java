@@ -37,11 +37,17 @@ public interface AuthorityRoleService{
 	/**
 	 * 条件分页查询
 	 */
-	public List<AuthorityRolePO> queryPageListByCondition(AuthorityRolePO authorityRolePo, int pageNum, int limit);
+	public List<AuthorityRolePO> queryPageListByCondition(AuthorityRolePO authorityRolePo, int pageNum, int limit,String order,String sort);
 	
 	/**
 	 * 条件数量查询
 	 * @return
 	 */
 	public Integer getCountByCondition(AuthorityRolePO authorityRolePo);
+	/**
+	 * 批量修改
+	 * @param roleList
+	 * @return
+	 */
+	Integer modifyByBatch(List<AuthorityRolePO> roleList);
 }

@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 import net.wangxj.authority.dao.AuthorityRoleDao;
 import net.wangxj.authority.po.AuthorityRolePO;
 import net.wangxj.authority.service.AuthorityRoleService;
+import net.wangxj.util.string.StringUtil;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,9 +40,9 @@ public class AuthorityRoleServiceImpl implements AuthorityRoleService{
 	}
 	
 	@Override
-	public List<AuthorityRolePO> queryPageListByCondition(AuthorityRolePO authorityRolePo, int pageNum, int limit) {
-		
-		return authorityRoleDao.selectPageListByCondition(authorityRolePo, pageNum, limit, null, null);
+	public List<AuthorityRolePO> queryPageListByCondition(AuthorityRolePO authorityRolePo, int pageNum, int limit,String order,String sort) {
+		sort = StringUtil.getNumpReverse(sort);
+		return authorityRoleDao.selectPageListByCondition(authorityRolePo, pageNum, limit, order, sort);
 	}
 
 
@@ -61,5 +63,11 @@ public class AuthorityRoleServiceImpl implements AuthorityRoleService{
 		
 		return authorityRoleDao.getCountByCondition(authorityRolePo);
 	}
+	
+	@Override
+	public Integer modifyByBatch(List<AuthorityRolePO> roleList){
+		return authorityRoleDao.modifyByBatch(roleList);
+	}
+	
 
 }

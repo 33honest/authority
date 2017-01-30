@@ -53,7 +53,7 @@ public class PlatformPO implements PO{
 	@Max(value=3,message="输入的平台状态不合法", groups={AddValidate.class, EditValidate.class},payload=Severity.Info.class)
 	@NotNull(message="平台状态为必填项", groups={AddValidate.class},payload=Severity.Info.class)
 	private java.lang.Integer platformStatus;
-    // 是否已被删除: 0：未 1：已被删除 	
+    // 是否已被删除: 2：未 1：已被删除 	
 	private java.lang.Integer platformIsDelete;
 	//编辑人uuid
 	@Pattern(regexp=RegexConstant.UUID_32,message="编辑人不合法",groups=EditValidate.class,payload=Severity.Error.class)

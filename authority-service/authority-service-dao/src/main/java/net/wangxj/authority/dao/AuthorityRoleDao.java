@@ -2,6 +2,8 @@
 
 package net.wangxj.authority.dao;
 
+import java.util.List;
+
 import net.wangxj.authority.dao.base.IBaseDao;
 import net.wangxj.authority.po.AuthorityRolePO;
 
@@ -11,5 +13,11 @@ import net.wangxj.authority.po.AuthorityRolePO;
  */
 
 public interface AuthorityRoleDao extends IBaseDao<AuthorityRolePO>{
+	/**
+	 * 批量修改
+	 * @param roleList
+	 * @return
+	 */
+	Integer modifyByBatch(List<AuthorityRolePO> roleList);
 	
 }

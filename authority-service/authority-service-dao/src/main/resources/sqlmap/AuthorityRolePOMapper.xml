@@ -12,10 +12,12 @@
         <result property="roleDelBy" column="role_del_by"/>
         <result property="roleIsDelete" column="role_is_delete"/>
         <result property="rolePlatformUuid" column="role_platform_uuid"/>
+        <result property="roleEditBy" column="role_edit_by"/>
+        <result property="roleEditTime" column="role_edit_time"/>
     </resultMap>
 
 	<sql id="Base_Column_List">
-		role_uuid,role_name,role_status,role_add_time,role_add_by,role_del_time,role_del_by,role_is_delete,role_platform_uuid
+		role_uuid,role_name,role_status,role_add_time,role_add_by,role_del_time,role_del_by,role_is_delete,role_platform_uuid,role_edit_by,role_edit_time
 	</sql>
 	
 	<insert id="insert" parameterType="AuthorityRolePO" >
@@ -45,6 +47,12 @@
 				<if test="rolePlatformUuid != null  and  rolePlatformUuid != '' " > 
 					, role_platform_uuid
 				</if>
+				<if test="roleEditBy != null  and  roleEditBy != '' " > 
+					, role_edit_by
+				</if>
+				<if test="roleEditTime != null  and  roleEditTime != '' " > 
+					, role_edit_time
+				</if>
 		 ) VALUES (
 				#{roleUuid}
 				<if test="roleName != null  and  roleName != '' " > 
@@ -70,6 +78,12 @@
 				</if>
 				<if test="rolePlatformUuid != null  and  rolePlatformUuid != '' " > 
 					, #{rolePlatformUuid}
+				</if>
+				<if test="roleEditBy != null  and  roleEditBy != '' " > 
+					, #{roleEditBy}
+				</if>
+				<if test="roleEditTime != null  and  roleEditTime != '' " > 
+					, #{roleEditTime}
 				</if>
 		 )
 	</insert>
@@ -101,41 +115,56 @@
 				<if test="rolePlatformUuid != null  and  rolePlatformUuid != '' " > 
 					, role_platform_uuid = #{rolePlatformUuid}
 				</if>
+				<if test="roleEditBy != null  and  roleEditBy != '' " > 
+					, role_edit_by = #{roleEditBy}
+				</if>
+				<if test="roleEditTime != null  and  roleEditTime != '' " > 
+					, role_edit_time = #{roleEditTime}
+				</if>
 	    WHERE 1 = 1
 				and role_uuid = #{roleUuid}
 	</update>
 
-	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="AuthorityRolePO">
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select 
 			<include refid="Base_Column_List" /> 
 		from authority_role  
 		where 1 = 1
-				<if test="roleUuid != null  and  roleUuid != '' " > 
-					and role_uuid = #{roleUuid}
+				<if test="role.roleUuid != null  and  role.roleUuid != '' " > 
+					and role_uuid = #{role.roleUuid}
 				</if>
-				<if test="roleName != null  and  roleName != '' " > 
-					and role_name = #{roleName}
+				<if test="role.roleName != null  and  role.roleName != '' " > 
+					and role_name = #{role.roleName}
 				</if>
-				<if test="roleStatus != null  and  roleStatus != '' " > 
-					and role_status = #{roleStatus}
+				<if test="role.roleStatus != null  and  role.roleStatus != '' " > 
+					and role_status = #{role.roleStatus}
 				</if>
-				<if test="roleAddTime != null  and  roleAddTime != '' " > 
-					and role_add_time = #{roleAddTime}
+				<if test="role.roleAddTime != null  and  role.roleAddTime != '' " > 
+					and role_add_time = #{role.roleAddTime}
 				</if>
-				<if test="roleAddBy != null  and  roleAddBy != '' " > 
-					and role_add_by = #{roleAddBy}
+				<if test="role.roleAddBy != null  and  role.roleAddBy != '' " > 
+					and role_add_by = #{role.roleAddBy}
 				</if>
-				<if test="roleDelTime != null  and  roleDelTime != '' " > 
-					and role_del_time = #{roleDelTime}
+				<if test="role.roleDelTime != null  and  role.roleDelTime != '' " > 
+					and role_del_time = #{role.roleDelTime}
 				</if>
-				<if test="roleDelBy != null  and  roleDelBy != '' " > 
-					and role_del_by = #{roleDelBy}
+				<if test="role.roleDelBy != null  and  role.roleDelBy != '' " > 
+					and role_del_by = #{role.roleDelBy}
 				</if>
-				<if test="roleIsDelete != null  and  roleIsDelete != '' " > 
-					and role_is_delete = #{roleIsDelete}
+				<if test="role.roleIsDelete != null  and  role.roleIsDelete != '' " > 
+					and role_is_delete = #{role.roleIsDelete}
 				</if>
-				<if test="rolePlatformUuid != null  and  rolePlatformUuid != '' " > 
-					and role_platform_uuid = #{rolePlatformUuid}
+				<if test="role.rolePlatformUuid != null  and  role.rolePlatformUuid != '' " > 
+					and role_platform_uuid = #{role.rolePlatformUuid}
+				</if>
+				<if test="role.roleEditBy != null  and  role.roleEditBy != '' " > 
+					and role_edit_by = #{role.roleEditBy}
+				</if>
+				<if test="role.roleEditTime != null  and  role.roleEditTime != '' " > 
+					and role_edit_time = #{role.roleEditTime}
+				</if>
+				<if test="order != null  and  order != '' and sort != null and sort != '' " > 
+					ORDER BY ${sort} ${order}
 				</if>
 	</select>
 	
@@ -169,7 +198,13 @@
 					</if>		        	
 					<if test="rolePlatformUuid != null  and  rolePlatformUuid != '' " > 
 						and role_platform_uuid = #{rolePlatformUuid}
-					</if>		        	
+					</if>	
+					<if test="roleEditBy != null  and  roleEditBy != '' " > 
+						and role_edit_by = #{roleEditBy}
+					</if>
+					<if test="roleEditTime != null  and  roleEditTime != '' " > 
+						and role_edit_time = #{roleEditTime}
+					</if>	        	
 	</select>	
 	
 </mapper>

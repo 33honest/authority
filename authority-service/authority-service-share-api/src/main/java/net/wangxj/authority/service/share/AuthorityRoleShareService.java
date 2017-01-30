@@ -40,13 +40,25 @@ public interface AuthorityRoleShareService{
 	 * @param pageNum: 页码
 	 * @param limit:   每页条数
 	 */
-	public Response<AuthorityRoleDTO> queryPageListByCondition(AuthorityRoleDTO authorityRoleDto, int pageNum, int limit);
+	public Response<AuthorityRoleDTO> queryPageListByCondition(AuthorityRoleDTO authorityRoleDto, int pageNum, int limit, String order, String sort);
 	
 	/**
 	 * 条件数量查询
 	 * @return
 	 */
-	public Response<Integer> getCountByCondition(AuthorityRoleDTO authorityRoleDto);
+	public Response<Integer> getCountByCondition(AuthorityRoleDTO authorityRoleDto, boolean noDelete);
+	/**
+	 * 由uuid删除
+	 * @param roleDto
+	 * @return
+	 */
+	Response<Integer> deleteByUuid(AuthorityRoleDTO roleDto);
+	/**
+	 * 批量删除
+	 * @param roleList
+	 * @return
+	 */
+	Response<Integer> deleteByBatch(List<AuthorityRoleDTO> roleList);
 	
 
 }

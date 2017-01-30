@@ -72,7 +72,7 @@ public class AuthorityUserPO implements PO{
 	@Max(value=2,message="添加用户类型非法", groups={AddValidate.class,EditValidate.class}, payload=Error.class)
 	@NotNull(message="添加用户类型不可为空", groups=AddValidate.class, payload=Error.class)
 	private java.lang.Integer userAddType;
-    // 是否已被删除: 0：未 1：已被删除 	
+    // 是否已被删除: 2：未 1：已被删除 	
 	private java.lang.Integer userIsDelete;
 	//编辑人
 	@Pattern(regexp=RegexConstant.UUID_32, message="编辑人不合法", groups=EditValidate.class, payload=Error.class)

@@ -154,4 +154,32 @@ public class DataDictionaryConstant {
 		return userADDTypeKeyValueMap.get(key);
 	}
 	/*********    添加用户类型结束　　　********/
+	
+	/********     角色状态开始			*********/
+	public static String ROLE_ADDED_KEY = "已添加";
+	public static Integer ROLE_ADDED_VALUE = 1;
+	
+	public static String ROLE_ACTIVED_KEY = "已激活";
+	public static Integer ROLE_ACTIVED_VALUE = 2;
+	
+	public static LinkedHashMap<String, Integer> roleStatusKeyValueMap = new LinkedHashMap<>();
+	public static LinkedHashMap<Integer, String> roleStatusValueKeyMap = new LinkedHashMap<>();
+	
+	static{
+		roleStatusKeyValueMap.put(ROLE_ADDED_KEY, ROLE_ADDED_VALUE);
+		roleStatusKeyValueMap.put(ROLE_ACTIVED_KEY, ROLE_ACTIVED_VALUE);
+		
+		roleStatusValueKeyMap.put(ROLE_ADDED_VALUE,ROLE_ADDED_KEY);
+		roleStatusValueKeyMap.put(ROLE_ACTIVED_VALUE, ROLE_ACTIVED_KEY);
+	}
+	
+	public static String getRoleStatusKey(Integer value){
+		return roleStatusValueKeyMap.get(value);
+	}
+	
+	public static Integer getRoleStatusValue(String key){
+		return roleStatusKeyValueMap.get(key);
+	}
+	
+	/********     角色状态结束			*********/
 }

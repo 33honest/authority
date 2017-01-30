@@ -263,7 +263,7 @@ public class AuthorityUserShareServiceImpl extends BaseAbstractAuthorityShareSer
 			response.setMessage("成功");
 		}
 		else{
-			logger.debug("删除authorityUser失败");
+			logger.debug("批量删除authorityUser失败");
 		}
 		return response;
 	} 

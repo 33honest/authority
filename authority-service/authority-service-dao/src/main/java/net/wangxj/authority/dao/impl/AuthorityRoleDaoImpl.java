@@ -2,6 +2,7 @@
 
 package net.wangxj.authority.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,20 +47,35 @@ public class AuthorityRoleDaoImpl extends BaseSessionDaoSupport implements Autho
 	
 	@Override
 	public List<AuthorityRolePO> selectListByCondition(AuthorityRolePO authorityRolePo) {
-		
-		return super.getSqlSession().selectList("AuthorityRolePOMapper.selectByCondition", authorityRolePo);
+		Map<String, Object> map = new HashMap<>();
+		map.put("role", authorityRolePo);
+		return super.getSqlSession().selectList("AuthorityRolePOMapper.selectByCondition", map);
 	}
 	
 	@Override
 	public List<AuthorityRolePO> selectPageListByCondition(AuthorityRolePO authorityRolePo, int pageNum, int limit,String order,String sort) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("role", authorityRolePo);
+		map.put("order", order);
+		map.put("sort", sort);
 		PageHelper.startPage(pageNum, limit);
-		return super.getSqlSession().selectList("AuthorityRolePOMapper.selectByCondition", authorityRolePo);
+		return super.getSqlSession().selectList("AuthorityRolePOMapper.selectByCondition", map);
 	}
 
 	@Override
 	public Integer getCountByCondition(AuthorityRolePO authorityRolePo) {
 		
 		return (Integer)super.getSqlSession().selectOne("AuthorityRolePOMapper.selectCountByCondition", authorityRolePo);
+	}
+	
+	@Override
+	public Integer modifyByBatch(List<AuthorityRolePO> roleList){
+		int count = 0;
+		for (AuthorityRolePO authorityRolePO : roleList) {
+			this.updateByUuid(authorityRolePO);
+			count++;
+		}
+		return count;
 	}
 	
 }
