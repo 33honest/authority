@@ -125,13 +125,7 @@ window.operateEvents = {
         	$("#platformuuid").val(row.platformUuid);
         }
         $.each(row, function(key, value){
-        	if(key == "platformSign" || key == "platformDomainName"){
-        		$("#"+key).val(value);
-        		$("#"+key).attr("disabled",true);
-        	}
-        	else{
-        		$("#"+key).val(value);
-        	}
+        	$("#"+key).val(value);
         });
     },
     'click .remove': function (e, value, row, index) {
@@ -265,6 +259,9 @@ function validate(){
 	$.validator.addMethod("checkDomainRepeat",function(value,element,params){  
 		var param = {};
 		param.platformDomainName = value;
+		if($("#platformuuid").length > 0){
+			param.platformUuid = $("#platformuuid").val();
+		}
 		var result;
 		$.ajax({  
 	       url: "/platform/isRepeat",  
@@ -298,6 +295,9 @@ function validate(){
 	$.validator.addMethod("checkSignRepeat",function(value,element,params){  
 		var param = {};
 		param.platformSign = value;
+		if($("#platformuuid").length > 0){
+			param.platformUuid = $("#platformuuid").val();
+		}
 		var result;
 		$.ajax({  
 		       url: "/platform/isRepeat",  

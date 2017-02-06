@@ -95,19 +95,19 @@
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台名：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="platformName" name="platformName" class="form-control" type="text">
+	                                    <input id="platformName" name="platformName" class="form-control" type="text"/>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台标识：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="platformSign" name="platformSign" class="form-control" type="text"><span class="help-block m-b-none">一旦确定不可再修改</span>
+	                                    <input id="platformSign" name="platformSign" class="form-control" type="text"/>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台域名：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="platformDomainName" name="platformDomainName" class="form-control" type="text"><span class="help-block m-b-none">一旦确定不可再修改</span>
+	                                    <input id="platformDomainName" name="platformDomainName" class="form-control" type="text"/>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">

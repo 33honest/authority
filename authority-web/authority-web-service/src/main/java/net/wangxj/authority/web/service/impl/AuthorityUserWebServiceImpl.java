@@ -78,16 +78,25 @@ public class AuthorityUserWebServiceImpl implements AuthorityUserWebService {
 
 	@Override
 	public String isRepeatField(AuthorityUserDTO dto) {
-		
-		Response<Integer> countRespo = authorityUserShareService.getCountByCondition(dto, false);
-		Response<Integer> allCountRes = authorityUserShareService.getCountByCondition(new AuthorityUserDTO(), false);
-		if(countRespo.getCode() == 0L && allCountRes.getCode() == 0L){
-			logger.debug("查询是否重复字段成功");
-			Integer count = countRespo.getResObject();
-			Integer allCount = allCountRes.getResObject();
-			return (count > 0 && count <= allCount) ? "true" : "false"; 
+		//待校验用户uuid
+		String userUuid = dto.getUserUuid();
+		dto.setUserUuid(null);
+		//与正在修改是同一个，则不重复
+		AuthorityUserDTO validate = new AuthorityUserDTO();
+		validate.setUserUuid(userUuid);
+		Response<AuthorityUserDTO> conditionQueryResp = authorityUserShareService.queryListByCondition(dto, true);
+		if(conditionQueryResp.getCode() == 0L){
+			if(conditionQueryResp.getData().size() == 0){
+				return "false";
+			}
+			else if(conditionQueryResp.getData().size() == 1 && conditionQueryResp.getData().contains(validate)){
+				return "false";
+			}
+			else{
+				return "true";
+			}
 		}
-		return JSON.toJSONString(countRespo);
+		return null;
 	}
 
 	@Override

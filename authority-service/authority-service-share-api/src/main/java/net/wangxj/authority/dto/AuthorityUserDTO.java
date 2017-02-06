@@ -329,6 +329,33 @@ public class AuthorityUserDTO implements DTO,Serializable{
 				+ userIsDelete + ", userIsDeleteName=" + userIsDeleteName + ", userEditBy=" + userEditBy
 				+ ", userEditByName=" + userEditByName + ", userEditTime=" + userEditTime + "]";
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((userUuid == null) ? 0 : userUuid.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AuthorityUserDTO other = (AuthorityUserDTO) obj;
+		if (userUuid == null) {
+			if (other.userUuid != null)
+				return false;
+		} else if (!userUuid.equals(other.userUuid))
+			return false;
+		return true;
+	}
 	
 	
 }

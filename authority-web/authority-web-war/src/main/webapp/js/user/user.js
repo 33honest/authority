@@ -161,14 +161,6 @@ window.operateEvents = {
         		$("#"+key).val(value);
         		$("#"+key).attr("disabled",true);
         	}
-        	else if(key == "userLoginName"){
-        		$("#"+key).val(value);
-        		$("#"+key).attr("disabled",true);
-        	}
-        	else if(key == "userPhone"){
-        		$("#"+key).val(value);
-        		$("#"+key).attr("disabled",true);
-        	}
         	else{
         		$("#"+key).val(value);
         	}
@@ -334,6 +326,9 @@ function validate(){
 			$.validator.addMethod("checkPhoneRepeat",function(value,element,params){  
 				var param = {};
 				param.userPhone = value;
+				if($("#user_uuid").length > 0){
+					param.userUuid = $("#user_uuid").val();
+				}
 				var result;
 				$.ajax({  
 			       url: "/user/isRepeat",  
@@ -367,6 +362,9 @@ function validate(){
 	$.validator.addMethod("checkLoginRepeat",function(value,element,params){  
 		var param = {};
 		param.userLoginName = value;
+		if($("#user_uuid").length > 0){
+			param.userUuid = $("#user_uuid").val();
+		}
 		var result;
 		$.ajax({  
 	       url: "/user/isRepeat",  
@@ -395,11 +393,14 @@ function validate(){
 	       }  
 	   });  
 		return this.optional(element)||!result;  
-    },icon+"已存在该域名");  
+    },icon+"已存在该登录名");  
 	
 	$.validator.addMethod("checkEmailRepeat",function(value,element,params){  
 		var param = {};
 		param.userEmail = value;
+		if($("#user_uuid").length > 0){
+			param.userUuid = $("#user_uuid").val();
+		}
 		var result;
 		$.ajax({  
 		       url: "/user/isRepeat",  

@@ -96,15 +96,25 @@ public class PlatformWebServiceImpl implements PlatformWebService {
 
 	@Override
 	public String isRepeatField(PlatformDTO platformDto) {
-		Response<Integer> countByCondition = platformShareService.getCountByCondition(platformDto,false);
-		Response<Integer> allCountResp = platformShareService.getCountByCondition(new PlatformDTO(),false);
-		if(countByCondition.getCode() == 0L && allCountResp.getCode()==0L){
-			logger.debug("查询是否重复字段成功");
-			Integer count = countByCondition.getResObject();
-			Integer allCount = allCountResp.getResObject();
-			return (count > 0 && count <= allCount) ? "true" : "false"; 
+		//待校验平台uuid
+		String platformUUid = platformDto.getPlatformUuid();
+		platformDto.setPlatformUuid(null);
+		//与正在修改是同一个，则不重复
+		PlatformDTO validate = new PlatformDTO();
+		validate.setPlatformUuid(platformUUid);
+		Response<PlatformDTO> conditionQueryResp = platformShareService.queryListByCondition(platformDto, true);
+		if(conditionQueryResp.getCode() == 0L){
+			if(conditionQueryResp.getData().size() == 0){//未查询到匹配平台
+				return "false";
+			}
+			else if(conditionQueryResp.getData().size() == 1 && conditionQueryResp.getData().contains(validate)){
+				return "false";
+			}
+			else{
+				return "true";
+			}
 		}
-		return JSON.toJSONString(countByCondition);
+		return null;
 	}
 	
 	public String getUserId(){

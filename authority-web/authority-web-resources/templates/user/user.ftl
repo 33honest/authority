@@ -95,7 +95,7 @@
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">登录名：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="userLoginName" name="userLoginName" class="form-control" type="text"/><span class="help-block m-b-none"><i class="fa fa-warning"></i>一旦确定不可再修改</span>
+	                                    <input id="userLoginName" name="userLoginName" class="form-control" type="text"/>
 	                                </div>
 	                            </div>
 	                            <div id="divEmail" class="form-group">
