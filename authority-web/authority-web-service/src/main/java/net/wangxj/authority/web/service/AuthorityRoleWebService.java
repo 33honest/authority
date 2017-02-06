@@ -4,4 +4,6 @@ import net.wangxj.authority.dto.AuthorityRoleDTO;
 
 public interface AuthorityRoleWebService extends AuthorityWebService<AuthorityRoleDTO>{
 
+	String getPlatformAndRoleStatus();
+
 }

@@ -124,7 +124,7 @@ public class AuthorityRoleShareServiceImpl extends BaseAbstractAuthorityShareSer
 		List<AuthorityRolePO> listPo = new ArrayList<>();
 		List<AuthorityRoleDTO> listDto = new ArrayList<>();
 		BeanUtils.copyProperties(authorityRoleDto, authorityRolePo);
-		
+		authorityRolePo.setRoleIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		listPo = authorityRoleService.queryListByCondition(authorityRolePo);
 		logger.info("查询queryList成功");
 		for (AuthorityRolePO authorityRolePo2 : listPo) {

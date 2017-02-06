@@ -59,10 +59,18 @@ public class AuthorityRoleController{
 		return authorityRoleWebService.delete(authorityRoleDto);
 	}
 	
+	@RequestMapping("/isRepeat")
+	@ResponseBody
+	public String isRepeat(AuthorityRoleDTO roleDto){
+		return authorityRoleWebService.isRepeatField(roleDto);
+	}
+	
 	@RequestMapping("/getStatusList")
 	@ResponseBody
 	public String getStatusList(){
-		return JSONObject.toJSONString(DataDictionaryConstant.roleStatusKeyValueMap);
+		
+		return authorityRoleWebService.getPlatformAndRoleStatus();
+		
 	}
 	
 	

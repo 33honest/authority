@@ -2,7 +2,9 @@
 package net.wangxj.authority.web.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -13,8 +15,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import net.wangxj.authority.Response;
+import net.wangxj.authority.constant.DataDictionaryConstant;
 import net.wangxj.authority.dto.AuthorityRoleDTO;
+import net.wangxj.authority.dto.PlatformDTO;
 import net.wangxj.authority.service.share.AuthorityRoleShareService;
+import net.wangxj.authority.service.share.PlatformShareService;
 import net.wangxj.authority.web.service.AuthorityRoleWebService;
 import net.wangxj.util.validate.Severity.Error;
 
@@ -25,6 +30,8 @@ public class AuthorityRoleWebServiceImpl implements AuthorityRoleWebService{
 	
 	@Resource
 	private AuthorityRoleShareService authorityRoleShareService;
+	@Resource
+	private PlatformShareService platformShareService;
 
 	@Override
 	public String getPageList(String jsonStr) {
@@ -76,7 +83,24 @@ public class AuthorityRoleWebServiceImpl implements AuthorityRoleWebService{
 
 	@Override
 	public String isRepeatField(AuthorityRoleDTO dto) {
-		// TODO Auto-generated method stub
+		//待校验roleuuid
+		String roleUuid = dto.getRoleUuid();
+		dto.setRoleUuid(null);
+		//与正在修改的role是同一个，则不重复
+		AuthorityRoleDTO validate = new AuthorityRoleDTO();
+		validate.setRoleUuid(roleUuid);
+		Response<AuthorityRoleDTO> queryConditionResp = authorityRoleShareService.queryListByCondition(dto);
+		if(queryConditionResp.getCode() == 0L){
+			if(queryConditionResp.getData().size() == 0){//未查询到匹配角色
+				return "false";
+			}//条件查询只有一个而且该角色正是正在修改的role则返回false
+			else if(queryConditionResp.getData().size() == 1 && queryConditionResp.getData().contains(validate)){
+				return "false";
+			}
+			else{
+				return "true";
+			}
+		}
 		return null;
 	}
 
@@ -139,5 +163,18 @@ public class AuthorityRoleWebServiceImpl implements AuthorityRoleWebService{
 	
 	public String getUserId(){
 		return "de0c7b2480494fda98db82f7a4707649";
+	}
+
+	@Override
+	public String getPlatformAndRoleStatus() {
+		List<PlatformDTO> platformList = platformShareService.queryListByCondition(new PlatformDTO(), true).getData();
+		Map<String, Map> platformAndRoleStatu = new HashMap<>();
+		Map<String, String> platformMap = new HashMap<>();
+		for (PlatformDTO platformDTO : platformList) {
+			platformMap.put(platformDTO.getPlatformName(), platformDTO.getPlatformUuid());
+		}
+		platformAndRoleStatu.put("platform", platformMap);
+		platformAndRoleStatu.put("roleStatus", DataDictionaryConstant.roleStatusKeyValueMap);
+		return JSONObject.toJSONString(platformAndRoleStatu);
 	}
 }

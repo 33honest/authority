@@ -3,6 +3,8 @@ package net.wangxj.authority.dto;
 
 import java.io.Serializable;
 
+import net.wangxj.authority.constant.DataDictionaryConstant;
+
 /**
  * created by	: wangxj
  * created time	: 2016-12-26 18:06:40
@@ -20,10 +22,13 @@ public class AuthorityRoleDTO implements DTO,Serializable{
 	private String roleName;
     // 角色状态: 已添加： 已激活: 	
 	private java.lang.Integer roleStatus;
+	//角色状态名
+	private String roleStatusName;
     // 添加时间 yyyy-MM-dd HH:mm:ss 	
 	private String roleAddTime;
     // 添加人uuid 	
 	private String roleAddBy;
+	//添加人名
 	//添加人名
 	private String roleAddByName;
     // 删除时间 yyyy-MM-dd HH:mm:ss 	
@@ -178,15 +183,51 @@ public class AuthorityRoleDTO implements DTO,Serializable{
 	public void setRoleEditTime(String roleEditTime) {
 		this.roleEditTime = roleEditTime;
 	}
+	
+
+	public String getRoleStatusName() {
+		return DataDictionaryConstant.getRoleStatusKey(this.roleStatus);
+	}
+
+	public void setRoleStatusName(String roleStatusName) {
+		this.roleStatusName = roleStatusName;
+	}
 
 	@Override
 	public String toString() {
 		return "AuthorityRoleDTO [roleUuid=" + roleUuid + ", roleName=" + roleName + ", roleStatus=" + roleStatus
-				+ ", roleAddTime=" + roleAddTime + ", roleAddBy=" + roleAddBy + ", roleAddByName=" + roleAddByName
-				+ ", roleDelTime=" + roleDelTime + ", roleDelBy=" + roleDelBy + ", roleDelByName=" + roleDelByName
-				+ ", roleIsDelete=" + roleIsDelete + ", rolePlatformUuid=" + rolePlatformUuid + ", roleEditBy="
-				+ roleEditBy + ", roleEditByName=" + roleEditByName + ", roleEditTime=" + roleEditTime + "]";
+				+ ", roleStatusName=" + roleStatusName + ", roleAddTime=" + roleAddTime + ", roleAddBy=" + roleAddBy
+				+ ", roleAddByName=" + roleAddByName + ", roleDelTime=" + roleDelTime + ", roleDelBy=" + roleDelBy
+				+ ", roleDelByName=" + roleDelByName + ", roleIsDelete=" + roleIsDelete + ", rolePlatformUuid="
+				+ rolePlatformUuid + ", roleEditBy=" + roleEditBy + ", roleEditByName=" + roleEditByName
+				+ ", roleEditTime=" + roleEditTime + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((roleUuid == null) ? 0 : roleUuid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AuthorityRoleDTO other = (AuthorityRoleDTO) obj;
+		if (roleUuid == null) {
+			if (other.roleUuid != null)
+				return false;
+		} else if (!roleUuid.equals(other.roleUuid))
+			return false;
+		return true;
+	}
+
+	
 }
 

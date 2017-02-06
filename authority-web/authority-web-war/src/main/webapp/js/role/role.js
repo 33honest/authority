@@ -1,4 +1,4 @@
-var $table = $('#platform_table'),
+var $table = $('#role_table'),
     $remove = $('#remove'),
     selections = [],
 	validator;
@@ -21,43 +21,38 @@ function initTable() {
 	                valign: 'middle'
 	            },
                 {
-                    field: 'platformUuid',
-                    title: 'PlatformUUID',
+                    field: 'roleUuid',
+                    title: 'RoleUUID',
                     sortable: true,
                     align: 'center'
                 }, {
-                    field: 'platformName',
-                    title: '平台名',
+                    field: 'roleName',
+                    title: '角色名',
                     sortable: true,
                     align: 'center',
                 }, {
-                	field: 'platformSign',
-                	title: '平台标识',
+                	field: 'roleStatusName',
+                	title: '角色状态',
                 	sortable: true,
                 	align: 'center',
                 },{
-                	field: 'platformDomainName',
-                	title: '平台域名',
-                	sortable: true,
-                	align: 'center',
-                },{
-                	field: 'platformAddTime',
+                	field: 'roleAddTime',
                 	title: '增加时间',
                 	sortable: true,
                 	align: 'center'
                 },{
-                	field: 'platformEditTime',
+                	field: 'roleEditTime',
                 	title: '修改时间',
                 	sortable: true,
                 	align: 'center'
                 },{
-                	field: 'platformAddByName',
+                	field: 'roleAddByName',
                 	title: '增加人',
                 	align: 'center'
                 },{
-                	field: 'platformStatusName',
-                	title: '平台状态',
-                	align: 'center',
+                	field: 'roleEditByName',
+                	title: '修改人',
+                	align: 'center'
                 }, {
                     field: 'operate',
                     title: '操作',
@@ -79,21 +74,20 @@ function initTable() {
         
 function getIdSelections() {
     return $.map($table.bootstrapTable('getSelections'), function (row) {
-        return row.platformUuid;
+        return row.roleUuid;
     });
 }
         
 //详情
 function detailFormatter(index, row) {
     var html = [];
-    html.push('<p><b>' + 'PlatformUuid' + ':</b> ' + row.platformUuid + '</p>');
-    html.push('<p><b>' + '平台名' + ':</b> ' + row.platformName + '</p>');
-    html.push('<p><b>' + '平台标识' + ':</b> ' + row.platformSign + '</p>');
-    html.push('<p><b>' + '平台域名' + ':</b> ' + row.platformDomainName + '</p>');
-    html.push('<p><b>' + '增加时间' + ':</b> ' + row.platformAddTime + '</p>');
-    html.push('<p><b>' + '修改时间' + ':</b> ' + row.platformEditTime + '</p>');
-    html.push('<p><b>' + '增加人' + ':</b> ' + row.platformAddByName+ '</p>');
-    html.push('<p><b>' + '平台状态' + ':</b> ' + row.platformStatusName+ '</p>');
+    html.push('<p><b>' + 'roleUUID' + ':</b> ' + row.roleUuid + '</p>');
+    html.push('<p><b>' + '角色名' + ':</b> ' + row.roleName + '</p>');
+    html.push('<p><b>' + '角色状态' + ':</b> ' + row.roleStatusName + '</p>');
+    html.push('<p><b>' + '增加时间' + ':</b> ' + row.roleAddTime + '</p>');
+    html.push('<p><b>' + '修改时间' + ':</b> ' + row.roleEditTime + '</p>');
+    html.push('<p><b>' + '增加人' + ':</b> ' + row.roleAddByName + '</p>');
+    html.push('<p><b>' + '修改人' + ':</b> ' + row.roleEditByName+ '</p>');
     return html.join('');
 }
 //操作:删除,编辑
@@ -112,31 +106,25 @@ window.operateEvents = {
     	//重置校验
     	validator.resetForm();
     	//初始化编辑
-        $("#addPageTitle").text("编辑平台");
-        $("#addForm").attr("action","/platform/edit");
+        $("#addPageTitle").text("编辑角色");
+        $("#addForm").attr("action","/role/edit");
         $("#save").text("修改");
         $("#addPage").attr("sign","edit");
         $("#addPage").modal("show");
-        if($("#platformuuid").length <= 0){
-        	uuidInput = '<input id="platformuuid" name="platformUuid" class="form-control" type="hidden" value="'+row.platformUuid+'">';
+        if($("#roleuuid").length <= 0){
+        	uuidInput = '<input id="roleuuid" name="roleUuid" class="form-control" type="hidden" value="'+row.roleUuid+'">';
             $("#addForm").append(uuidInput);
         }
         else{
-        	$("#platformuuid").val(row.platformUuid);
+        	$("#roleuuid").val(row.roleUuid);
         }
         $.each(row, function(key, value){
-        	if(key == "platformSign" || key == "platformDomainName"){
         		$("#"+key).val(value);
-        		$("#"+key).attr("disabled",true);
-        	}
-        	else{
-        		$("#"+key).val(value);
-        	}
         });
     },
     'click .remove': function (e, value, row, index) {
     		var param = {};
-    		param.platformUuid = row.platformUuid;
+    		param.roleUuid = row.roleUuid;
     	    swal({
     	        title: "您确定要删除这条信息吗",
     	        text: "删除后将无法恢复，请谨慎操作！",
@@ -148,7 +136,7 @@ window.operateEvents = {
     	        closeOnConfirm: false
     	    }, function () {
 			    	    	$.ajax({  
-			    	  	       url: "/platform/delete",  
+			    	  	       url: "/role/delete",  
 			    	  	       dataType: "json", 
 			    	  	       data: param,
 			    	  	       success: function (data) {  
@@ -187,35 +175,29 @@ function validate(){
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	validator = $("#addForm").validate({
 			    rules: {
-			    	platformName:{
-			    	 	required:true,
-			    	 	checkPlatName: true,
-			    	 	rangelength:[2,25],
-			    	 	
+			    	rolePlatformUuid:{
+			    	 	required:true
 			    	},
-			    	platformSign:{
+			    	roleName:{
 			    		required: true,
-			    		checkPlatSign: true,
-			    		rangelength:[2,32],
-			    		checkSignRepeat: true
+			    		checkRoleName: true,
+			    		rangelength:[2,16],
+			    		checkRoleNameRepeat: true
 			    	},
-			    	platformDomainName:{
-			    		required: true,
-			    		checkDomain: true,
-			    		checkDomainRepeat: true
+			    	roleStatusName:{
+			    		required: true
 			    	}
 			       
 			    },
 			    messages: {
-			    	platformName:{
-			    		required: icon+"平台名是必填项",
-			    		rangelength:icon+"长度必须在2-25个字符"
+			    	rolePlatformUuid:{
+			    		required: icon+"平台是必填项"
 			    	},
-			    	platformSign:{
-			    		required: icon+"平台标识是必填项",
-			    		rangelength:icon+"长度必须在2-32个字符"
+			    	roleName:{
+			    		required: icon+"角色名是必填项",
+			    		rangelength:icon+"长度必须在2-16个字符"
 			    	},
-			    	platformDomainName:{
+			    	roleStatusName:{
 			    		required: icon+"平台域名是必填项"
 			    	}
 			    },
@@ -262,12 +244,16 @@ function validate(){
 			    }
 			});
 
-	$.validator.addMethod("checkDomainRepeat",function(value,element,params){  
+	$.validator.addMethod("checkRoleNameRepeat",function(value,element,params){  
 		var param = {};
-		param.platformDomainName = value;
+		param.roleName = value;
+		param.rolePlatformUuid = $("#rolePlatformUuid").val();
+		if($("#roleuuid").length > 0){
+			param.roleUuid = $("#roleuuid").val();
+		}
 		var result;
 		$.ajax({  
-	       url: "/platform/isRepeat",  
+	       url: "/role/isRepeat",  
 	       dataType: "json", 
 	       data: param,
 	       async:false,
@@ -293,66 +279,33 @@ function validate(){
 	       }  
 	   });  
 		return this.optional(element)||!result;  
-    },icon+"已存在该域名");  
+    },icon+"该平台已存在该角色名");  
 	
-	$.validator.addMethod("checkSignRepeat",function(value,element,params){  
-		var param = {};
-		param.platformSign = value;
-		var result;
-		$.ajax({  
-		       url: "/platform/isRepeat",  
-		       dataType: "json", 
-		       data: param,
-		       async:false,
-		       success: function (data) {  
-		    	   if(typeof data == 'boolean'){
-		    		   result=data;
-		    	   }else{
-		    		   swal({
-		 					title: "",
-		 					text: "发生错误",
-		 					type: "error"
-		 				});
-		    		   return;
-		    	   }
-		       },  
-		       error: function (XMLHttpRequest, textStatus, errorThrown) {  
-		    	   swal({
-	 					title: "",
-	 					text: "发生错误",
-	 					type: "error"
-	 				});
-		       }  
-		   });  
-		return this.optional(element)||!result;  
-	    },icon+"已存在该平台标识");  
-	    
-	$.validator.addMethod("checkPlatName",function(value,element,params){  
-        var checkPlatName = /^[\u4e00-\u9fa5]{2,25}$/;  
+	$.validator.addMethod("checkRoleName",function(value,element,params){  
+        var checkPlatName = /^[\u4e00-\u9fa5]{2,16}$/;  
         return this.optional(element)||(checkPlatName.test(value));  
-    },icon+"平台名必须是2-25个汉字"); 
-	
-	$.validator.addMethod("checkPlatSign",function(value,element,params){  
-	    var checkPlatSign = /^(?!_)(?!.*?_$)[a-zA-Z_]+$/;                                                                                 
-	    return this.optional(element)||(checkPlatSign.test(value));  
-	},icon+"平台标识必须是字母或大小写组成的字符串，下划线不可开头和结尾");
-
-	$.validator.addMethod("checkDomain",function(value,element,params){  
-	    var checkDomain = /^((http:\/\/)|(https:\/\/))?([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}/;  
-	    return this.optional(element)||(checkDomain.test(value));  
-	},icon+"平台域名不符合域名格式");
-	
+    },icon+"平台名必须是2-16个汉字"); 
 }
 
 //初始化下拉列表
 function initStatus(){
-	$("#platformStatus").html("");
+	$("#rolePlatformUuid").html("");
+	$("#roleStatus").html("");
 	$.ajax({  
-	       url: "/platform/getStatusList",  
+	       url: "/role/getStatusList",  
 	       dataType: "json",  
 	       success: function (data) {  
 	    	   $.each(data, function (key, value) {  
-	    	        $("#platformStatus").append("<option value="+value+">" +key + "</option>");  
+	    			if("roleStatus" == key){
+	    		   		$.each(value, function(key, value){
+	    		   			$("#roleStatus").append("<option value="+value+">" +key + "</option>");
+	    		   		});
+	    		   	}
+	    		   	if("platform" == key){
+	    		   		$.each(value, function(key, value){
+	    		   			$("#rolePlatformUuid").append("<option value="+value+">" +key + "</option>");
+	    		   		});
+	    		   	}
 	    	    });  
 	       },  
 	       error: function (XMLHttpRequest, textStatus, errorThrown) {  
@@ -377,20 +330,16 @@ $(function () {
    })
    $("#addButton").on("click",function(){
 	   validator.resetForm();
-	   $("#addPageTitle").text("增加平台");
-	    $("#addForm").attr("action","/platform/add");
+	   $("#addPageTitle").text("增加角色");
+	    $("#addForm").attr("action","/role/add");
 	    $("#save").text("保存");
 	    $("#addPage").attr("sign","add");
 	    $("#addPage").modal("show");
-	    if($("#platformuuid").length > 0){
-	    	$("#platformuuid").remove();
+	    if($("#roleuuid").length > 0){
+	    	$("#roleuuid").remove();
         }
-	    $("#platformName").val("");
-	    $("#platformSign").val("");
-	    $("#platformSign").attr("disabled",false);
-	    $("#platformDomainName").val("");
-	    $("#platformDomainName").attr("disabled",false);
-	    $("#platformStatus").val(3);
+	    $("#roleName").val("");
+	    initStatus();
    });
    $remove.on("click", function(){
 	   swal({
@@ -404,7 +353,7 @@ $(function () {
 	        closeOnConfirm: false
 	    }, function () {
 				    $.ajax({  
-					       url: "/platform/deleteBatch",  
+					       url: "/role/deleteBatch",  
 					       type: "POST",
 					       dataType: "json",  
 					       contentType:"application/json",

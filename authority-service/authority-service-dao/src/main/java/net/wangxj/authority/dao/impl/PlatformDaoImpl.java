@@ -47,8 +47,9 @@ public class PlatformDaoImpl extends BaseSessionDaoSupport implements PlatformDa
 	
 	@Override
 	public List<PlatformPO> selectListByCondition(PlatformPO platformPo) {
-		
-		return super.getSqlSession().selectList("PlatformPOMapper.selectByCondition", platformPo);
+		Map<String, Object> map = new HashMap<>();
+		map.put("platform",platformPo);
+		return super.getSqlSession().selectList("PlatformPOMapper.selectByCondition", map);
 	}
 	
 	@Override
@@ -63,7 +64,6 @@ public class PlatformDaoImpl extends BaseSessionDaoSupport implements PlatformDa
 
 	@Override
 	public Integer getCountByCondition(PlatformPO platformPo) {
-		
 		return (Integer)super.getSqlSession().selectOne("PlatformPOMapper.selectCountByCondition", platformPo);
 	}
 
