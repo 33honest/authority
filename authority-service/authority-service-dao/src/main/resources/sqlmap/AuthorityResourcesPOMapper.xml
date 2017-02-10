@@ -17,10 +17,12 @@
         <result property="resourceDelTime" column="resource_del_time"/>
         <result property="resourceDelBy" column="resource_del_by"/>
         <result property="resourceIsDelete" column="resource__is_delete"/>
+        <result property="resourceEditBy" column="resource_edit_by"/>
+        <result property="resourceEditTime" column="resource_edit_time"/>
     </resultMap>
 
 	<sql id="Base_Column_List">
-		resource_uuid,resource_name,resource_platform_uuid,resource_status,resource_url,resource_level,resource_order,resource_parent_uuid,resource_css_code,resource_add_time,resource_add_by,resource_del_time,resource_del_by,resource__is_delete
+		resource_uuid,resource_name,resource_platform_uuid,resource_status,resource_url,resource_level,resource_order,resource_parent_uuid,resource_css_code,resource_add_time,resource_add_by,resource_del_time,resource_del_by,resource__is_delete,resource_edit_by,resource_edit_time
 	</sql>
 	
 	<insert id="insert" parameterType="AuthorityResourcesPO" >
@@ -65,6 +67,12 @@
 				<if test="resourceIsDelete != null  and  resourceIsDelete != '' " > 
 					, resource__is_delete
 				</if>
+				<if test="resourceEditBy != null  and  resourceEditBy != '' " > 
+					, resource_edit_by
+				</if>
+				<if test="resourceEditTime != null  and  resourceEditTime != '' " > 
+					, resource_edit_time
+				</if>
 		 ) VALUES (
 				#{resourceUuid}
 				<if test="resourceName != null  and  resourceName != '' " > 
@@ -105,6 +113,12 @@
 				</if>
 				<if test="resourceIsDelete != null  and  resourceIsDelete != '' " > 
 					, #{resourceIsDelete}
+				</if>
+				<if test="resourceEditBy != null  and  resourceEditBy != '' " > 
+					, #{resourceEditBy}
+				</if>
+				<if test="resourceEditTime != null  and  resourceEditTime != '' " > 
+					, #{resourceEditTime}
 				</if>
 		 )
 	</insert>
@@ -151,56 +165,71 @@
 				<if test="resourceIsDelete != null  and  resourceIsDelete != '' " > 
 					, resource__is_delete = #{resourceIsDelete}
 				</if>
+				<if test="resourceEditBy != null  and  resourceEditBy != '' " > 
+					, resource_edit_by = #{resourceEditBy}
+				</if>
+				<if test="resourceEditTime != null  and  resourceEditTime != '' " > 
+					, resource_edit_time = #{resourceEditTime}
+				</if>
 	    WHERE 1 = 1
 				and resource_uuid = #{resourceUuid}
 	</update>
 
-	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="AuthorityResourcesPO">
+	<select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select 
 			<include refid="Base_Column_List" /> 
 		from authority_resources  
 		where 1 = 1
-				<if test="resourceUuid != null  and  resourceUuid != '' " > 
-					and resource_uuid = #{resourceUuid}
+				<if test="resource.resourceUuid != null  and  resource.resourceUuid != '' " > 
+					and resource_uuid = #{resource.resourceUuid}
 				</if>
-				<if test="resourceName != null  and  resourceName != '' " > 
-					and resource_name = #{resourceName}
+				<if test="resource.resourceName != null  and  resource.resourceName != '' " > 
+					and resource_name = #{resource.resourceName}
 				</if>
-				<if test="resourcePlatformUuid != null  and  resourcePlatformUuid != '' " > 
-					and resource_platform_uuid = #{resourcePlatformUuid}
+				<if test="resource.resourcePlatformUuid != null  and  resource.resourcePlatformUuid != '' " > 
+					and resource_platform_uuid = #{resource.resourcePlatformUuid}
 				</if>
-				<if test="resourceStatus != null  and  resourceStatus != '' " > 
-					and resource_status = #{resourceStatus}
+				<if test="resource.resourceStatus != null  and  resource.resourceStatus != '' " > 
+					and resource_status = #{resource.resourceStatus}
 				</if>
-				<if test="resourceUrl != null  and  resourceUrl != '' " > 
-					and resource_url = #{resourceUrl}
+				<if test="resource.resourceUrl != null  and  resource.resourceUrl != '' " > 
+					and resource_url = #{resource.resourceUrl}
 				</if>
-				<if test="resourceLevel != null  and  resourceLevel != '' " > 
-					and resource_level = #{resourceLevel}
+				<if test="resource.resourceLevel != null  and  resource.resourceLevel != '' " > 
+					and resource_level = #{resource.resourceLevel}
 				</if>
-				<if test="resourceOrder != null  and  resourceOrder != '' " > 
-					and resource_order = #{resourceOrder}
+				<if test="resource.resourceOrder != null  and  resource.resourceOrder != '' " > 
+					and resource_order = #{resource.resourceOrder}
 				</if>
-				<if test="resourceParentUuid != null  and  resourceParentUuid != '' " > 
-					and resource_parent_uuid = #{resourceParentUuid}
+				<if test="resource.resourceParentUuid != null  and  resource.resourceParentUuid != '' " > 
+					and resource_parent_uuid = #{resource.resourceParentUuid}
 				</if>
-				<if test="resourceCssCode != null  and  resourceCssCode != '' " > 
-					and resource_css_code = #{resourceCssCode}
+				<if test="resource.resourceCssCode != null  and  resource.resourceCssCode != '' " > 
+					and resource_css_code = #{resource.resourceCssCode}
 				</if>
-				<if test="resourceAddTime != null  and  resourceAddTime != '' " > 
-					and resource_add_time = #{resourceAddTime}
+				<if test="resource.resourceAddTime != null  and  resource.resourceAddTime != '' " > 
+					and resource_add_time = #{resource.resourceAddTime}
 				</if>
-				<if test="resourceAddBy != null  and  resourceAddBy != '' " > 
-					and resource_add_by = #{resourceAddBy}
+				<if test="resource.resourceAddBy != null  and  resource.resourceAddBy != '' " > 
+					and resource_add_by = #{resource.resourceAddBy}
 				</if>
-				<if test="resourceDelTime != null  and  resourceDelTime != '' " > 
-					and resource_del_time = #{resourceDelTime}
+				<if test="resource.resourceDelTime != null  and  resource.resourceDelTime != '' " > 
+					and resource_del_time = #{resource.resourceDelTime}
 				</if>
-				<if test="resourceDelBy != null  and  resourceDelBy != '' " > 
-					and resource_del_by = #{resourceDelBy}
+				<if test="resource.resourceDelBy != null  and  resource.resourceDelBy != '' " > 
+					and resource_del_by = #{resource.resourceDelBy}
 				</if>
-				<if test="resourceIsDelete != null  and  resourceIsDelete != '' " > 
-					and resource__is_delete = #{resourceIsDelete}
+				<if test="resource.resourceIsDelete != null  and  resource.resourceIsDelete != '' " > 
+					and resource__is_delete = #{resource.resourceIsDelete}
+				</if>
+				<if test="resource.resourceEditBy != null  and  resource.resourceEditBy != '' " > 
+					and resource_edit_by = #{resource.resourceEditBy}
+				</if>
+				<if test="resource.resourceEditTime != null  and  resource.resourceEditTime != '' " > 
+					and resource_edit_time = #{resource.resourceEditTime}
+				</if>
+				<if test="order != null  and  order != '' and sort != null and sort != '' " > 
+					ORDER BY ${sort} ${order}
 				</if>
 	</select>
 	
@@ -249,6 +278,12 @@
 					</if>		        	
 					<if test="resourceIsDelete != null  and  resourceIsDelete != '' " > 
 						and resource__is_delete = #{resourceIsDelete}
+					</if>
+					<if test="resourceEditBy != null  and  resourceEditBy != '' " > 
+						and resource_edit_by = #{resourceEditBy}
+					</if>
+					<if test="resourceEditTime != null  and  resourceEditTime != '' " > 
+						and resource_edit_time = #{resourceEditTime}
 					</if>		        	
 	</select>	
 	

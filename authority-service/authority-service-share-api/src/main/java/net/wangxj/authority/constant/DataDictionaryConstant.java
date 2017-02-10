@@ -182,4 +182,41 @@ public class DataDictionaryConstant {
 	}
 	
 	/********     角色状态结束			*********/
+	
+	/***********   资源状态开始  ***************************/
+	
+	public static String RESOURCE_STATUS_NOACTIVE_KEY = "未激活";
+	public static Integer RESOURCE_STATUS_NOACTIVE_VALUE = 3;
+	
+	public static String RESOURCE_STATUS_ACTIVE_KEY = "已激活";
+	public static Integer RESOURCE_STATUS_ACTIVE_VALUE = 1;
+	
+	public static String RESOURCE_STATUS_CANCELATION_KEY = "已激活";
+	public static Integer RESOURCE_STATUS_CANCELATION_VALUE = 2;
+	
+	public static LinkedHashMap<String, Integer> resourceStatusKeyValueMap = new LinkedHashMap<>();
+	public static LinkedHashMap<Integer, String> resourceStatusValueKeyMap = new LinkedHashMap<>();
+	
+	static{
+		resourceStatusKeyValueMap.put(RESOURCE_STATUS_NOACTIVE_KEY, RESOURCE_STATUS_NOACTIVE_VALUE);
+		resourceStatusKeyValueMap.put(RESOURCE_STATUS_ACTIVE_KEY, RESOURCE_STATUS_ACTIVE_VALUE);
+		resourceStatusKeyValueMap.put(RESOURCE_STATUS_CANCELATION_KEY, RESOURCE_STATUS_CANCELATION_VALUE);
+		
+		resourceStatusValueKeyMap.put(RESOURCE_STATUS_NOACTIVE_VALUE, RESOURCE_STATUS_NOACTIVE_KEY);
+		resourceStatusValueKeyMap.put(RESOURCE_STATUS_ACTIVE_VALUE, RESOURCE_STATUS_ACTIVE_KEY);
+		resourceStatusValueKeyMap.put(RESOURCE_STATUS_CANCELATION_VALUE, RESOURCE_STATUS_CANCELATION_KEY);
+	}
+	
+	public static String getResourceStatusKey(Integer value){
+		return resourceStatusValueKeyMap.get(value);
+	}
+	
+	public static Integer getResourceStatusValue(String key){
+		return resourceStatusKeyValueMap.get(key);
+	}
+	
+	/***********   资源状态结束   **************************/
+	
+	
+	
 }

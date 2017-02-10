@@ -2,6 +2,7 @@
 
 package net.wangxj.authority.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,20 +47,35 @@ public class AuthorityResourcesDaoImpl extends BaseSessionDaoSupport implements 
 	
 	@Override
 	public List<AuthorityResourcesPO> selectListByCondition(AuthorityResourcesPO authorityResourcesPo) {
-		
-		return super.getSqlSession().selectList("AuthorityResourcesPOMapper.selectByCondition", authorityResourcesPo);
+		Map<String, Object> map = new HashMap<>();
+		map.put("resource", authorityResourcesPo);
+		return super.getSqlSession().selectList("AuthorityResourcesPOMapper.selectByCondition", map);
 	}
 	
 	@Override
 	public List<AuthorityResourcesPO> selectPageListByCondition(AuthorityResourcesPO authorityResourcesPo, int pageNum, int limit,String order,String sort) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("resource", authorityResourcesPo);
+		map.put("order", order);
+		map.put("sort", sort);
 		PageHelper.startPage(pageNum, limit);
-		return super.getSqlSession().selectList("AuthorityResourcesPOMapper.selectByCondition", authorityResourcesPo);
+		return super.getSqlSession().selectList("AuthorityResourcesPOMapper.selectByCondition", map);
 	}
 
 	@Override
 	public Integer getCountByCondition(AuthorityResourcesPO authorityResourcesPo) {
 		
 		return (Integer)super.getSqlSession().selectOne("AuthorityResourcesPOMapper.selectCountByCondition", authorityResourcesPo);
+	}
+	
+	@Override
+	public Integer modifyByBatch(List<AuthorityResourcesPO> resourceList){
+		int count = 0;
+		for (AuthorityResourcesPO authorityResourcesPO : resourceList) {
+			this.updateByUuid(authorityResourcesPO);
+			count++;
+		}
+		return count;
 	}
 	
 }

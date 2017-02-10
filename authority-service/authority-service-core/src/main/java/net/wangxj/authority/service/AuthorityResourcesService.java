@@ -37,11 +37,17 @@ public interface AuthorityResourcesService{
 	/**
 	 * 条件分页查询
 	 */
-	public List<AuthorityResourcesPO> queryPageListByCondition(AuthorityResourcesPO authorityResourcesPo, int pageNum, int limit);
+	public List<AuthorityResourcesPO> queryPageListByCondition(AuthorityResourcesPO authorityResourcesPo, int pageNum, int limit, String order, String sort);
 	
 	/**
 	 * 条件数量查询
 	 * @return
 	 */
 	public Integer getCountByCondition(AuthorityResourcesPO authorityResourcesPo);
+	/**
+	 * 批量修改
+	 * @param resourceList
+	 * @return
+	 */
+	Integer modifyByBatch(List<AuthorityResourcesPO> resourceList);
 }

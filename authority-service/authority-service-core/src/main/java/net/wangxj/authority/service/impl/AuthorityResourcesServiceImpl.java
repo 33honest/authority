@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 import net.wangxj.authority.dao.AuthorityResourcesDao;
 import net.wangxj.authority.po.AuthorityResourcesPO;
 import net.wangxj.authority.service.AuthorityResourcesService;
+import net.wangxj.util.string.StringUtil;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,9 +40,9 @@ public class AuthorityResourcesServiceImpl implements AuthorityResourcesService{
 	}
 	
 	@Override
-	public List<AuthorityResourcesPO> queryPageListByCondition(AuthorityResourcesPO authorityResourcesPo, int pageNum, int limit) {
-		
-		return authorityResourcesDao.selectPageListByCondition(authorityResourcesPo, pageNum, limit, null, null);
+	public List<AuthorityResourcesPO> queryPageListByCondition(AuthorityResourcesPO authorityResourcesPo, int pageNum, int limit,String order, String sort) {
+		sort = StringUtil.getNumpReverse(sort);
+		return authorityResourcesDao.selectPageListByCondition(authorityResourcesPo, pageNum, limit, order, sort);
 	}
 
 
@@ -60,6 +62,11 @@ public class AuthorityResourcesServiceImpl implements AuthorityResourcesService{
 	public Integer getCountByCondition(AuthorityResourcesPO authorityResourcesPo) {
 		
 		return authorityResourcesDao.getCountByCondition(authorityResourcesPo);
+	}
+	
+	@Override
+	public Integer modifyByBatch(List<AuthorityResourcesPO> resourceList){
+		return authorityResourcesDao.modifyByBatch(resourceList);
 	}
 
 }
