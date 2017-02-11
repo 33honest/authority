@@ -40,13 +40,25 @@ public interface AuthorityResourcesShareService{
 	 * @param pageNum: 页码
 	 * @param limit:   每页条数
 	 */
-	public Response<AuthorityResourcesDTO> queryPageListByCondition(AuthorityResourcesDTO authorityResourcesDto, int pageNum, int limit);
+	public Response<AuthorityResourcesDTO> queryPageListByCondition(AuthorityResourcesDTO authorityResourcesDto, int pageNum, int limit, String order, String sort);
 	
 	/**
 	 * 条件数量查询
 	 * @return
 	 */
-	public Response<Integer> getCountByCondition(AuthorityResourcesDTO authorityResourcesDto);
+	public Response<Integer> getCountByCondition(AuthorityResourcesDTO authorityResourcesDto, boolean noDelete);
+	/**
+	 * 根据uuid删除
+	 * @param resourceDto
+	 * @return
+	 */
+	Response<Integer> deleteByUuid(AuthorityResourcesDTO resourceDto);
+	/**
+	 * 批量删除
+	 * @param listResource
+	 * @return
+	 */
+	Response<Integer> deleteByBatch(List<AuthorityResourcesDTO> listResource);
 	
 
 }

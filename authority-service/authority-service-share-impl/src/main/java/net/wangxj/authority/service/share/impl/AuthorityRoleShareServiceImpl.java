@@ -19,8 +19,10 @@ import net.wangxj.authority.dto.AuthorityRoleDTO;
 import net.wangxj.authority.dto.AuthorityUserDTO;
 import net.wangxj.authority.po.AuthorityRolePO;
 import net.wangxj.authority.po.AuthorityUserPO;
+import net.wangxj.authority.po.PlatformPO;
 import net.wangxj.authority.service.AuthorityRoleService;
 import net.wangxj.authority.service.AuthorityUserService;
+import net.wangxj.authority.service.PlatformService;
 
 /**
  * created by	: wangxj
@@ -34,6 +36,8 @@ public class AuthorityRoleShareServiceImpl extends BaseAbstractAuthorityShareSer
 	private AuthorityRoleService authorityRoleService;
 	@Resource
 	private AuthorityUserService authorityUserService;
+	@Resource
+	private PlatformService platformService;
 	
 	@Override
 	public Response<Integer> add(AuthorityRoleDTO authorityRoleDto){
@@ -166,12 +170,17 @@ public class AuthorityRoleShareServiceImpl extends BaseAbstractAuthorityShareSer
 			AuthorityUserPO deleteUserPo = new AuthorityUserPO();
 			deleteUserPo.setUserUuid(authorityRolePo2.getRoleDelBy());
 			List<AuthorityUserPO> deleteUserList = authorityUserService.queryListByCondition(deleteUserPo);
+			//所属平台
+			PlatformPO platformPo = new PlatformPO();
+			platformPo.setPlatformUuid(authorityRolePo2.getRolePlatformUuid());
+			PlatformPO platformPO2 = platformService.queryListByCondition(platformPo).get(0);
 			
 			AuthorityRoleDTO authorityRoleDto2 = new AuthorityRoleDTO();
 			BeanUtils.copyProperties(authorityRolePo2, authorityRoleDto2);
 			authorityRoleDto2.setRoleAddByName(addUser.getUserLoginName());
 			authorityRoleDto2.setRoleEditByName(editUserList.size() != 1 ? "-" : editUserList.get(0).getUserLoginName());
 			authorityRoleDto2.setRoleDelByName(deleteUserList.size() != 1 ? "-" : deleteUserList.get(0).getUserLoginName());
+			authorityRoleDto2.setRolePlatformName(platformPO2.getPlatformName());
 			listDto.add(authorityRoleDto2);
 		}
 		response.setCode(0L);

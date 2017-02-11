@@ -41,6 +41,8 @@ public class AuthorityRoleDTO implements DTO,Serializable{
 	private java.lang.Integer roleIsDelete;
     // 平台uuid 	
 	private String rolePlatformUuid;
+	//平台名
+	private String rolePlatformName;
 	//编辑人
 	private String roleEditBy;
 	//编辑人名
@@ -52,13 +54,15 @@ public class AuthorityRoleDTO implements DTO,Serializable{
 		super();
 	}
 
-	public AuthorityRoleDTO(String roleUuid, String roleName, Integer roleStatus, String roleAddTime, String roleAddBy,
-			String roleAddByName, String roleDelTime, String roleDelBy, String roleDelByName, Integer roleIsDelete,
-			String rolePlatformUuid, String roleEditBy, String roleEditByName, String roleEditTime) {
+	public AuthorityRoleDTO(String roleUuid, String roleName, Integer roleStatus, String roleStatusName,
+			String roleAddTime, String roleAddBy, String roleAddByName, String roleDelTime, String roleDelBy,
+			String roleDelByName, Integer roleIsDelete, String rolePlatformUuid, String rolePlatformName,
+			String roleEditBy, String roleEditByName, String roleEditTime) {
 		super();
 		this.roleUuid = roleUuid;
 		this.roleName = roleName;
 		this.roleStatus = roleStatus;
+		this.roleStatusName = roleStatusName;
 		this.roleAddTime = roleAddTime;
 		this.roleAddBy = roleAddBy;
 		this.roleAddByName = roleAddByName;
@@ -67,6 +71,7 @@ public class AuthorityRoleDTO implements DTO,Serializable{
 		this.roleDelByName = roleDelByName;
 		this.roleIsDelete = roleIsDelete;
 		this.rolePlatformUuid = rolePlatformUuid;
+		this.rolePlatformName = rolePlatformName;
 		this.roleEditBy = roleEditBy;
 		this.roleEditByName = roleEditByName;
 		this.roleEditTime = roleEditTime;
@@ -192,6 +197,16 @@ public class AuthorityRoleDTO implements DTO,Serializable{
 	public void setRoleStatusName(String roleStatusName) {
 		this.roleStatusName = roleStatusName;
 	}
+	
+	
+
+	public String getRolePlatformName() {
+		return rolePlatformName;
+	}
+
+	public void setRolePlatformName(String rolePlatformName) {
+		this.rolePlatformName = rolePlatformName;
+	}
 
 	@Override
 	public String toString() {
@@ -199,8 +214,8 @@ public class AuthorityRoleDTO implements DTO,Serializable{
 				+ ", roleStatusName=" + roleStatusName + ", roleAddTime=" + roleAddTime + ", roleAddBy=" + roleAddBy
 				+ ", roleAddByName=" + roleAddByName + ", roleDelTime=" + roleDelTime + ", roleDelBy=" + roleDelBy
 				+ ", roleDelByName=" + roleDelByName + ", roleIsDelete=" + roleIsDelete + ", rolePlatformUuid="
-				+ rolePlatformUuid + ", roleEditBy=" + roleEditBy + ", roleEditByName=" + roleEditByName
-				+ ", roleEditTime=" + roleEditTime + "]";
+				+ rolePlatformUuid + ", rolePlatformName=" + rolePlatformName + ", roleEditBy=" + roleEditBy
+				+ ", roleEditByName=" + roleEditByName + ", roleEditTime=" + roleEditTime + "]";
 	}
 
 	@Override
