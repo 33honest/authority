@@ -172,7 +172,7 @@ public class AuthorityResourcesShareServiceImpl extends BaseAbstractAuthoritySha
 			PlatformPO platformPO2 = platformService.queryListByCondition(platformPo).get(0);
 			//父级资源
 			AuthorityResourcesPO parentPo = new AuthorityResourcesPO();
-			parentPo.setResourceParentUuid(authorityResourcesPo2.getResourceParentUuid());
+			parentPo.setResourceUuid(authorityResourcesPo2.getResourceParentUuid());
 			AuthorityResourcesPO parentResource = authorityResourcesService.queryListByCondition(parentPo).get(0);
 			
 			AuthorityResourcesDTO authorityResourcesDto2 = new AuthorityResourcesDTO();

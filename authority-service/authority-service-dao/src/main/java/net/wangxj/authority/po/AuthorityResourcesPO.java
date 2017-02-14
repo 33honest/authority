@@ -56,7 +56,8 @@ public class AuthorityResourcesPO implements PO{
 	private java.lang.Integer resourceOrder;
     // 资源父级id 	
 	@Pattern(regexp=RegexConstant.UUID_32, message="资源父级uuid非法", groups={AddValidate.class,EditValidate.class}, payload={Info.class})
-	@NotBlank(message="资源父级uuid不可为空", groups={AddValidate.class}, payload={Info.class})
+//	@NotBlank(message="资源父级uuid不可为空", groups={AddValidate.class}, payload={Info.class})
+	//TODO 需要优化
 	private String resourceParentUuid;
     // 资源css code备用 	
 	private String resourceCssCode;

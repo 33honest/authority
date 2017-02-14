@@ -1,4 +1,4 @@
-var $table = $('#platform_table'),
+var $table = $('#resource_table'),
     $remove = $('#remove'),
     selections = [],
 	validator;
@@ -21,42 +21,58 @@ function initTable() {
 	                valign: 'middle'
 	            },
                 {
-                    field: 'platformUuid',
-                    title: 'PlatformUUID',
+                    field: 'resourceUuid',
+                    title: 'ResourceUUID',
                     sortable: true,
                     align: 'center'
                 }, {
-                    field: 'platformName',
-                    title: '平台名',
+                    field: 'resourceName',
+                    title: '资源名',
                     sortable: true,
                     align: 'center',
                 }, {
-                	field: 'platformSign',
-                	title: '平台标识',
+                	field: 'resourcePlatformName',
+                	title: '平台',
                 	sortable: true,
                 	align: 'center',
                 },{
-                	field: 'platformDomainName',
-                	title: '平台域名',
+                	field: 'resourceLevel',
+                	title: '层级',
                 	sortable: true,
                 	align: 'center',
                 },{
-                	field: 'platformAddTime',
-                	title: '增加时间',
+                	field: 'resourceOrder',
+                	title: '编码',
                 	sortable: true,
                 	align: 'center'
                 },{
-                	field: 'platformEditTime',
-                	title: '修改时间',
+                	field: 'resourceParentName',
+                	title: '父级',
                 	sortable: true,
                 	align: 'center'
                 },{
-                	field: 'platformAddByName',
+                	field: 'resourceStatusName',
+                	title: '状态',
+                	align: 'center'
+                },{
+                	field: 'resourceUrl',
+                	title: '链接',
+                	align: 'center',
+                },{
+                	field: 'resourceAddByName',
                 	title: '增加人',
-                	align: 'center'
+                	align: 'center',
                 },{
-                	field: 'platformStatusName',
-                	title: '平台状态',
+                	field: 'resourceAddTime',
+                	title: '增加时间',
+                	align: 'center',
+                },{
+                	field: 'resourceEditByName',
+                	title: '编辑人',
+                	align: 'center',
+                },{
+                	field: 'resourceEditTime',
+                	title: '编辑时间',
                 	align: 'center',
                 }, {
                     field: 'operate',
@@ -79,21 +95,24 @@ function initTable() {
         
 function getIdSelections() {
     return $.map($table.bootstrapTable('getSelections'), function (row) {
-        return row.platformUuid;
+        return row.resourceUuid;
     });
 }
         
 //详情
 function detailFormatter(index, row) {
     var html = [];
-    html.push('<p><b>' + 'PlatformUuid' + ':</b> ' + row.platformUuid + '</p>');
-    html.push('<p><b>' + '平台名' + ':</b> ' + row.platformName + '</p>');
-    html.push('<p><b>' + '平台标识' + ':</b> ' + row.platformSign + '</p>');
-    html.push('<p><b>' + '平台域名' + ':</b> ' + row.platformDomainName + '</p>');
-    html.push('<p><b>' + '增加时间' + ':</b> ' + row.platformAddTime + '</p>');
-    html.push('<p><b>' + '修改时间' + ':</b> ' + row.platformEditTime + '</p>');
-    html.push('<p><b>' + '增加人' + ':</b> ' + row.platformAddByName+ '</p>');
-    html.push('<p><b>' + '平台状态' + ':</b> ' + row.platformStatusName+ '</p>');
+    html.push('<p><b>' + 'ResourceUUID' + ':</b> ' + row.resourceUuid + '</p>');
+    html.push('<p><b>' + '平台' + ':</b> ' + row.resourcePlatformName + '</p>');
+    html.push('<p><b>' + '层级' + ':</b> ' + row.resourceLevel + '</p>');
+    html.push('<p><b>' + '编码' + ':</b> ' + row.resourceOrder + '</p>');
+    html.push('<p><b>' + '父级' + ':</b> ' + row.resourceParentName + '</p>');
+    html.push('<p><b>' + '状态' + ':</b> ' + row.resourceStatusName + '</p>');
+    html.push('<p><b>' + '链接' + ':</b> ' + row.resourceUrl+ '</p>');
+    html.push('<p><b>' + '增加人' + ':</b> ' + row.resourceAddByName+ '</p>');
+    html.push('<p><b>' + '增加时间' + ':</b> ' + row.resourceAddTime+ '</p>');
+    html.push('<p><b>' + '编辑人' + ':</b> ' + row.resourceEditByName+ '</p>');
+    html.push('<p><b>' + '编辑时间' + ':</b> ' + row.resourceEditTime+ '</p>');
     return html.join('');
 }
 //操作:删除,编辑
@@ -112,31 +131,25 @@ window.operateEvents = {
     	//重置校验
     	validator.resetForm();
     	//初始化编辑
-        $("#addPageTitle").text("编辑平台");
-        $("#addForm").attr("action","/platform/edit");
+        $("#addPageTitle").text("编辑资源");
+        $("#addForm").attr("action","/resource/edit");
         $("#save").text("修改");
         $("#addPage").attr("sign","edit");
         $("#addPage").modal("show");
-        if($("#platformuuid").length <= 0){
-        	uuidInput = '<input id="platformuuid" name="platformUuid" class="form-control" type="hidden" value="'+row.platformUuid+'">';
+        if($("#resource_uuid").length <= 0){　
+        	uuidInput = '<input id="resource_uuid" name="resourceUuid" class="form-control" type="hidden" value="'+row.resourceUuid+'">';
             $("#addForm").append(uuidInput);
         }
         else{
-        	$("#platformuuid").val(row.platformUuid);
+        	$("#resource_uuid").val(row.resourceUuid);
         }
         $.each(row, function(key, value){
-        	if(key == "platformSign" || key == "platformDomainName"){
-        		$("#"+key).val(value);
-        		$("#"+key).attr("disabled",true);
-        	}
-        	else{
-        		$("#"+key).val(value);
-        	}
+        	$("#"+key).val(value);
         });
     },
     'click .remove': function (e, value, row, index) {
     		var param = {};
-    		param.platformUuid = row.platformUuid;
+    		param.resourceUuid = row.resourceUuid;
     	    swal({
     	        title: "您确定要删除这条信息吗",
     	        text: "删除后将无法恢复，请谨慎操作！",
@@ -148,7 +161,7 @@ window.operateEvents = {
     	        closeOnConfirm: false
     	    }, function () {
 			    	    	$.ajax({  
-			    	  	       url: "/platform/delete",  
+			    	  	       url: "/resource/delete",  
 			    	  	       dataType: "json", 
 			    	  	       data: param,
 			    	  	       success: function (data) {  
@@ -187,36 +200,26 @@ function validate(){
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	validator = $("#addForm").validate({
 			    rules: {
-			    	platformName:{
+			    	resourceName:{
 			    	 	required:true,
-			    	 	checkPlatName: true,
+			    	 	checkResourceName: true,
 			    	 	rangelength:[2,25],
 			    	 	
 			    	},
-			    	platformSign:{
+			    	resourceUrl:{
 			    		required: true,
-			    		checkPlatSign: true,
-			    		rangelength:[2,32],
-			    		checkSignRepeat: true
-			    	},
-			    	platformDomainName:{
-			    		required: true,
-			    		checkDomain: true,
-			    		checkDomainRepeat: true
+			    		checkURL: true,
+			    		rangelength:[1,128]
 			    	}
-			       
 			    },
 			    messages: {
 			    	platformName:{
-			    		required: icon+"平台名是必填项",
+			    		required: icon+"资源名是必填项",
 			    		rangelength:icon+"长度必须在2-25个字符"
 			    	},
-			    	platformSign:{
-			    		required: icon+"平台标识是必填项",
-			    		rangelength:icon+"长度必须在2-32个字符"
-			    	},
-			    	platformDomainName:{
-			    		required: icon+"平台域名是必填项"
+			    	resourceUrl:{
+			    		required: icon+"资源URL是必填项",
+			    		rangelength:icon+"长度必须在1-128个字符"
 			    	}
 			    },
 			    submitHandler: function(form){
@@ -262,97 +265,55 @@ function validate(){
 			    }
 			});
 
-	$.validator.addMethod("checkDomainRepeat",function(value,element,params){  
-		var param = {};
-		param.platformDomainName = value;
-		var result;
-		$.ajax({  
-	       url: "/platform/isRepeat",  
-	       dataType: "json", 
-	       data: param,
-	       async:false,
-	       success: function (data) {  
-	    	   if(typeof data == 'boolean'){
-	    		  result=data;
-	    	   }
-	    	   else{
-	    		   swal({
-	 					title: "",
-	 					text: "发生错误",
-	 					type: "error"
-	 				});
-	    		   return;
-	    	   }
-	       },  
-	       error: function (XMLHttpRequest, textStatus, errorThrown) {  
-	    	   swal({
-					title: "",
-					text: "发生错误",
-					type: "error"
-				});
-	       }  
-	   });  
-		return this.optional(element)||!result;  
-    },icon+"已存在该域名");  
 	
-	$.validator.addMethod("checkSignRepeat",function(value,element,params){  
-		var param = {};
-		param.platformSign = value;
-		var result;
-		$.ajax({  
-		       url: "/platform/isRepeat",  
-		       dataType: "json", 
-		       data: param,
-		       async:false,
-		       success: function (data) {  
-		    	   if(typeof data == 'boolean'){
-		    		   result=data;
-		    	   }else{
-		    		   swal({
-		 					title: "",
-		 					text: "发生错误",
-		 					type: "error"
-		 				});
-		    		   return;
-		    	   }
-		       },  
-		       error: function (XMLHttpRequest, textStatus, errorThrown) {  
-		    	   swal({
-	 					title: "",
-	 					text: "发生错误",
-	 					type: "error"
-	 				});
-		       }  
-		   });  
-		return this.optional(element)||!result;  
-	    },icon+"已存在该平台标识");  
 	    
-	$.validator.addMethod("checkPlatName",function(value,element,params){  
+	$.validator.addMethod("checkResourceName",function(value,element,params){  
         var checkPlatName = /^[\u4e00-\u9fa5]{2,25}$/;  
         return this.optional(element)||(checkPlatName.test(value));  
     },icon+"平台名必须是2-25个汉字"); 
 	
-	$.validator.addMethod("checkPlatSign",function(value,element,params){  
-	    var checkPlatSign = /^(?!_)(?!.*?_$)[a-zA-Z_]+$/;                                                                                 
-	    return this.optional(element)||(checkPlatSign.test(value));  
-	},icon+"平台标识必须是字母或大小写组成的字符串，下划线不可开头和结尾");
-
-	$.validator.addMethod("checkDomain",function(value,element,params){  
-	    var checkDomain = /^((http:\/\/)|(https:\/\/))?([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}/;  
-	    return this.optional(element)||(checkDomain.test(value));  
-	},icon+"平台域名不符合域名格式");
-	
+	$.validator.addMethod("checkURL",function(value,element,params){  
+	    var checkURL = /(^\/)?([\w\/]*)(\/)?$/;                                                                                 
+	    return this.optional(element)||(checkURL.test(value));  
+	},icon+"不符合资源URL格式");
 }
 
 //初始化下拉列表
 function initStatus(){
-	$("#platformStatus").html("");
+	$("#resourcePlatformUuid").html("");
+	$("#resourceParentUuid").html("");
+	$("#resourceStatus").html("");
+	$("#resourceLevel").html("");
+	$("#resourceOrder").html("");
+	for(var i=1; i<=100 ; i++){ 
+		$("#resourceLevel").append("<option value="+i+">" +i + "</option>");  
+		$("#resourceOrder").append("<option value="+i+">" +i + "</option>");  
+	}
+	var param = {};
+	//资源层级
+	param.resourceLevel = $("#resourceLevel").val();
 	$.ajax({  
-	       url: "/platform/getStatusList",  
+	       url: "/resource/initSelect",  
 	       dataType: "json",  
+	       data: param,
 	       success: function (data) {  
 	    	   $.each(data, function (key, value) {  
-	    	        $("#platformStatus").append("<option value="+value+">" +key + "</option>");  
+	    		   var keyval = key != undefined;
+	    		   if(keyval && "parent" == key){
+	    		   		$.each(value, function(key, value){
+	    		   			$("#resourceParentUuid").append("<option value="+value+">" +key + "</option>");
+	    		   		});
+	    		   	}
+	    		   	if(keyval && "platform" == key){
+	    		   		$.each(value, function(key, value){
+	    		   			$("#resourcePlatformUuid").append("<option value="+value+">" +key + "</option>");
+	    		   		});
+	    		   	}
+	    		   	if(keyval && "resourceStatus" == key){
+	    		   		$.each(value, function(key, value){
+	    		   			$("#resourceStatus").append("<option value="+value+">" +key + "</option>");
+	    		   		});
+	    		   	}
 	    	    });  
 	       },  
 	       error: function (XMLHttpRequest, textStatus, errorThrown) {  
@@ -365,6 +326,33 @@ function initStatus(){
 	   });  
 }
 
+function changeByChange(){
+	var param = {};
+	param.resourcePlatformUuid = $("#resourcePlatformUuid").val(); 
+	param.resourceLevel = $("#resourceLevel").val();
+	$.ajax({
+		url: "/resource/changeBychange",  
+	       dataType: "json",  
+	       data: param,
+	       success: function (data) { 
+	    	   $.each(data, function (key, value) {  
+	    		   if("parent" == key){
+		   		   		$.each(value, function(key, value){
+		   		   			$("#resourceParentUuid").append("<option value="+value+">" +key + "</option>");
+		   		   		});
+	   		   		}
+	    	   });
+	       },
+	       error: function (XMLHttpRequest, textStatus, errorThrown) {  
+	    	   swal({
+					title: "",
+					text: "发生错误",
+					type: "error"
+				});
+	       }  
+	});
+	
+}
         
 $(function () {
 	
@@ -372,25 +360,32 @@ $(function () {
    initStatus();
    validate();
    
+   $("#resourcePlatformUuid").on("change", function(){
+	   changeByChange();
+   }); 
+   
+   $("#resourceLevel").on("change", function(){
+	   changeByChange();
+   });
+   
    $("#save").on("click",function(){
 	   $("#addForm").submit();
    })
    $("#addButton").on("click",function(){
 	   validator.resetForm();
-	   $("#addPageTitle").text("增加平台");
-	    $("#addForm").attr("action","/platform/add");
+	   $("#addPageTitle").text("增加资源");
+	    $("#addForm").attr("action","/resource/add");
 	    $("#save").text("保存");
 	    $("#addPage").attr("sign","add");
 	    $("#addPage").modal("show");
-	    if($("#platformuuid").length > 0){
-	    	$("#platformuuid").remove();
+	    if($("#resource_uuid").length > 0){
+	    	$("#resource_uuid").remove();
         }
-	    $("#platformName").val("");
-	    $("#platformSign").val("");
-	    $("#platformSign").attr("disabled",false);
-	    $("#platformDomainName").val("");
-	    $("#platformDomainName").attr("disabled",false);
-	    $("#platformStatus").val(3);
+	    initStatus();
+	    $("#resourceName").val("");
+	    $("#resourceUrl").val("");
+	    $("#resourceCssCode").val("");
+	    
    });
    $remove.on("click", function(){
 	   swal({
@@ -404,7 +399,7 @@ $(function () {
 	        closeOnConfirm: false
 	    }, function () {
 				    $.ajax({  
-					       url: "/platform/deleteBatch",  
+					       url: "/resource/deleteBatch",  
 					       type: "POST",
 					       dataType: "json",  
 					       contentType:"application/json",

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>平台管理</title>
+    <title>资源管理</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
 
@@ -56,7 +56,7 @@
                             </button>
                         </div>
                         <div class="example">
-                        	<table id="platform_table"
+                        	<table id="resource_table"
                         		   data-toolbar="#toolbar"
 						           data-search="true"
 						           data-show-refresh="true"
@@ -72,9 +72,9 @@
 						           data-page-list="[10, 25, 50, 100, ALL]"
 						           data-show-footer="false"
 						           data-side-pagination="server"
-						           data-url="/platform/list"
+						           data-url="/resource/list"
 						           data-method="post"
-						           data-sort-name="platformAddTime"
+						           data-sort-name="resourceAddTime"
 						           data-sort-order="desc">
                         	</table>
                         </div>
@@ -88,32 +88,56 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="addPageTitle">增加平台</h4>
+                        <h4 class="modal-title" id="addPageTitle">增加资源</h4>
                     </div>
                     <div class="modal-body">
-	                        <form class="form-horizontal m-t" id="addForm" action="/platform/add">
+	                        <form class="form-horizontal m-t" id="addForm" action="/resource/add">
 	                            <div class="form-group">
-	                                <label class="col-sm-3 control-label">平台名：</label>
+	                                <label class="col-sm-3 control-label">资源名：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="platformName" name="platformName" class="form-control" type="text">
+	                                    <input id="resourceName" name="resourceName" class="form-control" type="text"/>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
-	                                <label class="col-sm-3 control-label">平台标识：</label>
+	                                <label class="col-sm-3 control-label">所属平台：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="platformSign" name="platformSign" class="form-control" type="text"><span class="help-block m-b-none">一旦确定不可再修改</span>
+	                                    <select class="form-control" id="resourcePlatformUuid" name="resourcePlatformUuid"></select> 
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
-	                                <label class="col-sm-3 control-label">平台域名：</label>
+	                                <label class="col-sm-3 control-label">资源层级：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="platformDomainName" name="platformDomainName" class="form-control" type="text"><span class="help-block m-b-none">一旦确定不可再修改</span>
+	                                    <select class="form-control" id="resourceLevel" name="resourceLevel"></select> 
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
-	                                <label class="col-sm-3 control-label">平台状态：</label>
+	                                <label class="col-sm-3 control-label">父级：</label>
 	                                <div class="col-sm-6">
-	                                   <select class="form-control" id="platformStatus" name="platformStatus"></select> 
+	                                    <select class="form-control" id="resourceParentUuid" name="resourceParentUuid"></select> 
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label class="col-sm-3 control-label">资源编码：</label>
+	                                <div class="col-sm-6">
+	                                   <select class="form-control" id="resourceOrder" name="resourceOrder"></select> 
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label class="col-sm-3 control-label">资源状态：</label>
+	                                <div class="col-sm-6">
+	                                   <select class="form-control" id="resourceStatus" name="resourceStatus"></select> 
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label class="col-sm-3 control-label">资源链接：</label>
+	                                <div class="col-sm-6">
+	                                   <input class="form-control" id="resourceUrl" name="resourceUrl" type="text"/>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label class="col-sm-3 control-label">CSS CODE：</label>
+	                                <div class="col-sm-6">
+	                                   <input class="form-control" id="resourceCssCode" name="resourceCssCode" type="text"/>
 	                                </div>
 	                            </div>
 	                        </form>
@@ -141,7 +165,7 @@
     <script src="/js/plugins/validate/jquery.validate.min.js"></script>
     <script src="/js/plugins/validate/messages_zh.min.js"></script>
     <script src="/js/plugins/sweetalert/sweetalert.min.js"></script>
-    <script src="/js/platform/platform.js"></script>
+    <script src="/js/resource/resource.js"></script>
 
 </body>
 

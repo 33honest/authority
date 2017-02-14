@@ -64,4 +64,18 @@ public class AuthorityResourcesController{
 		return authorityResourcesWebService.isRepeatField(resourceDto);
 	}
 	
+	@RequestMapping("/initSelect")
+	@ResponseBody
+	public String initSelect(AuthorityResourcesDTO resourceDto){
+		return authorityResourcesWebService.initSelect(resourceDto);
+	}
+	
+	@RequestMapping("/changeBychange")
+	@ResponseBody
+	public String changeBy(AuthorityResourcesDTO resourceDto){
+		return authorityResourcesWebService.changeBy(resourceDto);
+	}
+	
+	
+	
 }

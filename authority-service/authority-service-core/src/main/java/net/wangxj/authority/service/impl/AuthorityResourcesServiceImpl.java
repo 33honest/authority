@@ -12,6 +12,7 @@ import net.wangxj.authority.dao.AuthorityResourcesDao;
 import net.wangxj.authority.po.AuthorityResourcesPO;
 import net.wangxj.authority.service.AuthorityResourcesService;
 import net.wangxj.util.string.StringUtil;
+import net.wangxj.util.string.UuidUtil;
 
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,11 @@ public class AuthorityResourcesServiceImpl implements AuthorityResourcesService{
 	
 	@Override
 	public Integer add(AuthorityResourcesPO authorityResourcesPo) {
-		
+		String resourceUuid = UuidUtil.newGUID();
+		authorityResourcesPo.setResourceUuid(resourceUuid);
+		if(authorityResourcesPo.getResourceLevel() == 1){
+			authorityResourcesPo.setResourceParentUuid(resourceUuid);
+		}
 		return authorityResourcesDao.insert(authorityResourcesPo);
 	}
 	
