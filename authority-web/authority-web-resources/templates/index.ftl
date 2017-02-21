@@ -54,19 +54,19 @@
                     </li>
                     <li>
                         <a class="J_menuItem" href="user/">
-                            <i class="fa fa-home"></i>
+                            <i class="fa fa-users"></i>
                             <span class="nav-label">用户管理</span>
                         </a>
                     </li>
                     <li>
                         <a class="J_menuItem" href="role/">
-                            <i class="fa fa-home"></i>
+                            <i class="fa fa-user"></i>
                             <span class="nav-label">角色管理</span>
                         </a>
                     </li>
                     <li>
                         <a class="J_menuItem" href="resource/">
-                            <i class="fa fa-home"></i>
+                            <i class="fa fa-link"></i>
                             <span class="nav-label">资源管理</span>
                         </a>
                     </li>

@@ -30,21 +30,31 @@ public class AuthorityUserRoleRelationDTO implements Serializable{
 	private String urDelBy;
     // 是否已被删除 未：0 已删除:1 	
 	private java.lang.Integer urIsDelete;
+	//编辑人
+	private String urEditBy;
+	//编辑时间
+	private String urEditTime;
 	
 	public AuthorityUserRoleRelationDTO(){
 		super();
 	}
 	
-	public AuthorityUserRoleRelationDTO(String urUuid,String urUserUuid,String urRoleUuid,String urAddTime,String urAddBy,String urDelTime,String urDelBy,java.lang.Integer urIsDelete){
-			this.urUuid = urUuid;
-			this.urUserUuid = urUserUuid;
-			this.urRoleUuid = urRoleUuid;
-			this.urAddTime = urAddTime;
-			this.urAddBy = urAddBy;
-			this.urDelTime = urDelTime;
-			this.urDelBy = urDelBy;
-			this.urIsDelete = urIsDelete;
+	public AuthorityUserRoleRelationDTO(String urUuid, String urUserUuid, String urRoleUuid, String urAddTime,
+			String urAddBy, String urDelTime, String urDelBy, Integer urIsDelete, String urEditBy, String urEditTime) {
+		super();
+		this.urUuid = urUuid;
+		this.urUserUuid = urUserUuid;
+		this.urRoleUuid = urRoleUuid;
+		this.urAddTime = urAddTime;
+		this.urAddBy = urAddBy;
+		this.urDelTime = urDelTime;
+		this.urDelBy = urDelBy;
+		this.urIsDelete = urIsDelete;
+		this.urEditBy = urEditBy;
+		this.urEditTime = urEditTime;
 	}
+
+
 
 	public void setUrUuid(String value) {
 		this.urUuid = value;
@@ -103,9 +113,28 @@ public class AuthorityUserRoleRelationDTO implements Serializable{
 		return this.urIsDelete;
 	}
 	
-	public String toString(){
-		return "AuthorityUserRoleRelation [urUuid="+urUuid+", urUserUuid="+urUserUuid+", urRoleUuid="+urRoleUuid+", urAddTime="+urAddTime+", urAddBy="+urAddBy+", urDelTime="+urDelTime+", urDelBy="+urDelBy+", urIsDelete="+urIsDelete+"]";
+	public String getUrEditBy() {
+		return urEditBy;
 	}
-	
+
+	public void setUrEditBy(String urEditBy) {
+		this.urEditBy = urEditBy;
+	}
+
+	public String getUrEditTime() {
+		return urEditTime;
+	}
+
+	public void setUrEditTime(String urEditTime) {
+		this.urEditTime = urEditTime;
+	}
+
+	@Override
+	public String toString() {
+		return "AuthorityUserRoleRelationDTO [urUuid=" + urUuid + ", urUserUuid=" + urUserUuid + ", urRoleUuid="
+				+ urRoleUuid + ", urAddTime=" + urAddTime + ", urAddBy=" + urAddBy + ", urDelTime=" + urDelTime
+				+ ", urDelBy=" + urDelBy + ", urIsDelete=" + urIsDelete + ", urEditBy=" + urEditBy + ", urEditTime="
+				+ urEditTime + "]";
+	}
 }
 

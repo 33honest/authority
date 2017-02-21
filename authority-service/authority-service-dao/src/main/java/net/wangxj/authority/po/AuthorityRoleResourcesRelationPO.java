@@ -26,24 +26,36 @@ public class AuthorityRoleResourcesRelationPO{
 	private String rrDelBy;
     // 是否已被删除: 0:未 1：已被删除 	
 	private java.lang.Integer rrIsDelete;
-    // 授予类型:   0： 读，写 1： 读 	
+    // 授予类型:   2： 读，写 1： 读 	
 	private java.lang.Integer rrGrantType;
+	//编辑人
+	private String rrEditBy;
+	//编辑时间
+	private String rrEditTime;
 	
 	public AuthorityRoleResourcesRelationPO(){
 		super();
 	}
 	
-	public AuthorityRoleResourcesRelationPO(String rrRoleUuid,String rrResourceUuid,String rrUuid,String rrAddTime,String rrAddBy,String rrDelTime,String rrDelBy,java.lang.Integer rrIsDelete,java.lang.Integer rrGrantType){
-			this.rrRoleUuid = rrRoleUuid;
-			this.rrResourceUuid = rrResourceUuid;
-			this.rrUuid = rrUuid;
-			this.rrAddTime = rrAddTime;
-			this.rrAddBy = rrAddBy;
-			this.rrDelTime = rrDelTime;
-			this.rrDelBy = rrDelBy;
-			this.rrIsDelete = rrIsDelete;
-			this.rrGrantType = rrGrantType;
+
+	public AuthorityRoleResourcesRelationPO(String rrRoleUuid, String rrResourceUuid, String rrUuid, String rrAddTime,
+			String rrAddBy, String rrDelTime, String rrDelBy, Integer rrIsDelete, Integer rrGrantType, String rrEditBy,
+			String rrEditTime) {
+		super();
+		this.rrRoleUuid = rrRoleUuid;
+		this.rrResourceUuid = rrResourceUuid;
+		this.rrUuid = rrUuid;
+		this.rrAddTime = rrAddTime;
+		this.rrAddBy = rrAddBy;
+		this.rrDelTime = rrDelTime;
+		this.rrDelBy = rrDelBy;
+		this.rrIsDelete = rrIsDelete;
+		this.rrGrantType = rrGrantType;
+		this.rrEditBy = rrEditBy;
+		this.rrEditTime = rrEditTime;
 	}
+
+
 
 	public void setRrRoleUuid(String value) {
 		this.rrRoleUuid = value;
@@ -108,5 +120,27 @@ public class AuthorityRoleResourcesRelationPO{
 	public java.lang.Integer getRrGrantType() {
 		return this.rrGrantType;
 	}
+
+
+	public String getRrEditBy() {
+		return rrEditBy;
+	}
+
+
+	public void setRrEditBy(String rrEditBy) {
+		this.rrEditBy = rrEditBy;
+	}
+
+
+	public String getRrEditTime() {
+		return rrEditTime;
+	}
+
+
+	public void setRrEditTime(String rrEditTime) {
+		this.rrEditTime = rrEditTime;
+	}
+	
+	
 }
 

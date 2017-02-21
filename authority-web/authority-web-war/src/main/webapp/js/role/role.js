@@ -31,6 +31,11 @@ function initTable() {
                     sortable: true,
                     align: 'center',
                 }, {
+                    field: 'rolePlatformName',
+                    title: '所属平台',
+                    sortable: true,
+                    align: 'center',
+                }, {
                 	field: 'roleStatusName',
                 	title: '角色状态',
                 	sortable: true,

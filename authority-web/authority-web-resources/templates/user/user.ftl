@@ -91,7 +91,7 @@
                         <h4 class="modal-title" id="addPageTitle">增加用户</h4>
                     </div>
                     <div class="modal-body">
-	                        <form class="form-horizontal m-t" id="addForm" action="/platform/add">
+	                        <form class="form-horizontal m-t" id="addForm" action="/user/add">
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">登录名：</label>
 	                                <div class="col-sm-6">

@@ -26,21 +26,32 @@ public class AuthorityUserRoleRelationPO{
 	private String urDelBy;
     // 是否已被删除 未：0 已删除:1 	
 	private java.lang.Integer urIsDelete;
+	//编辑人
+	private String urEditBy;
+	//编辑时间
+	private String urEditTime;
+	
 	
 	public AuthorityUserRoleRelationPO(){
 		super();
 	}
 	
-	public AuthorityUserRoleRelationPO(String urUuid,String urUserUuid,String urRoleUuid,String urAddTime,String urAddBy,String urDelTime,String urDelBy,java.lang.Integer urIsDelete){
-			this.urUuid = urUuid;
-			this.urUserUuid = urUserUuid;
-			this.urRoleUuid = urRoleUuid;
-			this.urAddTime = urAddTime;
-			this.urAddBy = urAddBy;
-			this.urDelTime = urDelTime;
-			this.urDelBy = urDelBy;
-			this.urIsDelete = urIsDelete;
+	public AuthorityUserRoleRelationPO(String urUuid, String urUserUuid, String urRoleUuid, String urAddTime,
+			String urAddBy, String urDelTime, String urDelBy, Integer urIsDelete, String urEditBy, String urEditTime) {
+		super();
+		this.urUuid = urUuid;
+		this.urUserUuid = urUserUuid;
+		this.urRoleUuid = urRoleUuid;
+		this.urAddTime = urAddTime;
+		this.urAddBy = urAddBy;
+		this.urDelTime = urDelTime;
+		this.urDelBy = urDelBy;
+		this.urIsDelete = urIsDelete;
+		this.urEditBy = urEditBy;
+		this.urEditTime = urEditTime;
 	}
+
+
 
 	public void setUrUuid(String value) {
 		this.urUuid = value;
@@ -98,5 +109,23 @@ public class AuthorityUserRoleRelationPO{
 	public java.lang.Integer getUrIsDelete() {
 		return this.urIsDelete;
 	}
+
+	public String getUrEditBy() {
+		return urEditBy;
+	}
+
+	public void setUrEditBy(String urEditBy) {
+		this.urEditBy = urEditBy;
+	}
+
+	public String getUrEditTime() {
+		return urEditTime;
+	}
+
+	public void setUrEditTime(String urEditTime) {
+		this.urEditTime = urEditTime;
+	}
+	
+	
 }
 

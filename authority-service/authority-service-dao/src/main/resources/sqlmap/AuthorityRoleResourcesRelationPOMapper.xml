@@ -12,10 +12,12 @@
         <result property="rrDelBy" column="rr_del_by"/>
         <result property="rrIsDelete" column="rr_is_delete"/>
         <result property="rrGrantType" column="rr_grant_type"/>
+        <result property="rrEditBy" column="rr_edit_by"/>
+        <result property="rrEditTime" column="rr_edit_time"/>
     </resultMap>
 
 	<sql id="Base_Column_List">
-		rr_role_uuid,rr_resource_uuid,rr_uuid,rr_add_time,rr_add_by,rr_del_time,rr_del_by,rr_is_delete,rr_grant_type
+		rr_role_uuid,rr_resource_uuid,rr_uuid,rr_add_time,rr_add_by,rr_del_time,rr_del_by,rr_is_delete,rr_grant_type,rr_edit_by,rr_edit_time
 	</sql>
 	
 	<insert id="insert" parameterType="AuthorityRoleResourcesRelationPO" >
@@ -45,6 +47,12 @@
 				<if test="rrGrantType != null  and  rrGrantType != '' " > 
 					, rr_grant_type
 				</if>
+				<if test="rrEditBy != null  and  rrEditBy != '' " > 
+					, rr_edit_by
+				</if>
+				<if test="rrEditTime != null  and  rrEditTime != '' " > 
+					, rr_edit_time
+				</if>
 		 ) VALUES (
 				#{rrUuid}
 				<if test="rrRoleUuid != null  and  rrRoleUuid != '' " > 
@@ -70,6 +78,12 @@
 				</if>
 				<if test="rrGrantType != null  and  rrGrantType != '' " > 
 					, #{rrGrantType}
+				</if>
+				<if test="rrEditBy != null  and  rrEditBy != '' " > 
+					, #{rrEditBy}
+				</if>
+				<if test="rrEditTime != null  and  rrEditTime != '' " > 
+					, #{rrEditTime}
 				</if>
 		 )
 	</insert>
@@ -100,6 +114,12 @@
 				</if>
 				<if test="rrGrantType != null  and  rrGrantType != '' " > 
 					, rr_grant_type = #{rrGrantType}
+				</if>
+				<if test="rrEditBy != null  and  rrEditBy != '' " > 
+					, rr_edit_by = #{rrEditBy}
+				</if>
+				<if test="rrEditTime != null  and  rrEditTime != '' " > 
+					, rr_edit_time = #{rrEditTime}
 				</if>
 	    WHERE 1 = 1
 				and rr_uuid = #{rrUuid}
@@ -137,6 +157,12 @@
 				<if test="rrGrantType != null  and  rrGrantType != '' " > 
 					and rr_grant_type = #{rrGrantType}
 				</if>
+				<if test="rrEditBy != null  and  rrEditBy != '' " > 
+					and rr_edit_by = #{rrEditBy}
+				</if>
+				<if test="rrEditTime != null  and  rrEditTime != '' " > 
+					and rr_edit_time = #{rrEditTime}
+				</if>
 	</select>
 	
 	<select id="selectCountByCondition" resultType="int" parameterType="AuthorityRoleResourcesRelationPO">
@@ -169,7 +195,14 @@
 					</if>		        	
 					<if test="rrGrantType != null  and  rrGrantType != '' " > 
 						and rr_grant_type = #{rrGrantType}
-					</if>		        	
+					</if>
+					<if test="rrEditBy != null  and  rrEditBy != '' " > 
+						and rr_edit_by = #{rrEditBy}
+					</if>
+					<if test="rrEditTime != null  and  rrEditTime != '' " > 
+						and rr_edit_time = #{rrEditTime}
+					</if>	
+						        	
 	</select>	
 	
 </mapper>

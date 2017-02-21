@@ -11,10 +11,12 @@
         <result property="urDelTime" column="ur_del_time"/>
         <result property="urDelBy" column="ur_del_by"/>
         <result property="urIsDelete" column="ur_is_delete"/>
+        <result property="urEditBy" column="ur_edit_by"/>
+        <result property="urEditTime" column="ur_edit_time"/>
     </resultMap>
 
 	<sql id="Base_Column_List">
-		ur_uuid,ur_user_uuid,ur_role_uuid,ur_add_time,ur_add_by,ur_del_time,ur_del_by,ur_is_delete
+		ur_uuid,ur_user_uuid,ur_role_uuid,ur_add_time,ur_add_by,ur_del_time,ur_del_by,ur_is_delete,ur_edit_by,ur_edit_time
 	</sql>
 	
 	<insert id="insert" parameterType="AuthorityUserRoleRelationPO" >
@@ -41,6 +43,12 @@
 				<if test="urIsDelete != null  and  urIsDelete != '' " > 
 					, ur_is_delete
 				</if>
+				<if test="urEditBy != null  and  urEditBy != '' " > 
+					, ur_edit_by
+				</if>
+				<if test="urEditTime != null  and  urEditTime != '' " > 
+					, ur_edit_time
+				</if>
 		 ) VALUES (
 				#{urUuid}
 				<if test="urUserUuid != null  and  urUserUuid != '' " > 
@@ -63,6 +71,12 @@
 				</if>
 				<if test="urIsDelete != null  and  urIsDelete != '' " > 
 					, #{urIsDelete}
+				</if>
+				<if test="urEditBy != null  and  urEditBy != '' " > 
+					, #{urEditBy}
+				</if>
+				<if test="urEditTime != null  and  urEditTime != '' " > 
+					, #{urEditTime}
 				</if>
 		 )
 	</insert>
@@ -90,6 +104,12 @@
 				</if>
 				<if test="urIsDelete != null  and  urIsDelete != '' " > 
 					, ur_is_delete = #{urIsDelete}
+				</if>
+				<if test="urEditBy != null  and  urEditBy != '' " > 
+					, ur_edit_by = #{urEditBy}
+				</if>
+				<if test="urEditTime != null  and  urEditTime != '' " > 
+					, ur_edit_time = #{urEditTime}
 				</if>
 	    WHERE 1 = 1
 				and ur_uuid = #{urUuid}
@@ -124,6 +144,12 @@
 				<if test="urIsDelete != null  and  urIsDelete != '' " > 
 					and ur_is_delete = #{urIsDelete}
 				</if>
+				<if test="urEditBy != null  and  urEditBy != '' " > 
+					and ur_edit_by = #{urEditBy}
+				</if>
+				<if test="urEditTime != null  and  urEditTime != '' " > 
+					and ur_edit_time = #{urEditTime}
+				</if>
 	</select>
 	
 	<select id="selectCountByCondition" resultType="int" parameterType="AuthorityUserRoleRelationPO">
@@ -153,6 +179,12 @@
 					</if>		        	
 					<if test="urIsDelete != null  and  urIsDelete != '' " > 
 						and ur_is_delete = #{urIsDelete}
+					</if>	
+					<if test="urEditBy != null  and  urEditBy != '' " > 
+						and ur_edit_by = #{urEditBy}
+					</if>
+					<if test="urEditTime != null  and  urEditTime != '' " > 
+						and ur_edit_time = #{urEditTime}
 					</if>		        	
 	</select>	
 	

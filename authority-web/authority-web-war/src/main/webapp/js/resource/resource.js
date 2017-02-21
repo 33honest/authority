@@ -335,6 +335,7 @@ function changeByChange(){
 	       dataType: "json",  
 	       data: param,
 	       success: function (data) { 
+	    	   $("#resourceParentUuid").html("");
 	    	   $.each(data, function (key, value) {  
 	    		   if("parent" == key){
 		   		   		$.each(value, function(key, value){
