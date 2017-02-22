@@ -6,4 +6,6 @@ public interface AuthorityRoleWebService extends AuthorityWebService<AuthorityRo
 
 	String getPlatformAndRoleStatus();
 
+	String getByPlatform(AuthorityRoleDTO roleDto);
+
 }

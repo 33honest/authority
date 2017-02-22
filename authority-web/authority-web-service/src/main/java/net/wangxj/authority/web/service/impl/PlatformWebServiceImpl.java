@@ -161,5 +161,12 @@ public class PlatformWebServiceImpl implements PlatformWebService {
 		return JSON.toJSONString(countRespo);
 	}
 
+	@Override
+	public String getPlatList() {
+		Response<PlatformDTO> response = platformShareService.queryListByCondition(new PlatformDTO(), true);
+		List<PlatformDTO> data = response.getData();
+		return JSONObject.toJSONString(data);
+	}
+
 	
 }

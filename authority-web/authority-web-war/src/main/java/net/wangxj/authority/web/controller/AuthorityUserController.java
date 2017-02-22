@@ -1,21 +1,25 @@
 
 package net.wangxj.authority.web.controller;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.dubbo.remoting.exchange.Request;
 import com.alibaba.fastjson.JSONObject;
 
 import net.wangxj.authority.constant.DataDictionaryConstant;
 import net.wangxj.authority.dto.AuthorityUserDTO;
+import net.wangxj.authority.dto.AuthorityUserRoleRelationDTO;
 /**
  * 用户管理
  * @author huoshan
@@ -80,6 +84,11 @@ public class AuthorityUserController{
 		return JSONObject.toJSONString(map);
 	}
 	
-	
-	
+	@RequestMapping("/grandRole")
+	@ResponseBody
+	public String grandRole(HttpServletRequest reqest){
+		String roleStr = reqest.getParameter("roleList");
+		String userUuid = reqest.getParameter("urUserUuid");
+		return authorityUserWebService.grandRole(userUuid,roleStr);
+	}
 }

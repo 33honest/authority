@@ -80,4 +80,10 @@ public class PlatformController{
 		return platformWebService.isRepeatField(platformDto);
 	}
 	
+	@RequestMapping("/getList")
+	@ResponseBody
+	public String getPlatFormList(){
+		return platformWebService.getPlatList();
+	}
+	
 }

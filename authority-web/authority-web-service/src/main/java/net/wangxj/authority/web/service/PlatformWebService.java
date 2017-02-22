@@ -6,6 +6,5 @@ import net.wangxj.authority.dto.PlatformDTO;
 
 public interface PlatformWebService extends AuthorityWebService<PlatformDTO> {
 
-	
-
+	String getPlatList();
 }

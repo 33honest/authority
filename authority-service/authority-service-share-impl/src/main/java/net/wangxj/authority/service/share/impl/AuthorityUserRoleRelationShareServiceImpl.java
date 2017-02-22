@@ -7,7 +7,10 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import net.wangxj.authority.service.share.AuthorityUserRoleRelationShareService;
+import net.wangxj.util.string.TimeUtil;
+import net.wangxj.util.string.UuidUtil;
 import net.wangxj.authority.Response;
+import net.wangxj.authority.constant.DataDictionaryConstant;
 import net.wangxj.authority.dto.AuthorityUserRoleRelationDTO;
 import net.wangxj.authority.po.AuthorityUserRoleRelationPO;
 import net.wangxj.authority.service.AuthorityUserRoleRelationService;
@@ -57,12 +60,16 @@ public class AuthorityUserRoleRelationShareServiceImpl implements AuthorityUserR
 		for(AuthorityUserRoleRelationDTO authorityUserRoleRelationDto : listDto){
 			AuthorityUserRoleRelationPO authorityUserRoleRelationPo = new AuthorityUserRoleRelationPO();
 			BeanUtils.copyProperties(authorityUserRoleRelationDto,authorityUserRoleRelationPo);
+			authorityUserRoleRelationPo.setUrAddTime(TimeUtil.getNowStr());
+			authorityUserRoleRelationPo.setUrIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
+			authorityUserRoleRelationPo.setUrUuid(UuidUtil.newGUID());
 			listPo.add(authorityUserRoleRelationPo);
 		}
 		Integer count = authorityUserRoleRelationService.addBatch(listPo);
 		logger.info("新增listauthorityUserRoleRelationDTO成功");
 		response.setCode(0L);
 		response.setResObject(count);
+		response.setMessage("成功");
 		return response;
 	}
 	

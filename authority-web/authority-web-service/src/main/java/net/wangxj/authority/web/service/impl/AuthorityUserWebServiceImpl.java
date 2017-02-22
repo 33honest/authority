@@ -1,6 +1,7 @@
 
 package net.wangxj.authority.web.service.impl;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +11,14 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import net.wangxj.authority.Response;
 import net.wangxj.authority.constant.DataDictionaryConstant;
 import net.wangxj.authority.dto.AuthorityUserDTO;
+import net.wangxj.authority.dto.AuthorityUserRoleRelationDTO;
+import net.wangxj.authority.service.share.AuthorityUserRoleRelationShareService;
 import net.wangxj.authority.service.share.AuthorityUserShareService;
 import net.wangxj.authority.web.service.AuthorityUserWebService;
 import net.wangxj.authority.web.service.PlatformWebService;
@@ -26,6 +30,8 @@ public class AuthorityUserWebServiceImpl implements AuthorityUserWebService {
 	private static Logger logger = Logger.getLogger(AuthorityUserWebServiceImpl.class);
 	@Resource
 	private AuthorityUserShareService authorityUserShareService;
+	@Resource
+	private AuthorityUserRoleRelationShareService  authorityUserRoleRelationShareService;
 
 	@Override
 	public String getPageList(String jsonStr) {
@@ -159,6 +165,25 @@ public class AuthorityUserWebServiceImpl implements AuthorityUserWebService {
 	
 	public String getUserId(){
 		return "de0c7b2480494fda98db82f7a4707649";
+	}
+
+	@Override
+	public String grandRole(String userId,String roleStr) {
+		
+		String[] roleList = roleStr.split(",");
+		List<AuthorityUserRoleRelationDTO> addList = new ArrayList<>();
+		for (String roleUUid : roleList) {
+			AuthorityUserRoleRelationDTO addDto = new AuthorityUserRoleRelationDTO();
+			addDto.setUrUserUuid(userId);
+			addDto.setUrRoleUuid((String)roleUUid);
+			addDto.setUrAddBy(getUserId());
+			addList.add(addDto);
+		}
+		Response<Integer> response = authorityUserRoleRelationShareService.addBatch(addList);
+		if(response.getCode() == 0L){
+			return JSON.toJSONString("success");
+		}
+		return JSON.toJSONString("error");
 	}
 	
 }

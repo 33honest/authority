@@ -11,5 +11,7 @@ import net.wangxj.authority.po.AuthorityUserRoleRelationPO;
  */
 
 public interface AuthorityUserRoleRelationDao extends IBaseDao<AuthorityUserRoleRelationPO>{
+
+	Integer deleteBy(AuthorityUserRoleRelationPO authorityUserRoleRelationPo);
 	
 }

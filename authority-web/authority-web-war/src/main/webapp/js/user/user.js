@@ -129,9 +129,12 @@ function operateFormatter(value, row, index) {
     return [
         '<a class="edit" href="javascript:void(0)" title="编辑">',
         '<i class="fa fa-edit"></i>',
-        '</a>  　',
+        '</a>  ',
         '<a class="remove" href="javascript:void(0)" title="删除">',
         '<i class="fa fa-remove"></i>',
+        '</a>  ',
+        '<a class="grant" href="javascript:void(0)" title="分配角色">',
+        '<i class="fa fa-cogs"></i>',
         '</a>'
     ].join('');
 }
@@ -210,6 +213,32 @@ window.operateEvents = {
 			    	  	       }  
 			    	  	   });  
     	    });
+    },
+    'click .grant': function (e, value, row, index) {
+    	var uuid = '<input id="grand_user_uuid" name="urUserUuid" class="form-control" type="hidden" value="'+row.userUuid+'">';
+    	if($("#grand_user_uuid").length <= 0){
+    		$("#grandForm").append(uuid);
+    	}
+    	$.ajax({  
+	  	       url: "/platform/getList",  
+	  	       dataType: "json", 
+	  	       data: null,
+	  	       success: function (data) {  
+	  	    	 $("#platform").html("");
+	  	    	 $.each(data, function (key, value) {  
+	  	    		$("#platform").append("<option value="+value['platformUuid']+">" +value['platformName'] + "</option>");
+	  	    	 });
+	  	    	changByPlatform();
+	  	       },  
+	  	       error: function (XMLHttpRequest, textStatus, errorThrown) {  
+	  	    	  swal({
+	 					title: "",
+	 					text: "发生错误",
+	 					type: "error"
+	 				});
+	  	       }  
+	  	   });  
+    	$("#grantRole").modal("show");
     }
 };
 
@@ -482,15 +511,74 @@ function initStatus(){
 	   });  
 }
 
+function changByPlatform(){
+	var param = {};
+	param.rolePlatformUuid = $("#platform").val();
+	$.ajax({  
+	       url: "/role/getListByPlatform",  
+	       dataType: "json",  
+	       data: param,
+	       success: function (data) {  
+	    	   $("#roleList").html("");
+	    	   $.each(data, function (key, value) {  
+	    		   $("#roleList").append('<label><input name="roleList" type="checkbox" value="'+value['roleUuid']+'"/> <i>'+value['roleName']+'</i></label>');
+	    	    });  
+	       },  
+	       error: function (XMLHttpRequest, textStatus, errorThrown) {  
+	    	   swal({
+					title: "",
+					text: "发生错误",
+					type: "error"
+				});
+	       }  
+	   });  
+}
+
+//验证授权表单
+function validateGrandAuth(){
+	var grandvalidator = $("#grandForm").validate({
+	    submitHandler: function(form){
+	    	$(form).ajaxSubmit({
+	    		type: "POST",
+	    		dataType: "json",
+	    		success: function(data){
+	    			if(data == "success"){
+	    				swal({
+	    					title: "",
+	    					text: "成功",
+	    					type: "success"
+	    				});
+	    			}
+	    			else{
+	    				swal({
+	    					title: "",
+	    					text: "发生错误",
+	    					type: "error"
+	    				});
+	    			}
+	    			$("#grantRole").modal("hide");
+	    		}
+	    	});
+	    }
+	});
+}
+
+
         
 $(function () {
 	
    initTable();
    initStatus();
    validate();
-   
+   validateGrandAuth();
+   $("#platform").on("change",function(){
+	   changByPlatform();
+   });
    $("#save").on("click",function(){
 	   $("#addForm").submit();
+   })
+   $("#grantRoleSave").on("click",function(){
+	   $("#grandForm").submit();
    })
    $("#addButton").on("click",function(){
 	   validator.resetForm();

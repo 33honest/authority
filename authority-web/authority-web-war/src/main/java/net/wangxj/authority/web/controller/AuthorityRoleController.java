@@ -68,11 +68,14 @@ public class AuthorityRoleController{
 	@RequestMapping("/getStatusList")
 	@ResponseBody
 	public String getStatusList(){
-		
 		return authorityRoleWebService.getPlatformAndRoleStatus();
-		
 	}
 	
+	@RequestMapping("/getListByPlatform")
+	@ResponseBody
+	public String getListByPlatform(AuthorityRoleDTO roleDto){
+		return authorityRoleWebService.getByPlatform(roleDto);
+	}
 	
 	
 }

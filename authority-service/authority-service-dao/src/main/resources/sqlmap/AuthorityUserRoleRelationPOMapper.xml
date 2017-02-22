@@ -188,5 +188,41 @@
 					</if>		        	
 	</select>	
 	
+	 <delete id="delete" parameterType="int">
+        delete from authority_user_role_relation 
+        where 1 = 1
+					<if test="urUuid != null  and  urUuid != '' " > 
+						and ur_uuid = #{urUuid}
+					</if>		        	
+					<if test="urUserUuid != null  and  urUserUuid != '' " > 
+						and ur_user_uuid = #{urUserUuid}
+					</if>		        	
+					<if test="urRoleUuid != null  and  urRoleUuid != '' " > 
+						and ur_role_uuid = #{urRoleUuid}
+					</if>		        	
+					<if test="urAddTime != null  and  urAddTime != '' " > 
+						and ur_add_time = #{urAddTime}
+					</if>		        	
+					<if test="urAddBy != null  and  urAddBy != '' " > 
+						and ur_add_by = #{urAddBy}
+					</if>		        	
+					<if test="urDelTime != null  and  urDelTime != '' " > 
+						and ur_del_time = #{urDelTime}
+					</if>		        	
+					<if test="urDelBy != null  and  urDelBy != '' " > 
+						and ur_del_by = #{urDelBy}
+					</if>		        	
+					<if test="urIsDelete != null  and  urIsDelete != '' " > 
+						and ur_is_delete = #{urIsDelete}
+					</if>	
+					<if test="urEditBy != null  and  urEditBy != '' " > 
+						and ur_edit_by = #{urEditBy}
+					</if>
+					<if test="urEditTime != null  and  urEditTime != '' " > 
+						and ur_edit_time = #{urEditTime}
+					</if>		        	
+     </delete>
+
+	
 </mapper>
 

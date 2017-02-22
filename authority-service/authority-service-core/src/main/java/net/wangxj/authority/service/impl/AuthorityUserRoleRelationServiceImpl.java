@@ -3,6 +3,7 @@
 package net.wangxj.authority.service.impl;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,12 +29,18 @@ public class AuthorityUserRoleRelationServiceImpl implements AuthorityUserRoleRe
 	
 	@Override
 	public Integer add(AuthorityUserRoleRelationPO authorityUserRoleRelationPo) {
-		
 		return authorityUserRoleRelationDao.insert(authorityUserRoleRelationPo);
 	}
 	
 	@Override
 	public Integer addBatch(List<AuthorityUserRoleRelationPO> listPo){
+		
+		for (AuthorityUserRoleRelationPO authorityUserRoleRelationPO2 : listPo) {
+			AuthorityUserRoleRelationPO deletePo = new AuthorityUserRoleRelationPO();
+			deletePo.setUrUserUuid(authorityUserRoleRelationPO2.getUrUserUuid());
+			authorityUserRoleRelationDao.deleteBy(deletePo);
+		}
+		
 		return authorityUserRoleRelationDao.insertBatch(listPo);
 	}
 	

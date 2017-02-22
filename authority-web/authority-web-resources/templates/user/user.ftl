@@ -145,6 +145,34 @@
                 </div>
             </div>
         </div>
+        
+    <div class="modal inmodal fade" id="grantRole" tabindex="-1" role="dialog"  aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="grantRoleTitle">分配角色</h4>
+                    </div>
+                    <div class="modal-body">
+	                        <form class="form-horizontal m-t" id="grandForm" action="/user/grandRole">
+	                            <div class="form-group">
+	                                <label class="col-sm-3 control-label">登录平台：</label>
+	                                <div class="col-sm-6">
+	                                    <select id="platform" class="form-control"></select>
+	                                </div>
+	                            </div>
+	                            <div class = "roleList" id="roleList">
+	                            	
+	                            </div>
+	                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="grantRoleSave">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- 全局js -->
     <script src="/js/jquery.min.js?v=2.1.4"></script>
     <script src="/js/bootstrap.min.js?v=3.3.6"></script>

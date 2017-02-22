@@ -177,4 +177,11 @@ public class AuthorityRoleWebServiceImpl implements AuthorityRoleWebService{
 		platformAndRoleStatu.put("roleStatus", DataDictionaryConstant.roleStatusKeyValueMap);
 		return JSONObject.toJSONString(platformAndRoleStatu);
 	}
+
+	@Override
+	public String getByPlatform(AuthorityRoleDTO roleDto) {
+		Response<AuthorityRoleDTO> response = authorityRoleShareService.queryListByCondition(roleDto);
+		List<AuthorityRoleDTO> list = response.getData();
+		return JSONObject.toJSONString(list);
+	}
 }

@@ -62,4 +62,9 @@ public class AuthorityUserRoleRelationDaoImpl extends BaseSessionDaoSupport impl
 		return (Integer)super.getSqlSession().selectOne("AuthorityUserRoleRelationPOMapper.selectCountByCondition", authorityUserRoleRelationPo);
 	}
 	
+	@Override
+	public Integer deleteBy(AuthorityUserRoleRelationPO authorityUserRoleRelationPo) {
+		
+		return (Integer)super.getSqlSession().selectOne("AuthorityUserRoleRelationPOMapper.delete", authorityUserRoleRelationPo);
+	}
 }
