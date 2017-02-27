@@ -188,39 +188,40 @@
 					</if>		        	
 	</select>	
 	
-	 <delete id="delete" parameterType="int">
+	 <delete id="delete" parameterType="java.util.Map">
         delete from authority_user_role_relation 
         where 1 = 1
-					<if test="urUuid != null  and  urUuid != '' " > 
-						and ur_uuid = #{urUuid}
+					<if test="po.urUuid != null  and  po.urUuid != '' " > 
+						and ur_uuid = #{po.urUuid}
 					</if>		        	
-					<if test="urUserUuid != null  and  urUserUuid != '' " > 
-						and ur_user_uuid = #{urUserUuid}
+					<if test="po.urUserUuid != null  and  po.urUserUuid != '' " > 
+						and ur_user_uuid = #{po.urUserUuid}
 					</if>		        	
-					<if test="urRoleUuid != null  and  urRoleUuid != '' " > 
-						and ur_role_uuid = #{urRoleUuid}
+					<if test="po.urRoleUuid != null  and  po.urRoleUuid != '' " > 
+						and ur_role_uuid = #{po.urRoleUuid}
 					</if>		        	
-					<if test="urAddTime != null  and  urAddTime != '' " > 
-						and ur_add_time = #{urAddTime}
+					<if test="po.urAddTime != null  and  po.urAddTime != '' " > 
+						and ur_add_time = #{po.urAddTime}
 					</if>		        	
-					<if test="urAddBy != null  and  urAddBy != '' " > 
-						and ur_add_by = #{urAddBy}
+					<if test="po.urAddBy != null  and  po.urAddBy != '' " > 
+						and ur_add_by = #{po.urAddBy}
 					</if>		        	
-					<if test="urDelTime != null  and  urDelTime != '' " > 
-						and ur_del_time = #{urDelTime}
+					<if test="po.urDelTime != null  and  po.urDelTime != '' " > 
+						and ur_del_time = #{po.urDelTime}
 					</if>		        	
-					<if test="urDelBy != null  and  urDelBy != '' " > 
-						and ur_del_by = #{urDelBy}
+					<if test="po.urDelBy != null  and  po.urDelBy != '' " > 
+						and ur_del_by = #{po.urDelBy}
 					</if>		        	
-					<if test="urIsDelete != null  and  urIsDelete != '' " > 
-						and ur_is_delete = #{urIsDelete}
+					<if test="po.urIsDelete != null  and  po.urIsDelete != '' " > 
+						and ur_is_delete = #{po.urIsDelete}
 					</if>	
-					<if test="urEditBy != null  and  urEditBy != '' " > 
-						and ur_edit_by = #{urEditBy}
+					<if test="po.urEditBy != null  and  po.urEditBy != '' " > 
+						and ur_edit_by = #{po.urEditBy}
 					</if>
-					<if test="urEditTime != null  and  urEditTime != '' " > 
-						and ur_edit_time = #{urEditTime}
+					<if test="po.urEditTime != null  and  po.urEditTime != '' " > 
+						and ur_edit_time = #{po.urEditTime}
 					</if>		        	
+					and ur_role_uuid IN (SELECT role_uuid FROM authority_role WHERE role_platform_uuid = #{platformUuid});
      </delete>
 
 	

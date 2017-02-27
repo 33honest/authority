@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
     <meta charset="utf-8">
@@ -158,7 +157,7 @@
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">登录平台：</label>
 	                                <div class="col-sm-6">
-	                                    <select id="platform" class="form-control"></select>
+	                                    <select name="platform" id="platform" class="form-control"></select>
 	                                </div>
 	                            </div>
 	                            <div class = "roleList" id="roleList">

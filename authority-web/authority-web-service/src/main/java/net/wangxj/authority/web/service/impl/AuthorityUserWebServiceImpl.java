@@ -168,7 +168,7 @@ public class AuthorityUserWebServiceImpl implements AuthorityUserWebService {
 	}
 
 	@Override
-	public String grandRole(String userId,String roleStr) {
+	public String grandRole(String userId,String roleStr,String platformUuid) {
 		
 		String[] roleList = roleStr.split(",");
 		List<AuthorityUserRoleRelationDTO> addList = new ArrayList<>();
@@ -179,7 +179,7 @@ public class AuthorityUserWebServiceImpl implements AuthorityUserWebService {
 			addDto.setUrAddBy(getUserId());
 			addList.add(addDto);
 		}
-		Response<Integer> response = authorityUserRoleRelationShareService.addBatch(addList);
+		Response<Integer> response = authorityUserRoleRelationShareService.addBatch(addList,platformUuid);
 		if(response.getCode() == 0L){
 			return JSON.toJSONString("success");
 		}

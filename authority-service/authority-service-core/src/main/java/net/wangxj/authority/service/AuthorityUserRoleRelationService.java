@@ -21,7 +21,7 @@ public interface AuthorityUserRoleRelationService{
 	 * 批量添加
 	 * @return
 	 */
-	public Integer addBatch(List<AuthorityUserRoleRelationPO> listPo);
+	public Integer addBatch(List<AuthorityUserRoleRelationPO> listPo, String platformUuid);
 	
 	/**
 	 * 根据主键ID修改

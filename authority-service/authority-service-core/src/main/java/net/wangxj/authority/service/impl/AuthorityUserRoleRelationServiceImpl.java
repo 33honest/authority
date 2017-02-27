@@ -33,12 +33,13 @@ public class AuthorityUserRoleRelationServiceImpl implements AuthorityUserRoleRe
 	}
 	
 	@Override
-	public Integer addBatch(List<AuthorityUserRoleRelationPO> listPo){
+	public Integer addBatch(List<AuthorityUserRoleRelationPO> listPo, String platformUuid){
+		
 		
 		for (AuthorityUserRoleRelationPO authorityUserRoleRelationPO2 : listPo) {
 			AuthorityUserRoleRelationPO deletePo = new AuthorityUserRoleRelationPO();
 			deletePo.setUrUserUuid(authorityUserRoleRelationPO2.getUrUserUuid());
-			authorityUserRoleRelationDao.deleteBy(deletePo);
+			authorityUserRoleRelationDao.deleteBy(deletePo,platformUuid);
 		}
 		
 		return authorityUserRoleRelationDao.insertBatch(listPo);

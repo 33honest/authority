@@ -7,5 +7,5 @@ import net.wangxj.authority.dto.AuthorityUserRoleRelationDTO;
 
 public interface AuthorityUserWebService extends AuthorityWebService<AuthorityUserDTO>{
 
-	String grandRole(String userId, String roleStr);
+	String grandRole(String userId, String roleStr,String platformUuid);
 }

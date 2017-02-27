@@ -22,7 +22,7 @@ public interface AuthorityUserRoleRelationShareService{
 	 * 批量添加
 	 * @return 成功添加的条数
 	 */
-	public Response<Integer> addBatch(List<AuthorityUserRoleRelationDTO> listDto);
+	public Response<Integer> addBatch(List<AuthorityUserRoleRelationDTO> listDto, String platformUuid);
 	
 	/**
 	 * 根据主键ID修改

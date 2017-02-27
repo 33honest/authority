@@ -47,7 +47,7 @@ public class AuthorityUserRoleRelationShareServiceImpl implements AuthorityUserR
 	}
 	
 	@Override
-	public Response<Integer> addBatch(List<AuthorityUserRoleRelationDTO> listDto){
+	public Response<Integer> addBatch(List<AuthorityUserRoleRelationDTO> listDto,String platformUuid){
 		
 		Response<Integer> response = new Response<Integer>();
 		
@@ -65,7 +65,7 @@ public class AuthorityUserRoleRelationShareServiceImpl implements AuthorityUserR
 			authorityUserRoleRelationPo.setUrUuid(UuidUtil.newGUID());
 			listPo.add(authorityUserRoleRelationPo);
 		}
-		Integer count = authorityUserRoleRelationService.addBatch(listPo);
+		Integer count = authorityUserRoleRelationService.addBatch(listPo,platformUuid);
 		logger.info("新增listauthorityUserRoleRelationDTO成功");
 		response.setCode(0L);
 		response.setResObject(count);

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.remoting.exchange.Request;
@@ -86,9 +87,7 @@ public class AuthorityUserController{
 	
 	@RequestMapping("/grandRole")
 	@ResponseBody
-	public String grandRole(HttpServletRequest reqest){
-		String roleStr = reqest.getParameter("roleList");
-		String userUuid = reqest.getParameter("urUserUuid");
-		return authorityUserWebService.grandRole(userUuid,roleStr);
+	public String grandRole(@RequestParam String roleList,@RequestParam String urUserUuid, @RequestParam String platform){
+		return authorityUserWebService.grandRole(urUserUuid,roleList,platform);
 	}
 }
