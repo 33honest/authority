@@ -120,6 +120,28 @@
                 </div>
             </div>
         </div>
+        
+        <div class="modal inmodal fade" id="grantResource" tabindex="-1" role="dialog"  aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="grantRoleTitle">分配资源</h4>
+                    </div>
+                    <div class="modal-body">
+	                        <form class="form-horizontal m-t" id="grandForm" action="/role/grantResource">
+	                            <div class = "resourceList" id="resourceList">
+	                            	
+	                            </div>
+	                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="grantResourceSave">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <!-- 全局js -->
     <script src="/js/jquery.min.js?v=2.1.4"></script>
     <script src="/js/bootstrap.min.js?v=3.3.6"></script>

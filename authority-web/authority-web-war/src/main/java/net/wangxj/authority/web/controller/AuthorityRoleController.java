@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
@@ -76,6 +77,14 @@ public class AuthorityRoleController{
 	public String getListByPlatform(AuthorityRoleDTO roleDto){
 		return authorityRoleWebService.getByPlatform(roleDto);
 	}
+	
+	@RequestMapping("/grantResource")
+	@ResponseBody
+	public String grantResource(@RequestParam String roleUuid, @RequestParam String resourceList){
+		return authorityRoleWebService.grantResource(roleUuid,resourceList);
+	}
+	
+	
 	
 	
 }

@@ -11,5 +11,7 @@ import net.wangxj.authority.po.AuthorityRoleResourcesRelationPO;
  */
 
 public interface AuthorityRoleResourcesRelationDao extends IBaseDao<AuthorityRoleResourcesRelationPO>{
+
+	Integer deleteBy(String rrRoleUuid);
 	
 }

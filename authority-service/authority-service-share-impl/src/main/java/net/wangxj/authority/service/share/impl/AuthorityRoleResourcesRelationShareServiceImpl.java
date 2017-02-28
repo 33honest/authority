@@ -7,7 +7,10 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import net.wangxj.authority.service.share.AuthorityRoleResourcesRelationShareService;
+import net.wangxj.util.string.TimeUtil;
+import net.wangxj.util.string.UuidUtil;
 import net.wangxj.authority.Response;
+import net.wangxj.authority.constant.DataDictionaryConstant;
 import net.wangxj.authority.dto.AuthorityRoleResourcesRelationDTO;
 import net.wangxj.authority.po.AuthorityRoleResourcesRelationPO;
 import net.wangxj.authority.service.AuthorityRoleResourcesRelationService;
@@ -57,6 +60,12 @@ public class AuthorityRoleResourcesRelationShareServiceImpl implements Authority
 		for(AuthorityRoleResourcesRelationDTO authorityRoleResourcesRelationDto : listDto){
 			AuthorityRoleResourcesRelationPO authorityRoleResourcesRelationPo = new AuthorityRoleResourcesRelationPO();
 			BeanUtils.copyProperties(authorityRoleResourcesRelationDto,authorityRoleResourcesRelationPo);
+			
+			authorityRoleResourcesRelationPo.setRrAddTime(TimeUtil.getNowStr());
+			authorityRoleResourcesRelationPo.setRrIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
+			authorityRoleResourcesRelationPo.setRrGrantType(DataDictionaryConstant.GRANTTYPE_WRITEREAD_VALUE);
+			authorityRoleResourcesRelationPo.setRrUuid(UuidUtil.newGUID());
+			
 			listPo.add(authorityRoleResourcesRelationPo);
 		}
 		Integer count = authorityRoleResourcesRelationService.addBatch(listPo);

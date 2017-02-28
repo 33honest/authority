@@ -7,4 +7,6 @@ public interface AuthorityResourcesWebService extends AuthorityWebService<Author
 	String initSelect(AuthorityResourcesDTO resourceDto);
 
 	String changeBy(AuthorityResourcesDTO resourceDto);
+
+	String getListByPlatform(AuthorityResourcesDTO resourceDto);
 }

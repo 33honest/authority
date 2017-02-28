@@ -89,6 +89,7 @@ function detailFormatter(index, row) {
     html.push('<p><b>' + 'roleUUID' + ':</b> ' + row.roleUuid + '</p>');
     html.push('<p><b>' + '角色名' + ':</b> ' + row.roleName + '</p>');
     html.push('<p><b>' + '角色状态' + ':</b> ' + row.roleStatusName + '</p>');
+    html.push('<p><b>' + '所属平台' + ':</b> ' + row.rolePlatformName + '</p>');
     html.push('<p><b>' + '增加时间' + ':</b> ' + row.roleAddTime + '</p>');
     html.push('<p><b>' + '修改时间' + ':</b> ' + row.roleEditTime + '</p>');
     html.push('<p><b>' + '增加人' + ':</b> ' + row.roleAddByName + '</p>');
@@ -103,6 +104,9 @@ function operateFormatter(value, row, index) {
         '</a>  　',
         '<a class="remove" href="javascript:void(0)" title="删除">',
         '<i class="fa fa-remove"></i>',
+        '</a>'  ,
+        '<a class="grant" href="javascript:void(0)" title="分配资源">',
+        '<i class="fa fa-cogs"></i>',
         '</a>'
     ].join('');
 }
@@ -170,8 +174,43 @@ window.operateEvents = {
 			    	  	       }  
 			    	  	   });  
     	    });
+    },
+    
+    'click .grant': function (e, value, row, index) {
+    	var uuid = '<input id="grand_role_uuid" name="roleUuid" class="form-control" type="hidden" value="'+row.roleUuid+'">';
+    	if($("#grand_role_uuid").length <= 0){
+    		$("#grandForm").append(uuid);
+    	}
+    	else{
+    		$("#grand_role_uuid").val(row.roleUuid);
+    	}
+    	
+    	var param = {};
+    	param.resourcePlatformUuid = row.rolePlatformUuid;
+    	$.ajax({  
+    	       url: "/resource/getListByPlatform",  
+    	       dataType: "json",  
+    	       data: param,
+    	       success: function (data) {  
+    	    	   $("#selectAll").attr("checked",false);
+    	    	   $("#resourceList").html("");
+    	    	   $.each(data, function (key, value) {  
+    	    		   $("#resourceList").append('<label><input class="resour" name="resourceList" type="checkbox" value="'+value['resourceUuid']+'"/> <i>'+value['resourceName']+'</i></label>');
+    	    	    });  
+    	       },  
+    	       error: function (XMLHttpRequest, textStatus, errorThrown) {  
+    	    	   swal({
+    					title: "",
+    					text: "发生错误",
+    					type: "error"
+    				});
+    	       }  
+    	   });  
+    	$("#grantResource").modal("show");
     }
 };
+
+
 
 
 //验证
@@ -323,16 +362,51 @@ function initStatus(){
 	   });  
 }
 
+//验证授权表单
+function validateGrandAuth(){
+	var grandvalidator = $("#grandForm").validate({
+	    submitHandler: function(form){
+	    	$(form).ajaxSubmit({
+	    		type: "POST",
+	    		dataType: "json",
+	    		success: function(data){
+	    			if(data == "success"){
+	    				swal({
+	    					title: "",
+	    					text: "成功",
+	    					type: "success"
+	    				});
+	    			}
+	    			else{
+	    				swal({
+	    					title: "",
+	    					text: "发生错误",
+	    					type: "error"
+	    				});
+	    			}
+	    			$("#grantResource").modal("hide");
+	    		}
+	    	});
+	    }
+	});
+}
+
+
         
 $(function () {
 	
    initTable();
    initStatus();
    validate();
+   validateGrandAuth();
    
    $("#save").on("click",function(){
 	   $("#addForm").submit();
+   });
+   $("#grantResourceSave").on("click",function(){
+	   $("#grandForm").submit();
    })
+   
    $("#addButton").on("click",function(){
 	   validator.resetForm();
 	   $("#addPageTitle").text("增加角色");

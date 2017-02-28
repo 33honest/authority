@@ -76,6 +76,10 @@ public class AuthorityResourcesController{
 		return authorityResourcesWebService.changeBy(resourceDto);
 	}
 	
-	
+	@RequestMapping("/getListByPlatform")
+	@ResponseBody
+	public String getListByPlatform(AuthorityResourcesDTO resourceDto){
+		return authorityResourcesWebService.getListByPlatform(resourceDto);
+	}
 	
 }

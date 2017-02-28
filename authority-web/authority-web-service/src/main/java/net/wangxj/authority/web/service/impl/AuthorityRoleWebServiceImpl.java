@@ -17,7 +17,9 @@ import com.alibaba.fastjson.JSONObject;
 import net.wangxj.authority.Response;
 import net.wangxj.authority.constant.DataDictionaryConstant;
 import net.wangxj.authority.dto.AuthorityRoleDTO;
+import net.wangxj.authority.dto.AuthorityRoleResourcesRelationDTO;
 import net.wangxj.authority.dto.PlatformDTO;
+import net.wangxj.authority.service.share.AuthorityRoleResourcesRelationShareService;
 import net.wangxj.authority.service.share.AuthorityRoleShareService;
 import net.wangxj.authority.service.share.PlatformShareService;
 import net.wangxj.authority.web.service.AuthorityRoleWebService;
@@ -32,6 +34,9 @@ public class AuthorityRoleWebServiceImpl implements AuthorityRoleWebService{
 	private AuthorityRoleShareService authorityRoleShareService;
 	@Resource
 	private PlatformShareService platformShareService;
+	@Resource
+	private AuthorityRoleResourcesRelationShareService authorityRoleResourcesRelationShareService;
+	
 
 	@Override
 	public String getPageList(String jsonStr) {
@@ -183,5 +188,25 @@ public class AuthorityRoleWebServiceImpl implements AuthorityRoleWebService{
 		Response<AuthorityRoleDTO> response = authorityRoleShareService.queryListByCondition(roleDto);
 		List<AuthorityRoleDTO> list = response.getData();
 		return JSONObject.toJSONString(list);
+	}
+
+	@Override
+	public String grantResource(String roleUuid, String resourceList) {
+		
+		List<AuthorityRoleResourcesRelationDTO> listRoleRes = new ArrayList<>();
+		String[] resourcesArr = resourceList.split(",");
+		for (String resourceUuid : resourcesArr) {
+			AuthorityRoleResourcesRelationDTO roleResDto = new AuthorityRoleResourcesRelationDTO();
+			roleResDto.setRrAddBy(getUserId());
+			roleResDto.setRrResourceUuid(resourceUuid);
+			roleResDto.setRrRoleUuid(roleUuid);
+			listRoleRes.add(roleResDto);
+		}
+		Response<Integer> response = authorityRoleResourcesRelationShareService.addBatch(listRoleRes);
+		
+		if(response.getCode() == 0L){
+			return JSON.toJSONString("success");
+		}
+		return JSON.toJSONString("error");
 	}
 }

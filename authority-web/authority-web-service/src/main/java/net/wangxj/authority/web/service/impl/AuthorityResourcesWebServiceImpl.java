@@ -217,4 +217,11 @@ public class AuthorityResourcesWebServiceImpl implements AuthorityResourcesWebSe
 		
 		return JSONObject.toJSONString(changeByMap);
 	}
+
+	@Override
+	public String getListByPlatform(AuthorityResourcesDTO resourceDto) {
+		Response<AuthorityResourcesDTO> response = authorityResourcesShareService.queryListByCondition(resourceDto); 
+		List<AuthorityResourcesDTO> list = response.getData();
+		return JSONObject.toJSONString(list);
+	}
 }

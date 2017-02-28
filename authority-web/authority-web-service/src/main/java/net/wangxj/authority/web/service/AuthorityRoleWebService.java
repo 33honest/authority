@@ -8,4 +8,6 @@ public interface AuthorityRoleWebService extends AuthorityWebService<AuthorityRo
 
 	String getByPlatform(AuthorityRoleDTO roleDto);
 
+	String grantResource(String roleUuid, String resourceList);
+
 }

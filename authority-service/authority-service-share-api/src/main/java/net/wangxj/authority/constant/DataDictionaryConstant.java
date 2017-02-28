@@ -217,6 +217,31 @@ public class DataDictionaryConstant {
 	
 	/***********   资源状态结束   **************************/
 	
+	/***********   资源授予类型开始   **************************/
+	public static String GRANTTYPE_READ_KEY = "读";
+	public static Integer GRANTTYPE_READ_VALUE = 1;
 	
+	public static String GRANTTYPE_WRITEREAD_KEY = "读&写";
+	public static Integer GRANTTYPE_WRITEREAD_VALUE = 2;
 	
+	public static LinkedHashMap<String, Integer> grantTypeKeyValueMap = new LinkedHashMap<>();
+	public static LinkedHashMap<Integer, String> grantTypeValueKeyMap = new LinkedHashMap<>();
+	
+	static{
+		grantTypeKeyValueMap.put(GRANTTYPE_READ_KEY, GRANTTYPE_READ_VALUE);
+		grantTypeKeyValueMap.put(GRANTTYPE_WRITEREAD_KEY, GRANTTYPE_WRITEREAD_VALUE);
+		
+		grantTypeValueKeyMap.put(GRANTTYPE_READ_VALUE, GRANTTYPE_READ_KEY);
+		grantTypeValueKeyMap.put(GRANTTYPE_WRITEREAD_VALUE, GRANTTYPE_WRITEREAD_KEY);
+	}
+	
+	public String getGrantTypeKey(Integer value){
+		return grantTypeValueKeyMap.get(value);
+	}
+	
+	public Integer getGrantTypeValue(String key){
+		return grantTypeKeyValueMap.get(key);
+	}
+	
+	/***********   资源授予类型结束   **************************/
 }

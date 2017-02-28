@@ -34,6 +34,11 @@ public class AuthorityRoleResourcesRelationServiceImpl implements AuthorityRoleR
 	
 	@Override
 	public Integer addBatch(List<AuthorityRoleResourcesRelationPO> listPo){
+		if(listPo.size() > 0){
+			String rrRoleUuid = listPo.get(0).getRrRoleUuid();
+			Integer count = authorityRoleResourcesRelationDao.deleteBy(rrRoleUuid);
+		}
+		
 		return authorityRoleResourcesRelationDao.insertBatch(listPo);
 	}
 	

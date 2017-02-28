@@ -218,6 +218,8 @@ window.operateEvents = {
     	var uuid = '<input id="grand_user_uuid" name="urUserUuid" class="form-control" type="hidden" value="'+row.userUuid+'">';
     	if($("#grand_user_uuid").length <= 0){
     		$("#grandForm").append(uuid);
+    	}else{
+    		$("#grand_user_uuid").val(row.userUuid);
     	}
     	$.ajax({  
 	  	       url: "/platform/getList",  

@@ -205,5 +205,8 @@
 						        	
 	</select>	
 	
+	 <delete id="delete" parameterType="java.lang.String">
+        delete from authority_role_resources_relation where  rr_role_uuid = #{rrRoleUuid}
+	 </delete>
 </mapper>
 

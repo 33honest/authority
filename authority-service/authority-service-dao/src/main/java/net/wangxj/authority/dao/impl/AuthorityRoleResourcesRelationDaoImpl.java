@@ -61,5 +61,11 @@ public class AuthorityRoleResourcesRelationDaoImpl extends BaseSessionDaoSupport
 		
 		return (Integer)super.getSqlSession().selectOne("AuthorityRoleResourcesRelationPOMapper.selectCountByCondition", authorityRoleResourcesRelationPo);
 	}
+
+	@Override
+	public Integer deleteBy(String rrRoleUuid) {
+		
+		return super.getSqlSession().delete("AuthorityRoleResourcesRelationPOMapper.delete", rrRoleUuid);
+	}
 	
 }
