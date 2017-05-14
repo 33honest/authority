@@ -1,5 +1,8 @@
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
@@ -18,34 +21,36 @@ import net.wangxj.util.string.UuidUtil;
 import net.wangxj.util.validate.ValidationResult;
 
 
-public class PlatformTest extends JerseyTest{
+public class PlatformTest/* extends JerseyTest*/{
 	
 	public static final String BASE_URI = "platforms/";
 	
 	/* (non-Javadoc)
 	 * @see org.glassfish.jersey.test.JerseyTest#configure()
 	 */
-	@Override
-	protected Application configure() {
-		return new ResourceConfig(PlatformRestServiceApi.class);
-	}
+//	@Override
+//	protected Application configure() {
+//		return new ResourceConfig(PlatformRestServiceApi.class);
+//	}
 	
 	@Test
 	public void testAddPost(){
-		final WebTarget addTarget = target(BASE_URI);
-		final Invocation.Builder invocationBuilder = addTarget.request(MediaType.APPLICATION_JSON_TYPE);
-		Response response = invocationBuilder.post(null);
-		ValidationResult resultValidate = response.readEntity(ValidationResult.class);
-		assertFalse(resultValidate.getIsPass());
-		assertTrue(resultValidate.getErrorMsg() != null && resultValidate.getErrorMsg().length() > 0);
+//		final WebTarget addTarget = target(BASE_URI);
+//		final Invocation.Builder invocationBuilder = addTarget.request(MediaType.APPLICATION_JSON_TYPE);
+//		Response response = invocationBuilder.post(null);
+//		ValidationResult resultValidate = response.readEntity(ValidationResult.class);
+//		assertFalse(resultValidate.getIsPass());
+//		assertTrue(resultValidate.getErrorMsg() != null && resultValidate.getErrorMsg().length() > 0);
 		
 		
 		JSONObject platformJson = new JSONObject();
-		platformJson.put("platform_name", "测试1");
-		platformJson.put("platform_sign", "CE_SHI1");
-		platformJson.put("platform_domain", "ceshi.com");
-		platformJson.put("platform_add_user", UuidUtil.newGUID());
-		platformJson.put("platform_status", 3);
+//		platformJson.put("platform_name", "测试1");
+//		platformJson.put("platform_sign", "CE_SHI1");
+//		platformJson.put("platform_domain", "ceshi.com");
+//		platformJson.put("platform_add_user", UuidUtil.newGUID());
+//		platformJson.put("platform_status", 3);
+		platformJson.put("platform_uuid", "1271b817cfbf4f13958a641267120676");
+		platformJson.put("platform_delete_user", "de0c7b2480494fda98db82f7a4707649");
 		System.out.println(platformJson.toJSONString());
 //		Response response2 = invocationBuilder.post(Entity<T>)
 //		System.out.println(response2.readEntity(Integer.class));
@@ -53,5 +58,7 @@ public class PlatformTest extends JerseyTest{
 		
 		
 	}
+	
+	
 	
 }

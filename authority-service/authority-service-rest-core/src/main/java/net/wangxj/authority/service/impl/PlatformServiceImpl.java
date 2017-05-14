@@ -3,17 +3,18 @@
 package net.wangxj.authority.service.impl;
 
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 
 import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
 import net.wangxj.authority.dao.PlatformDao;
+import net.wangxj.authority.po.Page;
 import net.wangxj.authority.po.PlatformPO;
 import net.wangxj.authority.service.PlatformService;
-import net.wangxj.util.string.StringUtil;
 import net.wangxj.util.string.TimeUtil;
 import net.wangxj.util.string.UuidUtil;
 
@@ -41,45 +42,89 @@ public class PlatformServiceImpl implements PlatformService{
 		platformPo.setPlatformUuid(UuidUtil.newGUID());
 		platformPo.setPlatformAddTime(TimeUtil.getNowStr());
 		platformPo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
+		logger.debug("添加平台开始:---->" + platformPo);
 		return platformDao.insert(platformPo);
 	}
 	
 	@Override
 	public Integer addBatch(List<PlatformPO> listPo){
-		return platformDao.insertBatch(listPo);
+		Integer count = 0;
+		for (PlatformPO platformPO : listPo) {
+			this.add(platformPO);
+			count++;
+		}
+		return count;
 	}
 	
 	@Override
-	public List<PlatformPO> queryPageListByCondition(PlatformPO platformPo, int pageNum, int limit,String order,String sort) {
+	public Map<String, Object> pageQuery(PlatformPO platformPo, Page page) {
 		platformPo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
-		sort = StringUtil.getNumpReverse(sort);
-		return platformDao.selectPageListByCondition(platformPo, pageNum, limit,order,sort);
+		//数据
+		List<PlatformPO> pageList = platformDao.selectPageListByCondition(platformPo, page.getPageNum(), page.getLimit(),page.getOrder(),page.getSort());
+		//数量
+		Integer count = this.getCount(platformPo);
+		logger.debug("分页查询:-->count:" + count + "---->data:"+pageList);
+		Map<String, Object> resutlMap = new HashMap<>();
+		resutlMap.put("count", count);
+		resutlMap.put("data", pageList);
+		return resutlMap;
 	}
 
 
 	@Override
-	public Integer modifyByUuid(PlatformPO platformPo) {
+	public Integer update(PlatformPO platformPo) {
 		platformPo.setPlatformEditTime(TimeUtil.getNowStr());
 		return platformDao.updateByUuid(platformPo);
 	}
 
 	@Override
-	public List<PlatformPO> queryListByCondition(PlatformPO platformPo) {
+	public List<PlatformPO> query(PlatformPO platformPo) {
 		platformPo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		return platformDao.selectListByCondition(platformPo);
 	}
 
 	@Override
-	public Integer modifyByBatch(List<PlatformPO> platformPoList) {
-		
-		return platformDao.modifyByBatch(platformPoList);
+	public Integer updateBatch(List<PlatformPO> platformPoList) {
+		Integer count = 0;
+		for (PlatformPO platformPO : platformPoList) {
+			this.update(platformPO);
+			count++;
+			logger.debug("更新第--" + count + "--条");
+		}
+		logger.debug("总共更新--"+ count + "--条");
+		return count;
 	}
 
 	/* (non-Javadoc)
 	 * @see net.wangxj.authority.service.AuthorityService#getCountByCondition(java.lang.Object)
 	 */
 	@Override
-	public Integer getCountByCondition(PlatformPO platformPo) {
+	public Integer getCount(PlatformPO platformPo) {
+		platformPo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		return platformDao.getCountByCondition(platformPo);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.service.AuthorityService#delete(java.lang.Object)
+	 */
+	@Override
+	public Integer delete(PlatformPO po) {
+		po.setPlatformDelTime(TimeUtil.getNowStr());
+		po.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
+		logger.debug("开始删除---->" + po);
+		return platformDao.updateByUuid(po);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.service.AuthorityService#deleteBatch(java.util.List)
+	 */
+	@Override
+	public Integer deleteBatch(List<PlatformPO> listPo) {
+		Integer count = 0;
+		for (PlatformPO platformPO : listPo) {
+			this.delete(platformPO);
+			logger.debug("删除第--" + ++count + "--条");
+		}
+		return count;
 	}
 }

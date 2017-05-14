@@ -1,5 +1,6 @@
 package net.wangxj.authority.service.rest.api;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,9 @@ import com.alibaba.fastjson.JSONObject;
 import net.wangxj.authority.po.PO;
 import net.wangxj.authority.service.rest.AuthorityRestService;
 import net.wangxj.authority.service.rest.exception.ValidateException;
+import net.wangxj.util.annotation.util.JsonFieldUtil;
 import net.wangxj.util.annotation.util.NotRepeatUtil;
+import net.wangxj.util.annotation.util.XmlElementUtil;
 import net.wangxj.util.validate.ValidateUtil;
 import net.wangxj.util.validate.ValidationResult;
 
@@ -28,13 +31,13 @@ public abstract class AbstractAuthrotiyRestService implements AuthorityRestServi
 	private static Logger logger = Logger.getLogger(AbstractAuthrotiyRestService.class);
 	
 	/**
-	 * 验证PO 
+	 * 验证Object
 	 * @param po  
 	 * @param clazz 验证类型
 	 * @return　如果返回null:验证通过,不为null验证未通过
 	 * @throws ValidateException 
 	 */
-	public ValidationResult validatePo(PO po,Class clazz) throws ValidateException {
+	public ValidationResult validatePo(Object po,Class clazz) throws ValidateException {
 		try{
 			ValidationResult validateRes = new ValidationResult();
 			//验证
@@ -45,7 +48,7 @@ public abstract class AbstractAuthrotiyRestService implements AuthorityRestServi
 		}catch (Exception e) {
 			logger.debug("验证PO出错:", e);
 			e.printStackTrace();
-			throw new ValidateException("验证PO出错", e.getCause());
+			throw new ValidateException("验证PO出错" + po);
 		}
 		return null;
 	}
@@ -84,7 +87,7 @@ public abstract class AbstractAuthrotiyRestService implements AuthorityRestServi
 		}catch (Exception e) {
 			logger.debug("验证出错", e);
 			e.printStackTrace();
-			throw new ValidateException("验证出错", e.getCause());
+			throw new ValidateException("验证不可重复出错");
 		}
 		
 		return null;
@@ -118,6 +121,20 @@ public abstract class AbstractAuthrotiyRestService implements AuthorityRestServi
 	 */
 	protected abstract String validateRepeat(PO po, String fieldName) throws NoSuchFieldException, SecurityException;
 	
+	/**
+	 * 校验obj中@Jsonfield是否存在name为sortStr的注解
+	 * @param obj
+	 * @param sortStr
+	 * @return
+	 * @throws ValidateException 
+	 */
+	public ValidationResult validateSort(Class<? extends PO> poClazz, String sortStr) throws ValidateException{
+		try{
+			return JsonFieldUtil.isExistName(poClazz, sortStr);
+		}catch(Exception ex){
+			throw new ValidateException("校验sort字段出错:----->" + sortStr);
+		}
+	}
 	
 	/**
 	 * 验证失败
@@ -126,13 +143,6 @@ public abstract class AbstractAuthrotiyRestService implements AuthorityRestServi
 	 */
 	public Response failValidate(Object errorMsg){
 		return Response.status(Status.BAD_REQUEST).entity(errorMsg).build();
-	}
-	/**
-	 * 服务器内部发生错误（内部程序发生异常,错误等）
-	 * @return
-	 */
-	public Response innerErrorResp(){
-		return Response.status(Status.INTERNAL_SERVER_ERROR).entity("{error:　服务器内部发生错误}").build();
 	}
 	
 	/**

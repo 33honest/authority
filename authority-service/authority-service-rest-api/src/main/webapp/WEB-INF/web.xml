@@ -45,8 +45,8 @@
         <servlet-name>authority rest api</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
-            <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>net.wangxj.authority.service.rest.api</param-value>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>net.wangxj.auhtority.application.AuthorityConfig</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
