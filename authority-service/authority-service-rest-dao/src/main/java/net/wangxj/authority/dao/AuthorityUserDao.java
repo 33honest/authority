@@ -13,7 +13,5 @@ import net.wangxj.authority.po.AuthorityUserPO;
  */
 
 public interface AuthorityUserDao extends IBaseDao<AuthorityUserPO>{
-
-	Integer modifyByBatch(List<AuthorityUserPO> userList);
 	
 }

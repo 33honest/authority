@@ -1,8 +1,9 @@
-package net.wangxj.authority.service.rest.exception;
+package net.wangxj.authority.exception;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -19,7 +20,7 @@ import com.alibaba.fastjson.JSONObject;
  * 
  */
 @Provider
-public class ValidateExceptionMapper implements ExceptionMapper<Exception> {
+public class GlobalExceptinMapper implements ExceptionMapper<Exception> {
 
 	Logger log = LoggerFactory.getLogger(ValidateException.class);
 	/* (non-Javadoc)
@@ -29,15 +30,21 @@ public class ValidateExceptionMapper implements ExceptionMapper<Exception> {
 	public Response toResponse(Exception exception) {
 		
 		Map<String , Object> errorMap = new HashMap<String, Object>();
-		errorMap.put("error", "服务器内部发生错误");
 		
 		if(exception instanceof ValidateException){
+			errorMap.put("error", "服务器内部发生错误");
 			ValidateException validateException = (ValidateException)exception;
 			log.debug("验证发生异常----->", validateException);
 		}
+		else if(exception instanceof NotFoundException){
+			log.debug("未找到请求的资源---->" ,exception);
+			errorMap.put("error", "未找到该资源");
+		}
 		else{
+			errorMap.put("error", "服务器内部发生错误");
 			log.debug("业务逻辑功能发生异常----->" , exception);
 		}
+		
 		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(JSONObject.toJSONString(errorMap)).build();
 	}
 

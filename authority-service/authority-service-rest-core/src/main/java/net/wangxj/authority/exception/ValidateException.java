@@ -2,7 +2,7 @@
  * author: wangxj
  * create time: 上午11:18:49
  */
-package net.wangxj.authority.service.rest.exception;
+package net.wangxj.authority.exception;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;

@@ -7,9 +7,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -36,6 +33,7 @@ public class PlatformPO extends PO implements Serializable{
 	 */
 	private static final long serialVersionUID = -8336420063461219089L;
 	// 主键 	
+	
 	@Pattern(regexp=RegexConstant.UUID_32, message="平台uuid非法", groups={EditValidate.class,DeleteValidate.class})
 	@NotBlank(message = "平台uuid为必填项" , groups = {EditValidate.class,DeleteValidate.class})
 	@Null(message = "无法识别platform_uuid,请严格按照API文档调用" , groups = AddValidate.class)
@@ -89,7 +87,7 @@ public class PlatformPO extends PO implements Serializable{
 	@JSONField(name = "platform_status")
 	private java.lang.Integer platformStatus;
     // 是否已被删除: 2：未 1：已被删除 	
-	@JSONField(serialize = false)
+	@JSONField(serialize = false, deserialize = false)
 	private java.lang.Integer platformIsDelete;
 	//编辑人uuid
 	@Pattern(regexp=RegexConstant.UUID_32,message="编辑人非法",groups=EditValidate.class)

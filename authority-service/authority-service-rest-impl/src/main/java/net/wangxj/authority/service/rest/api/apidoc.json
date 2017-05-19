@@ -1,0 +1,7 @@
+{
+  "name": "authority system",
+  "version": "0.1.0",
+  "description": "authority system restful api docs",
+  "title": "authority system api",
+  "url" : "http://localhost:9000/api"
+}

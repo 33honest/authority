@@ -1,8 +1,5 @@
-
-
 package net.wangxj.authority.service.impl;
-
-
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +9,11 @@ import org.apache.log4j.Logger;
 
 import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
 import net.wangxj.authority.dao.PlatformDao;
+import net.wangxj.authority.po.PO;
 import net.wangxj.authority.po.Page;
 import net.wangxj.authority.po.PlatformPO;
 import net.wangxj.authority.service.PlatformService;
+import net.wangxj.util.annotation.NotRepeat;
 import net.wangxj.util.string.TimeUtil;
 import net.wangxj.util.string.UuidUtil;
 
@@ -126,5 +125,25 @@ public class PlatformServiceImpl implements PlatformService{
 			logger.debug("删除第--" + ++count + "--条");
 		}
 		return count;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.service.AbstractAuthorityService#validateRepeat(net.wangxj.authority.po.PO, java.lang.String)
+	 */
+	@Override
+	public String validateRepeat(PO po, String fieldName) throws NoSuchFieldException, SecurityException {
+		PlatformPO platformPo = (PlatformPO) po;
+		List<PlatformPO> existListPo = this.query(platformPo);
+		if(existListPo == null || existListPo.size() == 0){
+			return null;
+		}
+		else if(existListPo.size() == 1 && existListPo.get(0).getPlatformUuid().equals(platformPo.getPlatformUuid())){
+			return null;
+		}
+		else{
+			Field annotatedNotRepeatFiled = PlatformPO.class.getDeclaredField(fieldName);
+			NotRepeat notRepeatAnnotation = annotatedNotRepeatFiled.getAnnotation(NotRepeat.class);
+			return notRepeatAnnotation.message();
+		}
 	}
 }

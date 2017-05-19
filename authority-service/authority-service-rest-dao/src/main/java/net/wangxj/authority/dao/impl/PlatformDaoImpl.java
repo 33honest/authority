@@ -30,16 +30,6 @@ public class PlatformDaoImpl extends BaseSessionDaoSupport implements PlatformDa
 	}
 	
 	@Override
-	public Integer insertBatch(List<PlatformPO> listPo){
-		Integer count=0;
-		for(PlatformPO platformPo : listPo){
-			this.insert(platformPo);
-			count++;
-		}
-		return count;
-	}
-	
-	@Override
 	public Integer updateByUuid(PlatformPO platformPo) {
 	
 		return super.getSqlSession().update("PlatformPOMapper.updateByUuid", platformPo);
@@ -65,16 +55,6 @@ public class PlatformDaoImpl extends BaseSessionDaoSupport implements PlatformDa
 	@Override
 	public Integer getCountByCondition(PlatformPO platformPo) {
 		return (Integer)super.getSqlSession().selectOne("PlatformPOMapper.selectCountByCondition", platformPo);
-	}
-
-	@Override
-	public Integer modifyByBatch(List<PlatformPO> platformPoList) {
-		int count = 0;
-		for (PlatformPO platformPO : platformPoList) {
-			this.updateByUuid(platformPO);
-			count++;
-		}
-		return count;
 	}
 	
 }

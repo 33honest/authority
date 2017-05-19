@@ -1,5 +1,3 @@
-
-
 package net.wangxj.authority.dao.impl;
 
 import java.util.HashMap;
@@ -29,15 +27,6 @@ public class AuthorityUserDaoImpl extends BaseSessionDaoSupport implements Autho
 		return super.getSqlSession().update("AuthorityUserPOMapper.insert", authorityUserPo);
 	}
 	
-	@Override
-	public Integer insertBatch(List<AuthorityUserPO> listPo){
-		Integer count=0;
-		for(AuthorityUserPO authorityUserPo : listPo){
-			this.insert(authorityUserPo);
-			count++;
-		}
-		return count;
-	}
 	
 	@Override
 	public Integer updateByUuid(AuthorityUserPO authorityUserPo) {
@@ -68,14 +57,5 @@ public class AuthorityUserDaoImpl extends BaseSessionDaoSupport implements Autho
 		return (Integer)super.getSqlSession().selectOne("AuthorityUserPOMapper.selectCountByCondition", authorityUserPo);
 	}
 	
-	@Override
-	public Integer modifyByBatch(List<AuthorityUserPO> userList) {
-		int count = 0;
-		for (AuthorityUserPO usePo : userList) {
-			this.updateByUuid(usePo);
-			count++;
-		}
-		return count;
-	}
 	
 }

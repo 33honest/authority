@@ -13,13 +13,5 @@ import net.wangxj.authority.po.PlatformPO;
  */
 
 public interface PlatformDao extends IBaseDao<PlatformPO>{
-
-	/**
-	 * 批量修改
-	 * @param platformPoList
-	 * @return
-	 */
-	Integer modifyByBatch(List<PlatformPO> platformPoList);
-
 	
 }

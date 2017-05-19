@@ -1,5 +1,7 @@
 package net.wangxj.auhtority.application;
 
+import java.util.Set;
+
 import javax.ws.rs.ApplicationPath;
 
 import org.glassfish.jersey.CommonProperties;
@@ -19,6 +21,8 @@ public class AuthorityConfig extends ResourceConfig{
 		packages("net.wangxj.authority.service.rest.api,net.wangxj.authority.service.rest.exception");
 		property(CommonProperties.MOXY_JSON_FEATURE_DISABLE, true);
 		register(new FastJsonFeature()).register(FastJsonProvider.class);
+		register(CORSResponseFilter.class);
 	}
+	
 	
 }

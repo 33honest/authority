@@ -16,13 +16,6 @@ public interface IBaseDao<T> {
 	public Integer insert(T po);
 	
 	/**
-	 * 批量插入
-	 * @param listPo
-	 * @return 插入条数
-	 */
-	public Integer insertBatch(List<T> listPo);
-	
-	/**
 	 * 根据主键更新
 	 * @param po
 	 * @return 更新条数

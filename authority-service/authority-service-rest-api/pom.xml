@@ -26,6 +26,8 @@
          <artifactId>jetty-webapp</artifactId>
          <version>${jetty.version}</version>
      </dependency>
+    
+     
   </dependencies>
    <build>
    	<finalName>authority-service</finalName>
