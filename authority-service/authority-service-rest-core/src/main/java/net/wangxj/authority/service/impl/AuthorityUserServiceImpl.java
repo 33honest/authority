@@ -61,7 +61,14 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	}
 	
 	@Override
-	public Integer update(AuthorityUserPO authorityUserPo) {
+	public Integer update(AuthorityUserPO authorityUserPo) throws Exception {
+		try {
+			String userLoginPwd = authorityUserPo.getUserLoginPwd();
+			authorityUserPo.setUserLoginPwd(PBKDF2SHA1.generateStorngPasswordHash(userLoginPwd));
+		} catch (Exception e) {
+			logger.debug("加密失败", e);
+			throw e;
+		}
 		authorityUserPo.setUserEditTime(TimeUtil.getNowStr());
 		return authorityUserDao.updateByUuid(authorityUserPo);
 	}
@@ -93,7 +100,7 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	}
 	
 	@Override
-	public Integer updateBatch(List<AuthorityUserPO> userList) {
+	public Integer updateBatch(List<AuthorityUserPO> userList) throws Exception {
 		Integer count = 0;
 		for (AuthorityUserPO authorityUserPO : userList) {
 			this.update(authorityUserPO);

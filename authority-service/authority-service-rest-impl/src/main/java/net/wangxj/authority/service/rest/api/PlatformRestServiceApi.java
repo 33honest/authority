@@ -132,7 +132,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 * 修改平台(根据uuid)
 	 * @param platformPo
 	 * @return
-	 * 
+	 * @throws Exception 
 	 * apidoc--------------------->
 	 * @api {PUT} /platforms/{platform_uuid} 修改平台
 	 * @apiExample {curl} curl请求示例:
@@ -163,7 +163,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	@Path("/{uuid}")
 	@Produces({"application/json"})
 	@Consumes({"application/json"})
-	public Response update(@PathParam(value = "uuid") String uuid,PlatformPO platformPo){
+	public Response update(@PathParam(value = "uuid") String uuid,PlatformPO platformPo) throws Exception{
 		platformPo.setPlatformUuid(uuid);
 		ValidationResult validateResult = platformService.validatePoAndNotRepeadField(platformPo, EditValidate.class);
 		if(validateResult != null){
@@ -197,11 +197,43 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 *   "order": "asc",
 	 *   "sort": "platform_uuid"
 	 * }
-	 * @apiSuccess (200) {String} success 是否创建成功
+	 * @apiSuccess (200) {String} data 数据
+	 * @apiSuccess (200) {number} count 数据总条数
 	 * @apiSuccessExample {json}　请求成功响应 : 
-	 * 									{
-	 *									  "success": true
-	 *									}
+	　*	 {
+	　*	  "data": [
+	　*	    {
+	　*	      "platform_add_time": "2017-05-14 11:00:37",
+	　*	      "platform_add_user": "0cf700bfd72142c498ff7508aa2603c3",
+	　*	      "platform_domain": "ceshi.com",
+	　*	      "platform_name": "测试吧",
+	　*	      "platform_sign": "CE_SHIhaa",
+	　*	      "platform_status": 3,
+	　*	      "platform_uuid": "fa06b693de9241b0a57586283d99d1ec"
+	　*	    },
+	　*	    {
+	　*	      "platform_add_time": "2017-05-07 15:00:13",
+	　*	      "platform_add_user": "0cf700bfd72142c498ff7508aa2603c3",
+	　*	      "platform_domain": "ceshixiugai.com",
+	　*	      "platform_edit_time": "2017-05-19 11:09:17",
+	　*	      "platform_edit_user": "0cf700bfd72142c498ff7508aa2603c3",
+	　*	      "platform_name": "测试修改",
+	　*	      "platform_sign": "CE_SHI_XIUGAI",
+	　*	      "platform_status": 3,
+	　*	      "platform_uuid": "fbe79e23230248078116f407884a7785"
+	　*	    },
+	　*	    {
+	　*	      "platform_add_time": "2017-01-01 12:12:12",
+	　*	      "platform_add_user": "de0c7b2480494fda98db82f7a4707649",
+	　*	      "platform_domain": "authority.com",
+	　*	      "platform_name": "权限平台",
+	　*	      "platform_sign": "authority",
+	　*	      "platform_status": 1,
+	　*	      "platform_uuid": "fe178fd0073a4edea94e95a46bab15be"
+	　*	    }
+	　*	  ],
+	　*	  "count": 9
+	　*	}
 	 *
 	 *@apiError (400) {String} error_message 错误说明
 	 *@apiError (400) {Boolean} is_pass　　格式是否正确

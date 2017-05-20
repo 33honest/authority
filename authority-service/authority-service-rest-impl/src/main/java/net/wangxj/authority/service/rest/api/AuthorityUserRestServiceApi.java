@@ -6,11 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.validation.groups.Default;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
@@ -24,6 +30,7 @@ import net.wangxj.util.validate.groups.AddValidate;
 import net.wangxj.util.validate.groups.DeleteValidate;
 import net.wangxj.util.validate.groups.EditValidate;
 import net.wangxj.authority.po.AuthorityUserPO;
+import net.wangxj.authority.po.Page;
 import net.wangxj.authority.service.AuthorityUserService;
 
 /**
@@ -39,6 +46,44 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 	
 	@Autowired
 	private AuthorityUserService authorityUserService;
+	
+	/**
+	 * @apiDefine 200 成功 200
+	 */
+	/**
+	 * @apiDefine 400 错误 400
+	 */
+	/**
+	 * @apiDefine 500 错误 500
+	 */
+	/**
+	 * @apiDefine userSuccessResponse
+	 * @apiSuccess (200) {String} success 是否操作成功
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * 									{
+	 *									  "success": true
+	 *									} 
+	 */
+	/**
+	 * @apiDefine user400Response
+	 *@apiError (400) {String} error_message 错误说明
+	 *@apiError (400) {Boolean} is_pass　　格式是否正确
+	 *@apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "该user_login_name已被注册",
+	 *									   "is_pass": false 
+	 *									}
+	 */
+	/**
+	 *@apiDefine user500Response
+	 *@apiError (500) {String} error 错误说明
+	 *@apiErrorExample {json} 错误500响应 :
+	 *									{
+	 *										"error": "服务器内部发生错误
+	 *									}
+	 */
+	
+	
 	
 	/**
 	 * 添加用户
@@ -59,7 +104,26 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 	 *  "user_add_type" : 1,
 	 *  "user_add_by" : "0cf700bfd72142c498ff7508aa2603c3"}' http://localhost:9000/api/users 
 	 *  @apiGroup users
-	 *  
+	 *  @apiParam {String{2..64}}　[user_login_name]　用户名
+	 *  @apiParam {String} user_email 用户登录邮箱
+	 *  @apiParam {String{6..20}} user_login_password 用户登录密码
+	 *  @apiParam {String} [user_phone] 用户电话
+	 *  @apiParam {number=1(已注册未激活),2(已注册并激活),3(已锁定)} user_status 用户状态
+	 *  @apiParam {number=1(内部用户),2(外部用户)} user_type 用户类型
+	 *  @apiParam {number=1(被内部用户添加),2(自己注册)} user_add_type 用户添加类型
+	 *  @apiParam {String} user_add_by 添加人
+	 *  @apiParamExample {json} 请求参数示例:
+	 * {"user_login_name":"CE_SHI",
+	 *  "user_login_password":"123456",
+	 *  "user_email":"ceshi@qq.com",
+	 *  "user_phone":"13211563421",
+	 *  "user_status":1,
+	 *  "user_type" : 1,
+	 *  "user_add_type" : 1,
+	 *  "user_add_by" : "0cf700bfd72142c498ff7508aa2603c3"} 
+	 *  @apiUse userSuccessResponse
+	 *  @apiUse user400Response
+	 *  @apiUse user500Response
 	 */
 	@POST
 	public Response add(AuthorityUserPO userPo) throws Exception{
@@ -76,207 +140,183 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 		}
 	}
 	
-	/*@Override
-	public Response<Integer> addBatch(List<AuthorityUserDTO> listDto){
-		
-		Response<Integer> response = new Response<Integer>();
-		
-		if(listDto == null && listDto.size()>0){
-			response.setMessage("传入参数不可为空");
-			return response;
+	/**
+	 * 更新用户
+	 * @param uuid
+	 * @param userPo
+	 * @return
+	 * @throws Exception 
+	 * apidoc------------------->
+	 * @api {PUT} /users/{user_uuid} 修改用户
+	 * @apiExample {curl} curl请求示例:
+	 * curl -H "Content-Type:application/json" -H "Accept:application/json" -i -X PUT -d '
+	 * {"user_login_name":"CE_SHI",
+	 *  "user_login_password":"123456",
+	 *  "user_email":"ceshi@qq.com",
+	 *  "user_phone":"13211563421",
+	 *  "user_status":1,
+	 *  "user_type" : 1,
+	 *  "user_add_type" : 1,
+	 *  "user_edit_by" : "0cf700bfd72142c498ff7508aa2603c3"}' http://localhost:9000/api/users/db1d225261cf4a1293e7eb8d4371b667 
+	 *  @apiGroup users
+	 *  @apiParam {String} user_uuid 用户uuid
+	 *  @apiParam {String{2..64}}　[user_login_name]　用户名
+	 *  @apiParam {String} [user_email] 用户登录邮箱
+	 *  @apiParam {String{6..20}} [user_login_password] 用户登录密码
+	 *  @apiParam {String} [user_phone] 用户电话
+	 *  @apiParam {number=1(已注册未激活),2(已注册并激活),3(已锁定)} [user_status] 用户状态
+	 *  @apiParam {number=1(内部用户),2(外部用户)} [user_type] 用户类型
+	 *  @apiParam {number=1(被内部用户添加),2(自己注册)} [user_add_type] 用户添加类型
+	 *  @apiParam {String} user_add_by 添加人
+	 *  @apiParamExample {json} 请求参数示例:
+	 * {"user_uuid" : "db1d225261cf4a1293e7eb8d4371b667",
+	 *  "user_login_name":"CE_SHI",
+	 *  "user_login_password":"123456",
+	 *  "user_email":"ceshi@qq.com",
+	 *  "user_phone":"13211563421",
+	 *  "user_status":1,
+	 *  "user_type" : 1,
+	 *  "user_add_type" : 1,
+	 *  "user_edit_by" : "0cf700bfd72142c498ff7508aa2603c3"}  
+	 *  @apiUse userSuccessResponse
+	 *  @apiUse user400Response
+	 *  @apiUse user500Response
+	 *  
+	 */
+	@PUT
+	@Path("/{uuid}")
+	public Response update(@PathParam(value = "uuid")String uuid , AuthorityUserPO userPo) throws Exception{
+		userPo.setUserUuid(uuid);
+		ValidationResult editValidateResult = authorityUserService.validatePoAndNotRepeadField(userPo, EditValidate.class);
+		logger.debug("验证结果:--->" + editValidateResult);
+		if(editValidateResult != null){
+			return failValidate(editValidateResult);
+		}else{
+			//更新
+			Map<String,Object> updateResultMap = new HashMap<>();
+			updateResultMap.put("success", authorityUserService.update(userPo) == 1 ? true : false);
+			logger.debug("更新结果:--->" + updateResultMap);
+			return success(updateResultMap);
 		}
-		
-		List<AuthorityUserPO> listPo = new ArrayList<>();
-		for(AuthorityUserDTO authorityUserDto : listDto){
-			AuthorityUserPO authorityUserPo = new AuthorityUserPO();
-			BeanUtils.copyProperties(authorityUserDto,authorityUserPo);
-			listPo.add(authorityUserPo);
-		}
-		Integer count = authorityUserService.addBatch(listPo);
-		logger.debug("新增listauthorityUserDTO成功");
-		response.setCode(0L);
-		response.setResObject(count);
-		return response;
 	}
 	
-	@Override
-	public Response<Integer> modifyByUuid(AuthorityUserDTO authorityUserDto){
-		
-		Response<Integer> response = new Response<>();
-		AuthorityUserPO authorityUserpo = new AuthorityUserPO(); 
-		//验证
-		String validateRes = validateDto(authorityUserDto, authorityUserpo, EditValidate.class);
-		if(validateRes != null){
-			response.setCode(1L);
-			response.setMessage(validateRes);
-			return response;
+	/**
+	 * 分页查询
+	 * @param page
+	 * @return
+	 * apidoc----------------------->
+	 * @api {GET} /users 分页查询
+	 * @apiExample {curl} curl请求示例:
+	 * curl -X GET 'http://localhost:9000/api/users?page_number=2&limit=3&order=asc&sort=user_uuid'
+	 * @apiGroup users
+	 * @apiParam {number} page_number 页码
+	 * @apiParam {number}  limit 每页条数
+	 * @apiParam {String="desc","asc"} order 排序(正序/反序)
+	 * @apiParam {String} sort 排序字段(按该字段排序)
+	 * @apiParamExample {json} 请求参数示例:
+	 * {
+	 *   "page_number":2,
+	 *   "limit": 3,
+	 *   "order": "asc",
+	 *   "sort": "platform_uuid"
+	 * } 
+	 * @apiSuccess (200) {String} data 数据
+	 * @apiSuccess (200) {number} count 数据总条数
+	 * @apiSuccessExample {json}　请求成功响应 :
+	 * {
+	　*	  "data": [
+	　*	    {
+	　*	      "user_add_by": "0cf700bfd72142c498ff7508aa2603c3",
+	　*	      "user_add_time": "2017-05-19 18:24:06",
+	　*	      "user_add_type": 1,
+	　*	      "user_edit_by": "0cf700bfd72142c498ff7508aa2603c3",
+	　*	      "user_edit_time": "2017-05-20 09:28:12",
+	　*	      "user_email": "ceshixiugaiaa@qq.com",
+	　*	      "user_login_name": "CE_SHI_XIUGAI_qq",
+	　*	      "user_login_password": "625:5b42403664356232346137:f48d80df8ecad60df6ad9129e6cfb82e4a057025ce9006f647bf5c700dc92943df1732c843136232a6aa1888532b989b22cabce031f530c43c5ea8ab2894e901",
+	　*	      "user_phone": "13322563421",
+	　*	      "user_status": 1,
+	　*	      "user_type": 1,
+	　*	      "user_uuid": "db1d225261cf4a1293e7eb8d4371b667"
+	　*	    },
+	　*	    {
+	　*	      "user_add_by": "de0c7b2480494fda98db82f7a4707649",
+	　*	      "user_add_time": "2017-02-21 16:53:23",
+	　*	      "user_add_type": 1,
+	　*	      "user_email": "1416236046@qq.com",
+	　*	      "user_login_name": "admin",
+	　*	      "user_login_password": "",
+	　*	      "user_phone": "13811255489",
+	　*	      "user_status": 2,
+	　*	      "user_type": 1,
+	　*	      "user_uuid": "de0c7b2480494fda98db82f7a4707649"
+	　*	    }
+	 *	  ],
+	 *	  "count": 2
+	 *	}
+	 *@apiError (400) {String} error_message 错误说明
+	 *@apiError (400) {Boolean} is_pass　　格式是否正确
+	 *@apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "page_number非法",
+	 *									   "is_pass": false
+	 *									}
+	 *@apiUse user500Response
+	 *
+	 */
+	@GET
+	public Response pageQuery(@BeanParam Page page){
+		ValidationResult pageValidateResult = authorityUserService.validatePo(page, Default.class);
+		ValidationResult validatleSortResult = authorityUserService.validateSort(AuthorityUserPO.class, page.getSort());
+		if(pageValidateResult != null){
+			return failValidate(pageValidateResult);
+		}else if(validatleSortResult != null){
+			return failValidate(validatleSortResult);
+		}else{
+			Map<String, Object> pageResultMap = authorityUserService.pageQuery(new AuthorityUserPO(), page);
+			return success(pageResultMap);
 		}
-		authorityUserpo.setUserEditTime(TimeUtil.getNowStr());
-		Integer count = authorityUserService.modifyByUuid(authorityUserpo);
-		if(count > 0){
-			logger.debug("authorityUser修改成功");
-			response.setCode(0L);
-			response.setResObject(count);
-			response.setMessage("成功");
-		}
-		else{
-			logger.debug("修改authorityUser失败");
-		}
-			
-		return response;
 	}
 	
-	@Override
-	public Response<AuthorityUserDTO> queryListByCondition(AuthorityUserDTO authorityUserDto,boolean noDelete){
-		
-		Response<AuthorityUserDTO> response = new Response<>();
-		if(authorityUserDto == null){
-			response.setMessage("authorityUserDto参数不可为空");
-			return response;
-		}
-		AuthorityUserPO authorityUserPo = new AuthorityUserPO();
-		List<AuthorityUserPO> listPo = new ArrayList<>();
-		List<AuthorityUserDTO> listDto = new ArrayList<>();
-		BeanUtils.copyProperties(authorityUserDto, authorityUserPo);
-		if(noDelete){
-			authorityUserPo.setUserIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
-		}
-		listPo = authorityUserService.queryListByCondition(authorityUserPo);
-		logger.debug("查询queryList成功");
-		for (AuthorityUserPO authorityUserPo2 : listPo) {
-			AuthorityUserDTO authorityUserDto2 = new AuthorityUserDTO();
-			BeanUtils.copyProperties(authorityUserPo2, authorityUserDto2);
-			listDto.add(authorityUserDto2);
-		}
-		response.setCode(0L);
-		response.setData(listDto);
-		response.setMessage("成功");
-		
-		return response;
-	}
-	
-	@Override
-	public Response<AuthorityUserDTO> queryPageListByCondition(AuthorityUserDTO authorityUserDto, int pageNum, int limit,String order,String sort){
-		
-		Response<AuthorityUserDTO> response = new Response<>();
-		if(authorityUserDto == null){
-			response.setMessage("authorityUserDto参数不可为空");
-			return response;
-		}
-		AuthorityUserPO authorityUserPo = new AuthorityUserPO();
-		List<AuthorityUserPO> listPo = new ArrayList<>();
-		List<AuthorityUserDTO> listDto = new ArrayList<>();
-		BeanUtils.copyProperties(authorityUserDto, authorityUserPo);
-		authorityUserPo.setUserIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
-		listPo = authorityUserService.queryPageListByCondition(authorityUserPo,pageNum,limit,order,sort);
-		for (AuthorityUserPO authorityUserPo2 : listPo) {
-			//添加人
+	/**
+	 * 批量删除
+	 * @param user
+	 * @param uuids
+	 * @return
+	 * apidoc------------------>
+	 * @api {DELETE} /users 删除用户(批量)
+	 * @apiExample {curl} curl请求示例:
+	 * curl -X DELETE 'http://localhost:9000/api/users?delete_user=de0c7b2480494fda98db82f7a4707649&uuids=db1d225261cf4a1293e7eb8d4371b667,de0c7b2480494fda98db82f7a4707649'
+	 * @apiGroup users
+	 * @apiParam {String} delete_user 删除人
+	 * @apiParam {String} uuids 用户uuid集合(以,分割)
+	 * @apiParamExample {json} 请求参数示例:
+	 * {
+	 *  "delete_user" : "de0c7b2480494fda98db82f7a4707649",
+	 *  "uuids" : "db1d225261cf4a1293e7eb8d4371b667,de0c7b2480494fda98db82f7a4707649"
+	 * }
+	 * @apiUse userSuccessResponse
+	 * @apiUse user400Response
+	 * @apiUse user500Response
+	 */
+	@DELETE
+	public Response delete(@QueryParam(value="delete_user")String user , @QueryParam(value="uuids")String uuids){
+		logger.debug("delete_user" + user + "---uuids" + uuids);
+		List<AuthorityUserPO> userListPo = new ArrayList<>();
+		for(String uuid : uuids.split(",")){
 			AuthorityUserPO userPo = new AuthorityUserPO();
-			userPo.setUserUuid(authorityUserPo2.getUserAddBy());
-			AuthorityUserPO addUserPo = authorityUserService.queryListByCondition(userPo).get(0);
-			//编辑人
-			AuthorityUserPO editUserPo = new AuthorityUserPO();
-			editUserPo.setUserUuid(authorityUserPo2.getUserEditBy());
-			List<AuthorityUserPO> editUserList = authorityUserService.queryListByCondition(editUserPo);
-			
-			//删除人
-			AuthorityUserPO delUserPo = new AuthorityUserPO();
-			delUserPo.setUserUuid(authorityUserPo2.getUserDelBy());
-			List<AuthorityUserPO> delUserList = authorityUserService.queryListByCondition(delUserPo);
-			
-			AuthorityUserDTO authorityUserDto2 = new AuthorityUserDTO();
-			BeanUtils.copyProperties(authorityUserPo2, authorityUserDto2);
-			authorityUserDto2.setUserAddByName(addUserPo.getUserLoginName());
-			authorityUserDto2.setUserEditByName(editUserList.size() != 1 ? "-" : editUserList.get(0).getUserLoginName());
-			authorityUserDto2.setUserDelByName(delUserList.size() != 1 ? "-" : delUserList.get(0).getUserLoginName());
-			listDto.add(authorityUserDto2);
-		}
-		response.setCode(0L);
-		response.setData(listDto);
-		response.setMessage("成功");
-		
-		return response;
-	}
-	
-	@Override
-	public Response<Integer> getCountByCondition(AuthorityUserDTO authorityUserDto,boolean noDelete){
-		
-		Response<Integer> response = new Response<>();
-		if(authorityUserDto == null){
-			response.setMessage("authorityUserDto参数不可为空");
-			return response;
-		}
-		AuthorityUserPO authorityUserpo = new AuthorityUserPO(); 
-		BeanUtils.copyProperties(authorityUserDto, authorityUserpo);
-		if(noDelete){
-			authorityUserpo.setUserIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
-		}
-		Integer count = authorityUserService.getCountByCondition(authorityUserpo);
-		logger.debug("count查询成功");
-		
-		response.setCode(0L);
-		response.setResObject(count);
-		response.setMessage("成功");
-			
-		return response;
-	}
-	
-	@Override
-	public Response<Integer> deleteByUuid(AuthorityUserDTO authorityUserDto){
-		Response<Integer> response = new Response<>();
-		AuthorityUserPO authorityUserPo = new AuthorityUserPO();
-		//验证
-		String validateRes = validateDto(authorityUserDto, authorityUserPo, DeleteValidate.class);
-		if(validateRes != null){
-			response.setCode(1L);
-			response.setMessage(validateRes);
-			return response;
-		}
-		authorityUserPo.setUserDelTime(TimeUtil.getNowStr());
-		authorityUserPo.setUserIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
-		Integer count = authorityUserService.modifyByUuid(authorityUserPo);
-		if(count > 0){
-			logger.debug("删除authorityUser成功");
-			response.setCode(0L);
-			response.setResObject(count);
-			response.setMessage("成功");
-		}
-		else{
-			logger.debug("删除authorityUser失败");
-		}
-		return response;
-	}
-	
-	@Override
-	public Response<Integer> deleteByBatch(List<AuthorityUserDTO> authorityUserList ){
-		
-		Response<Integer> response = new Response<>();
-		List<AuthorityUserPO> userPoList = new ArrayList<>();
-		//验证
-		for (AuthorityUserDTO authorityDto : authorityUserList) {
-			AuthorityUserPO authorityPo = new AuthorityUserPO();
-			String validateRes = validateDto(authorityDto, authorityPo, DeleteValidate.class);
-			if(validateRes != null){
-				response.setCode(1L);
-				response.setMessage(validateRes);
-				return response;
+			userPo.setUserUuid(uuid);
+			userPo.setUserDelBy(user);
+			ValidationResult deleteValidateResult = authorityUserService.validatePo(userPo, DeleteValidate.class);
+			if(deleteValidateResult != null){
+				return failValidate(deleteValidateResult);
 			}
-			authorityPo.setUserDelTime(TimeUtil.getNowStr());
-			authorityPo.setUserIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
-			userPoList.add(authorityPo);
+			userListPo.add(userPo);
 		}
-		Integer count = authorityUserService.modifyByBatch(userPoList);
-		if(count == authorityUserList.size()){
-			logger.debug("批量删除authorityUser成功");
-			response.setCode(0L);
-			response.setResObject(count);
-			response.setMessage("成功");
-		}
-		else{
-			logger.debug("批量删除authorityUser失败");
-		}
-		return response;
-	} 
-	*/
+		Map<String,Object> deleteResultMap = new HashMap<>();
+		deleteResultMap.put("success", authorityUserService.deleteBatch(userListPo) > 0 ? true : false);
+		return success(deleteResultMap);
+	}
+	
 
 }

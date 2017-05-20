@@ -36,8 +36,9 @@ public interface AuthorityService<T> {
 	/**
 	 * update by uuid
 	 * @return
+	 * @throws Exception 
 	 */
-	public Integer update(T po);
+	public Integer update(T po) throws Exception;
 	
 	/**
 	 * conditions of the query
@@ -62,8 +63,9 @@ public interface AuthorityService<T> {
 	 * batch update
 	 * @param poList
 	 * @return
+	 * @throws Exception 
 	 */
-	public Integer updateBatch(List<T> poList);
+	public Integer updateBatch(List<T> poList) throws Exception;
 	/**
 	 * delete
 	 * @param po
