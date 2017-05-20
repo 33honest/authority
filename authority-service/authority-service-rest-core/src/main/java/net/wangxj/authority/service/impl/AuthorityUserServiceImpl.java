@@ -138,13 +138,14 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	 * @see net.wangxj.authority.service.AuthorityService#validateRepeat(net.wangxj.authority.po.PO, java.lang.String)
 	 */
 	@Override
-	public String validateRepeat(PO po, String fieldName) throws NoSuchFieldException, SecurityException {
-		AuthorityUserPO userPo = (AuthorityUserPO) po;
+	public String validateRepeat(PO singlePo,PO originPo, String fieldName) throws NoSuchFieldException, SecurityException {
+		AuthorityUserPO userPo = (AuthorityUserPO) singlePo;
+		AuthorityUserPO originUserPo = (AuthorityUserPO) originPo;
 		List<AuthorityUserPO> listUserPo = this.query(userPo);
 		if(listUserPo == null || listUserPo.size() == 0 ){
 			return null;
 		}
-		else if(listUserPo.size() == 1 && listUserPo.get(0).getUserUuid().equals(userPo.getUserUuid())){
+		else if(listUserPo.size() == 1 && listUserPo.get(0).getUserUuid().equals(originUserPo.getUserUuid())){
 			return null;
 		}
 		else{

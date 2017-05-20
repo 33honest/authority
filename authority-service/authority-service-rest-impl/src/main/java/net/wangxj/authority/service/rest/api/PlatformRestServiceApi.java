@@ -19,8 +19,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import net.wangxj.util.validate.ValidationResult;
 import net.wangxj.util.validate.groups.AddValidate;
 import net.wangxj.util.validate.groups.DeleteValidate;
@@ -33,9 +31,6 @@ import net.wangxj.authority.service.PlatformService;
  * 
  * @author huoshan
  * created by 2017年4月8日 上午11:10:35
- * 
- * 
- *
  */
 @Path("/platforms")
 public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
@@ -324,5 +319,6 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	}
 
 
+	
 	
 }

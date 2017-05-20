@@ -131,13 +131,14 @@ public class PlatformServiceImpl implements PlatformService{
 	 * @see net.wangxj.authority.service.AbstractAuthorityService#validateRepeat(net.wangxj.authority.po.PO, java.lang.String)
 	 */
 	@Override
-	public String validateRepeat(PO po, String fieldName) throws NoSuchFieldException, SecurityException {
-		PlatformPO platformPo = (PlatformPO) po;
+	public String validateRepeat(PO singlePo,PO originPo, String fieldName) throws NoSuchFieldException, SecurityException {
+		PlatformPO platformPo = (PlatformPO) singlePo;
+		PlatformPO originPlatformPo = (PlatformPO) originPo;
 		List<PlatformPO> existListPo = this.query(platformPo);
 		if(existListPo == null || existListPo.size() == 0){
 			return null;
 		}
-		else if(existListPo.size() == 1 && existListPo.get(0).getPlatformUuid().equals(platformPo.getPlatformUuid())){
+		else if(existListPo.size() == 1 && existListPo.get(0).getPlatformUuid().equals(originPlatformPo.getPlatformUuid())){
 			return null;
 		}
 		else{

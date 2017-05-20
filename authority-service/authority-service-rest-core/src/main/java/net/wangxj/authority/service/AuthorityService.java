@@ -120,7 +120,7 @@ public interface AuthorityService<T> {
 					String fieldName = nameObjEntry.getKey();
 					PO singleFieldPo = (PO) nameObjEntry.getValue();
 					String errorMsg;
-					errorMsg = validateRepeat(singleFieldPo, fieldName);
+					errorMsg = validateRepeat(singleFieldPo,po, fieldName);
 					logger.debug("验证" + fieldName + ":---->" + errorMsg);
 					//如果不重复
 					if(errorMsg == null){
@@ -168,7 +168,7 @@ public interface AuthorityService<T> {
 	 * @throws SecurityException 
 	 * @throws NoSuchFieldException 
 	 */
-	public String validateRepeat(PO po, String fieldName) throws NoSuchFieldException, SecurityException;
+	public String validateRepeat(PO single,PO originPo, String fieldName) throws NoSuchFieldException, SecurityException;
 	
 	/**
 	 * 校验obj中@Jsonfield是否存在name为sortStr的注解

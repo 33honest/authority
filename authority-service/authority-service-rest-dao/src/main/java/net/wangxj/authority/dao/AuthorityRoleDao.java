@@ -13,11 +13,5 @@ import net.wangxj.authority.po.AuthorityRolePO;
  */
 
 public interface AuthorityRoleDao extends IBaseDao<AuthorityRolePO>{
-	/**
-	 * 批量修改
-	 * @param roleList
-	 * @return
-	 */
-	Integer modifyByBatch(List<AuthorityRolePO> roleList);
 	
 }
