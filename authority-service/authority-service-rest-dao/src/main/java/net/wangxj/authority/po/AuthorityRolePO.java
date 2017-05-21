@@ -43,7 +43,7 @@ public class AuthorityRolePO extends PO implements Serializable{
 	@NotRepeat(message = "该role_name已存在")
 	@JSONField(name = "role_name")
 	private String roleName;
-    // 角色状态: 已添加： 已激活: 	
+    // 角色状态: 已添加：1 已激活: 	2
 	@Max(value = 2, message = "角色状态不合法", groups = {AddValidate.class, EditValidate.class})
 	@Min(value = 1, message = "角色状态不合法", groups = {AddValidate.class, EditValidate.class})
 	@NotNull(message = "角色状态不可为空", groups = {AddValidate.class})

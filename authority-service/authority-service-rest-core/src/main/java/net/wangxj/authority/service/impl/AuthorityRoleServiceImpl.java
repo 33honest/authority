@@ -36,6 +36,7 @@ public class AuthorityRoleServiceImpl implements AuthorityRoleService{
 	@Override
 	public Integer add(AuthorityRolePO authorityRolePo) {
 		authorityRolePo.setRoleAddTime(TimeUtil.getNowStr());
+		authorityRolePo.setRoleIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		authorityRolePo.setRoleUuid(UuidUtil.newGUID());
 		logger.debug("添加:-->" + authorityRolePo);
 		return authorityRoleDao.insert(authorityRolePo);

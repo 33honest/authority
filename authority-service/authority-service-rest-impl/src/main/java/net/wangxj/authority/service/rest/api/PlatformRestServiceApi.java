@@ -23,8 +23,10 @@ import net.wangxj.util.validate.ValidationResult;
 import net.wangxj.util.validate.groups.AddValidate;
 import net.wangxj.util.validate.groups.DeleteValidate;
 import net.wangxj.util.validate.groups.EditValidate;
+import net.wangxj.authority.po.AuthorityRolePO;
 import net.wangxj.authority.po.Page;
 import net.wangxj.authority.po.PlatformPO;
+import net.wangxj.authority.service.AuthorityRoleService;
 import net.wangxj.authority.service.PlatformService;
 
 /**
@@ -33,12 +35,16 @@ import net.wangxj.authority.service.PlatformService;
  * created by 2017年4月8日 上午11:10:35
  */
 @Path("/platforms")
+@Produces({"application/json"})
+@Consumes({"application/json"})
 public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 
 	private static Logger logger = Logger.getLogger(PlatformRestServiceApi.class);
 	
 	@Autowired
 	private PlatformService platformService;
+	@Autowired
+	private AuthorityRoleService authorityRoleService;
 	
 	/**
 	 * @apiDefine 200 成功 200
@@ -106,8 +112,6 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 *
 	 */
 	@POST
-	@Produces({"application/json"})
-	@Consumes({"application/json"})
 	public Response add(PlatformPO platformPo) throws Exception{
 		//validate
 		ValidationResult validateRes;
@@ -156,8 +160,6 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 */
 	@PUT
 	@Path("/{uuid}")
-	@Produces({"application/json"})
-	@Consumes({"application/json"})
 	public Response update(@PathParam(value = "uuid") String uuid,PlatformPO platformPo) throws Exception{
 		platformPo.setPlatformUuid(uuid);
 		ValidationResult validateResult = platformService.validatePoAndNotRepeadField(platformPo, EditValidate.class);
@@ -244,8 +246,6 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 *									}
 	 */ 
 	@GET
-	@Produces({"application/json"})
-	@Consumes({"application/json"})
 	public Response pageQuery(@BeanParam Page page){
 		ValidationResult validateResult = platformService.validatePo(page, Default.class);
 		ValidationResult validateSortRes = platformService.validateSort(PlatformPO.class, page.getSort());
@@ -298,8 +298,6 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 *									}
 	 */
 	@DELETE
-	@Produces({"application/json"})
-	@Consumes({"application/json"})
 	public Response delete(@QueryParam(value="delete_user")String user , @QueryParam(value="uuids")String uuids) {
 		logger.debug("delete_user:" + user + "----uuids:" + uuids);
 		List<PlatformPO> listPo = new ArrayList<>();
@@ -316,6 +314,65 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 		Map<String,Object> resultMap = new HashMap<>();
 		resultMap.put("success", platformService.deleteBatch(listPo) > 0 ? true : false);
 		return success(resultMap);
+	}
+	
+	/**
+	 * 向该平台添加角色
+	 * @param platformUuid 平台uuid
+	 * @param rolePo	角色信息
+	 * @return
+	 * @throws Exception
+	 * apidoc--------------------->
+	 * @api {POST} /platforms/{platform_uuid}/{roles} 向平台添加角色
+	 * @apiGroup platforms
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X POST -H "Content-Type:application/json" -H "Accept:application/json" -d '
+	 * {"role_name" : "测试角色",
+	 *  "role_status" : 2,
+	 *  "role_add_by" : "db1d225261cf4a1293e7eb8d4371b667"
+	 * }' http://localhost:9000/api/platforms/51f43adfea7045ff8c76b1433110c864/roles
+	 * @apiParam {String} platform_uuid 平台uuid
+	 * @apiParam {String{2..26}} role_name 角色名
+	 * @apiParam {number=1(已添加),2(已激活)} role_status 角色状态
+	 * @apiParam {String} role_add_by 添加人
+	 * @apiParamExample {json} 请求参数示例:
+	 * {"platform_uuid" : "51f43adfea7045ff8c76b1433110c864",
+	 *  "role_name" : "测试角色",
+	 *  "role_status" : 2,
+	 *  "role_add_by" : "db1d225261cf4a1293e7eb8d4371b667"
+	 * } 
+	 * @apiSuccess (200) {String} success 是否操作成功
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * 									{
+	 *									  "success": true
+	 *									}
+	 *
+	 *@apiError (400) {String} error_message 错误说明
+	 *@apiError (400) {Boolean} is_pass　　格式是否正确
+	 *@apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "该role_name已存在",
+	 *									   "is_pass": false
+	 *									}
+	 *@apiError (500) {String} error 错误说明
+	 *@apiErrorExample {json} 错误500响应 :
+	 *									{
+	 *										"error": "服务器内部发生错误
+	 *									}
+	 */
+	@POST
+	@Path("/{uuid}/roles")
+	public Response addRole(@PathParam(value = "uuid")String platformUuid , AuthorityRolePO rolePo) throws Exception{
+		rolePo.setRolePlatformUuid(platformUuid);
+		ValidationResult validateResult = authorityRoleService.validatePoAndNotRepeadField(rolePo, AddValidate.class);
+		if(validateResult != null){
+			return failValidate(validateResult);
+		}else{
+			Map<String,Object> addResultMap = new HashMap<>();
+			addResultMap.put("success", authorityRoleService.add(rolePo) == 1 ? true : false);
+			logger.debug("添加角色结果:--->" + addResultMap);
+			return success(addResultMap);
+		}
 	}
 
 

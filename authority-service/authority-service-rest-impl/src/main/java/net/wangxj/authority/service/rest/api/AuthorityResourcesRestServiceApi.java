@@ -1,43 +1,38 @@
-//
-//package net.wangxj.authority.service.rest.api;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//import javax.annotation.Resource;
-//import org.apache.log4j.Logger;
-//import org.springframework.beans.BeanUtils;
-//
-//import net.wangxj.util.string.TimeUtil;
-//import net.wangxj.util.validate.groups.AddValidate;
-//import net.wangxj.util.validate.groups.DeleteValidate;
-//import net.wangxj.util.validate.groups.EditValidate;
-//import net.wangxj.authority.Response;
-//import net.wangxj.authority.constant.DataDictionaryConstant;
-//import net.wangxj.authority.dto.AuthorityResourcesDTO;
-//import net.wangxj.authority.po.AuthorityResourcesPO;
-//import net.wangxj.authority.po.AuthorityUserPO;
-//import net.wangxj.authority.po.PlatformPO;
-//import net.wangxj.authority.service.AuthorityResourcesService;
-//import net.wangxj.authority.service.AuthorityUserService;
-//import net.wangxj.authority.service.PlatformService;
-//import net.wangxj.authority.service.rest.AuthorityResourcesShareService;
-//import net.wangxj.authority.service.rest.BaseAbstractAuthorityShareService;
-//
-///**
-// * created by	: wangxj
-// * created time	: 2016-12-26 18:06:38
-// */
-//public class AuthorityResourcesShareServiceImpl extends BaseAbstractAuthorityShareService implements AuthorityResourcesShareService{
-//
-//	private static Logger logger = Logger.getLogger(AuthorityResourcesShareServiceImpl.class);
-//	
-//	@Resource
-//	private AuthorityResourcesService authorityResourcesService;
-//	@Resource
-//	private AuthorityUserService authorityUserService;
-//	@Resource
-//	private PlatformService platformService;
-//	
+
+package net.wangxj.authority.service.rest.api;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.Resource;
+import org.apache.log4j.Logger;
+import org.springframework.beans.BeanUtils;
+
+import net.wangxj.util.string.TimeUtil;
+import net.wangxj.util.validate.groups.AddValidate;
+import net.wangxj.util.validate.groups.DeleteValidate;
+import net.wangxj.util.validate.groups.EditValidate;
+import net.wangxj.authority.po.AuthorityResourcesPO;
+import net.wangxj.authority.po.AuthorityUserPO;
+import net.wangxj.authority.po.PlatformPO;
+import net.wangxj.authority.service.AuthorityResourcesService;
+import net.wangxj.authority.service.AuthorityUserService;
+import net.wangxj.authority.service.PlatformService;
+
+/**
+ * created by	: wangxj
+ * created time	: 2016-12-26 18:06:38
+ */
+public class AuthorityResourcesRestServiceApi extends AbstractAuthrotiyRestService{
+
+	private static Logger logger = Logger.getLogger(AuthorityResourcesRestServiceApi.class);
+	
+	@Resource
+	private AuthorityResourcesService authorityResourcesService;
+	@Resource
+	private AuthorityUserService authorityUserService;
+	@Resource
+	private PlatformService platformService;
+	
 //	@Override
 //	public Response<Integer> add(AuthorityResourcesDTO authorityResourcesDto){
 //		
@@ -269,5 +264,5 @@
 //		}
 //		return response;
 //	}
-//
-//}
+
+}
