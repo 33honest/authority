@@ -60,20 +60,20 @@ public interface AuthorityService<T> {
 	 */
 	public Integer getCount(T po);
 	/**
-	 * batch update
+	 * batch update by uuids
 	 * @param poList
 	 * @return
 	 * @throws Exception 
 	 */
 	public Integer updateBatch(List<T> poList) throws Exception;
 	/**
-	 * delete
+	 * delete by uuid
 	 * @param po
 	 * @return
 	 */
 	public Integer delete(T po);
 	/**
-	 * delete batch
+	 * delete batch by uuids
 	 * @param listPo
 	 * @return
 	 */

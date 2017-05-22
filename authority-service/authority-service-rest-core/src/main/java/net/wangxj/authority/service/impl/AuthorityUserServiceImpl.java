@@ -10,7 +10,9 @@ import org.apache.log4j.Logger;
 
 import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
 import net.wangxj.authority.dao.AuthorityUserDao;
+import net.wangxj.authority.dao.AuthorityUserRoleRelationDao;
 import net.wangxj.authority.po.AuthorityUserPO;
+import net.wangxj.authority.po.AuthorityUserRoleRelationPO;
 import net.wangxj.authority.po.PO;
 import net.wangxj.authority.po.Page;
 import net.wangxj.authority.service.AuthorityUserService;
@@ -25,7 +27,6 @@ import org.springframework.stereotype.Service;
  * created by	: wangxj
  * created time	: 2016-12-26 18:06:42
  */
-
 @Service("authorityUserService")
 public class AuthorityUserServiceImpl implements AuthorityUserService{
 	
@@ -33,6 +34,8 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	
 	@Resource
 	private AuthorityUserDao authorityUserDao;
+	@Resource
+	private AuthorityUserRoleRelationDao authorityUserRoleRelationDao;
 	
 	@Override
 	public Integer add(AuthorityUserPO authorityUserPo) throws Exception {
@@ -133,6 +136,8 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 		logger.debug("总共删除--" + count + "条");
 		return count;
 	}
+	
+	
 
 	/* (non-Javadoc)
 	 * @see net.wangxj.authority.service.AuthorityService#validateRepeat(net.wangxj.authority.po.PO, java.lang.String)
@@ -153,6 +158,32 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 			NotRepeat notRepeatAnnotation = annotatedNotRepeatFiled.getAnnotation(NotRepeat.class);
 			return notRepeatAnnotation.message();
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.service.AuthorityUserService#grantRoles(java.lang.String, java.lang.String, java.util.List)
+	 */
+	@Override
+	public Boolean grantRoles(String userUuid, String platformUuid, List<String> rolesUuidList, String addBy) {
+		//先删除该用户在该平台所拥有的所有角色
+		AuthorityUserRoleRelationPO userRoleRelationPo = new AuthorityUserRoleRelationPO();
+		userRoleRelationPo.setUrUserUuid(userUuid);
+		authorityUserRoleRelationDao.deleteBy(userRoleRelationPo, platformUuid);
+		//添加新的授权
+		Integer count = 0;
+		for(String roleUuid : rolesUuidList){
+			AuthorityUserRoleRelationPO addUserRoleRelationPo = new AuthorityUserRoleRelationPO();
+			addUserRoleRelationPo.setUrAddBy(addBy);
+			addUserRoleRelationPo.setUrAddTime(TimeUtil.getNowStr());
+			addUserRoleRelationPo.setUrIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
+			addUserRoleRelationPo.setUrRoleUuid(roleUuid);
+			addUserRoleRelationPo.setUrUserUuid(userUuid);
+			addUserRoleRelationPo.setUrUuid(UuidUtil.newGUID());
+			authorityUserRoleRelationDao.insert(addUserRoleRelationPo);
+			logger.debug("添加第--" + (++count) + "--条授权");
+		}
+		logger.debug("共为用户" + userUuid + "添加--" + count + "--条授权");
+		return rolesUuidList.size() == count.intValue();
 	}
 
 }

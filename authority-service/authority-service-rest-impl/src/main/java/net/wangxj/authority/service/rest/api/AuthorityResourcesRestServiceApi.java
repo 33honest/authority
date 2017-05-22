@@ -1,268 +1,285 @@
-
 package net.wangxj.authority.service.rest.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import javax.annotation.Resource;
-import org.apache.log4j.Logger;
-import org.springframework.beans.BeanUtils;
+import java.util.Map;
 
-import net.wangxj.util.string.TimeUtil;
-import net.wangxj.util.validate.groups.AddValidate;
+import javax.validation.groups.Default;
+import javax.ws.rs.BeanParam;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import net.wangxj.util.validate.ValidationResult;
 import net.wangxj.util.validate.groups.DeleteValidate;
 import net.wangxj.util.validate.groups.EditValidate;
 import net.wangxj.authority.po.AuthorityResourcesPO;
-import net.wangxj.authority.po.AuthorityUserPO;
-import net.wangxj.authority.po.PlatformPO;
+import net.wangxj.authority.po.Page;
 import net.wangxj.authority.service.AuthorityResourcesService;
-import net.wangxj.authority.service.AuthorityUserService;
-import net.wangxj.authority.service.PlatformService;
 
 /**
  * created by	: wangxj
  * created time	: 2016-12-26 18:06:38
  */
+@Path("/resources")
+@Produces("application/json")
+@Consumes("application/json")
 public class AuthorityResourcesRestServiceApi extends AbstractAuthrotiyRestService{
 
 	private static Logger logger = Logger.getLogger(AuthorityResourcesRestServiceApi.class);
 	
-	@Resource
+	@Autowired
 	private AuthorityResourcesService authorityResourcesService;
-	@Resource
-	private AuthorityUserService authorityUserService;
-	@Resource
-	private PlatformService platformService;
 	
-//	@Override
-//	public Response<Integer> add(AuthorityResourcesDTO authorityResourcesDto){
-//		
-//		Response<Integer> response = new Response<Integer>();
-//		AuthorityResourcesPO authorityResourcespo = new AuthorityResourcesPO(); 
-//		//验证
-//		String validateRes = validateDto(authorityResourcesDto, authorityResourcespo, AddValidate.class);
-//		if(validateRes != null){
-//			response.setCode(1L);
-//			response.setMessage(validateRes);
-//			return response;
-//		}
-//		authorityResourcespo.setResourceAddTime(TimeUtil.getNowStr());
-//		authorityResourcespo.setResourceIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
-//		Integer uuid = authorityResourcesService.add(authorityResourcespo);
-//		if(uuid>0){
-//			logger.debug("新增authorityResourceDto成功");
-//			response.setCode(0L);
-//			response.setResObject(uuid);
-//			response.setMessage("添加成功");
-//		}
-//		else{
-//			logger.debug("新增authorityResourceDto失败");
-//		}
-//		return response;
-//	}
-//	
-//	@Override
-//	public Response<Integer> addBatch(List<AuthorityResourcesDTO> listDto){
-//		
-//		Response<Integer> response = new Response<Integer>();
-//		
-//		if(listDto == null && listDto.size()>0){
-//			response.setMessage("传入参数不可为空");
-//			return response;
-//		}
-//		
-//		List<AuthorityResourcesPO> listPo = new ArrayList<>();
-//		for(AuthorityResourcesDTO authorityResourcesDto : listDto){
-//			AuthorityResourcesPO authorityResourcesPo = new AuthorityResourcesPO();
-//			BeanUtils.copyProperties(authorityResourcesDto,authorityResourcesPo);
-//			listPo.add(authorityResourcesPo);
-//		}
-//		Integer count = authorityResourcesService.addBatch(listPo);
-//		logger.info("新增listauthorityResourcesDTO成功");
-//		response.setCode(0L);
-//		response.setResObject(count);
-//		return response;
-//	}
-//	
-//	@Override
-//	public Response<Integer> modifyByUuid(AuthorityResourcesDTO authorityResourcesDto){
-//		
-//		Response<Integer> response = new Response<>();
-//		AuthorityResourcesPO authorityResourcespo = new AuthorityResourcesPO(); 
-//		//验证
-//		String validateRes = validateDto(authorityResourcesDto, authorityResourcespo, EditValidate.class);
-//		if(validateRes != null){
-//			response.setCode(1L);
-//			response.setMessage(validateRes);
-//			return response;
-//		}
-//		authorityResourcespo.setResourceEditTime(TimeUtil.getNowStr());
-//		Integer count = authorityResourcesService.modifyByUuid(authorityResourcespo);
-//		if(count > 0){
-//			logger.debug("authorityResourceDto修改成功");
-//			response.setCode(0L);
-//			response.setResObject(count);
-//			response.setMessage("成功");
-//		}else{
-//			logger.debug("修改authorityResourceDto失败");
-//		}
-//		return response;
-//	}
-//	
-//	@Override
-//	public Response<AuthorityResourcesDTO> queryListByCondition(AuthorityResourcesDTO authorityResourcesDto){
-//		
-//		Response<AuthorityResourcesDTO> response = new Response<>();
-//		if(authorityResourcesDto == null){
-//			response.setMessage("authorityResourcesDto参数不可为空");
-//			return response;
-//		}
-//		AuthorityResourcesPO authorityResourcesPo = new AuthorityResourcesPO();
-//		List<AuthorityResourcesPO> listPo = new ArrayList<>();
-//		List<AuthorityResourcesDTO> listDto = new ArrayList<>();
-//		BeanUtils.copyProperties(authorityResourcesDto, authorityResourcesPo);
-//		authorityResourcesPo.setResourceIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
-//		listPo = authorityResourcesService.queryListByCondition(authorityResourcesPo);
-//		logger.info("查询queryList成功");
-//		for (AuthorityResourcesPO authorityResourcesPo2 : listPo) {
-//			AuthorityResourcesDTO authorityResourcesDto2 = new AuthorityResourcesDTO();
-//			BeanUtils.copyProperties(authorityResourcesPo2, authorityResourcesDto2);
-//			listDto.add(authorityResourcesDto2);
-//		}
-//		response.setCode(0L);
-//		response.setData(listDto);
-//		response.setMessage("成功");
-//		
-//		return response;
-//	}
-//	
-//	@Override
-//	public Response<AuthorityResourcesDTO> queryPageListByCondition(AuthorityResourcesDTO authorityResourcesDto, int pageNum, int limit, String order, String sort){
-//		
-//		Response<AuthorityResourcesDTO> response = new Response<>();
-//		if(authorityResourcesDto == null){
-//			response.setMessage("authorityResourcesDto参数不可为空");
-//			return response;
-//		}
-//		AuthorityResourcesPO authorityResourcesPo = new AuthorityResourcesPO();
-//		List<AuthorityResourcesPO> listPo = new ArrayList<>();
-//		List<AuthorityResourcesDTO> listDto = new ArrayList<>();
-//		BeanUtils.copyProperties(authorityResourcesDto, authorityResourcesPo);
-//		authorityResourcesPo.setResourceIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
-//		listPo = authorityResourcesService.queryPageListByCondition(authorityResourcesPo,pageNum,limit,order,sort);
-//		for (AuthorityResourcesPO authorityResourcesPo2 : listPo) {
-//			//添加人
-//			AuthorityUserPO addUser = new AuthorityUserPO();
-//			addUser.setUserUuid(authorityResourcesPo2.getResourceAddBy());
-//			AuthorityUserPO addUserPo = authorityUserService.queryListByCondition(addUser).get(0);
-//			//编辑人
-//			AuthorityUserPO editUser = new AuthorityUserPO();
-//			editUser.setUserUuid(authorityResourcesPo2.getResourceEditBy());
-//			List<AuthorityUserPO> editUserList = authorityUserService.queryListByCondition(editUser);
-//			//删除人
-//			AuthorityUserPO deleteUser = new AuthorityUserPO();
-//			deleteUser.setUserUuid(authorityResourcesPo2.getResourceDelBy());
-//			List<AuthorityUserPO> deleteUserList = authorityUserService.queryListByCondition(deleteUser);
-//			//所属平台
-//			PlatformPO platformPo = new PlatformPO();
-//			platformPo.setPlatformUuid(authorityResourcesPo2.getResourcePlatformUuid());
-//			PlatformPO platformPO2 = platformService.queryListByCondition(platformPo).get(0);
-//			//父级资源
-//			AuthorityResourcesPO parentPo = new AuthorityResourcesPO();
-//			parentPo.setResourceUuid(authorityResourcesPo2.getResourceParentUuid());
-//			AuthorityResourcesPO parentResource = authorityResourcesService.queryListByCondition(parentPo).get(0);
-//			
-//			AuthorityResourcesDTO authorityResourcesDto2 = new AuthorityResourcesDTO();
-//			BeanUtils.copyProperties(authorityResourcesPo2, authorityResourcesDto2);
-//			authorityResourcesDto2.setResourceAddByName(addUserPo.getUserLoginName());
-//			authorityResourcesDto2.setResourceEditByName(editUserList.size() != 1 ? "-" : editUserList.get(0).getUserLoginName());
-//			authorityResourcesDto2.setResourceDelByName(deleteUserList.size() !=1 ? "-" : deleteUserList.get(0).getUserLoginName());
-//			authorityResourcesDto2.setResourcePlatformName(platformPO2.getPlatformName());
-//			authorityResourcesDto2.setResourceParentName(parentResource.getResourceName());
-//			listDto.add(authorityResourcesDto2);
-//		}
-//		response.setCode(0L);
-//		response.setData(listDto);
-//		response.setMessage("成功");
-//		
-//		return response;
-//	}
-//	
-//	@Override
-//	public Response<Integer> getCountByCondition(AuthorityResourcesDTO authorityResourcesDto, boolean noDelete){
-//		
-//		Response<Integer> response = new Response<>();
-//		if(authorityResourcesDto == null){
-//			response.setMessage("authorityResourcesDto参数不可为空");
-//			return response;
-//		}
-//		AuthorityResourcesPO authorityResourcespo = new AuthorityResourcesPO(); 
-//		BeanUtils.copyProperties(authorityResourcesDto, authorityResourcespo);
-//		if(noDelete){
-//			authorityResourcespo.setResourceIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
-//		}
-//		Integer count = authorityResourcesService.getCountByCondition(authorityResourcespo);
-//		logger.info("count查询成功");
-//		
-//		response.setCode(0L);
-//		response.setResObject(count);
-//		response.setMessage("成功");
-//			
-//		return response;
-//	}
-//	
-//	@Override
-//	public Response<Integer> deleteByUuid(AuthorityResourcesDTO resourceDto){
-//		Response<Integer> response = new Response<>();
-//		AuthorityResourcesPO authorityResourcePo = new AuthorityResourcesPO();
-//		//验证
-//		String validateRes = validateDto(resourceDto, authorityResourcePo, DeleteValidate.class);
-//		if(validateRes != null){
-//			response.setCode(1L);
-//			response.setMessage(validateRes);
-//			return response;
-//		}
-//		authorityResourcePo.setResourceDelTime(TimeUtil.getNowStr());
-//		authorityResourcePo.setResourceIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
-//		Integer count = authorityResourcesService.modifyByUuid(authorityResourcePo);
-//		if(count > 0){
-//			logger.debug("删除authorityResourceDto成功");
-//			response.setCode(0L);
-//			response.setResObject(count);
-//			response.setMessage("成功");
-//		}
-//		else{
-//			logger.debug("删除authorityResourceDto失败");
-//		}
-//		return response;
-//	}
-//	
-//	@Override
-//	public Response<Integer> deleteByBatch(List<AuthorityResourcesDTO> listResource){
-//		Response<Integer> response = new Response<>();
-//		List<AuthorityResourcesPO> resourcePOList = new ArrayList<>();
-//		//验证
-//		for (AuthorityResourcesDTO authorityResourcesDTO : listResource) {
-//			AuthorityResourcesPO resourcePo = new AuthorityResourcesPO();
-//			String validateMsg = validateDto(authorityResourcesDTO, resourcePo, DeleteValidate.class);
-//			if(validateMsg != null){
-//				response.setCode(1L);
-//				response.setMessage(validateMsg);
-//				return response;
-//			}
-//			resourcePo.setResourceDelTime(TimeUtil.getNowStr());
-//			resourcePo.setResourceIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
-//			resourcePOList.add(resourcePo);
-//		}
-//		Integer count = authorityResourcesService.modifyByBatch(resourcePOList);
-//		if(count == listResource.size()){
-//			logger.debug("批量删除authorityResource成功");
-//			response.setCode(0L);
-//			response.setResObject(count);
-//			response.setMessage("成功");
-//		}else{
-//			logger.debug("批量删除authorityResourceDto成功");
-//		}
-//		return response;
-//	}
+	/**
+	 * @apiDefine 200 成功 200
+	 */
+	/**
+	 * @apiDefine 400 错误 400
+	 */
+	/**
+	 * @apiDefine 500 错误 500
+	 */
+	/**
+	 * @apiDefine resourceSuccessResponse
+	 * @apiSuccess (200) {String} success 是否操作成功
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * 									{
+	 *									  "success": true
+	 *									}
+	 */
+	/**
+	 *@apiDefine resource400Response
+	 *@apiError (400) {String} error_message 错误说明
+	 *@apiError (400) {Boolean} is_pass　　格式是否正确
+	 *@apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "角色名必须是2-25个汉字",
+	 *									   "is_pass": false
+	 *									}
+	 */
+	/**
+	 *@apiDefine resource500Response
+	 *@apiError (500) {String} error 错误说明
+	 *@apiErrorExample {json} 错误500响应 :
+	 *									{
+	 *										"error": "服务器内部发生错误
+	 *									}
+	 */
+	
+	
+	/**
+	 * 更新资源
+	 * @param resourceUuid 资源uuid
+	 * @param resourcePo 资源信息
+	 * @return
+	 * @throws Exception
+	 * apidoc----------------------------->
+	 * @api {PUT} /resources/{resource_uuid} 更新资源
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X PUT -H "Content-Type:application/json" -H "Accept:application/json" -d '
+	 * {"resource_name" : "测试资源修改",
+	 *  "resource_status" : 1,
+	 *  "resource_url" : "/ceshi/ziyuan",
+	 *  "resource_level" : 2,
+	 *  "resource_order" : 1,
+	 *  "resource_parent_uuid" : "2d19a2d466d84b12b27689ed2a08589d",
+	 *  "resource_css_code" : "",
+	 *  "resource_edit_by" : "db1d225261cf4a1293e7eb8d4371b667"
+	 * }' http://localhost:9000/api/resources/00598e96def14315aa03255cb517029a
+	 * @apiGroup resources
+	 * @apiParam {String} resource_uuid 资源Uuid
+	 * @apiParam {String} [resource_name] 资源名
+	 * @apiParam {number=1(已激活),2(已注销),3(未激活)} [resource_status] 资源状态
+	 * @apiParam {String{..128}} [resource_url] 资源url
+	 * @apiParam {number{1..10}} [resource_level] 资源层级
+	 * @apiParam {number{1..100}} [resource_order] 资源序号
+	 * @apiParam {String} [resource_parent_uuid] 资源父级uuid
+	 * @apiParam {String} [resource_css_code] 资源css code
+	 * @apiParam {String} resource_edit_by 修改人
+	 * @apiParamExample {json} 请求参数示例:
+	 * {"resource_name" : "测试资源修改",
+	 *  "resource_status" : 1,
+	 *  "resource_url" : "/ceshi/ziyuan",
+	 *  "resource_level" : 2,
+	 *  "resource_order" : 1,
+	 *  "resource_parent_uuid" : "2d19a2d466d84b12b27689ed2a08589d",
+	 *  "resource_css_code" : "",
+	 *  "resource_edit_by" : "db1d225261cf4a1293e7eb8d4371b667",
+	 *  "resource_uuid" : "00598e96def14315aa03255cb517029a"
+	 * }
+	 * @apiUse resourceSuccessResponse
+	 * @apiUse resource400Response
+	 * @apiUse resource500Response
+	 */
+	@PUT
+	@Path("{uuid}")
+	public Response update(@PathParam("uuid")String resourceUuid , AuthorityResourcesPO resourcePo) throws Exception{
+		resourcePo.setResourceUuid(resourceUuid);
+		ValidationResult updateValidateResult = authorityResourcesService.validatePoAndNotRepeadField(resourcePo, EditValidate.class);
+		if(updateValidateResult != null){
+			return failValidate(updateValidateResult);
+		}else{
+			Map<String , Object> updateResultMap = new HashMap<>();
+			updateResultMap.put("success", authorityResourcesService.update(resourcePo) == 1 ? true : false);
+			return success(updateResultMap);
+		}
+	}
+
+	/**
+	 * 分页查询
+	 * @param page
+	 * @return
+	 * apidoc----------------------->
+	 * @api {GET} /resources 分页查询
+	 * @apiExample {curl} curl请求示例:
+	 * curl -X GET 'http://localhost:9000/api/resources?page_number=2&limit=3&order=asc&sort=resource_uuid'
+	 * @apiGroup resources
+	 * @apiParam {number} page_number 页码
+	 * @apiParam {number}  limit 每页条数
+	 * @apiParam {String="desc","asc"} order 排序(正序/反序)
+	 * @apiParam {String} sort 排序字段(按该字段排序)
+	 * @apiParamExample {json} 请求参数示例:
+	 * {
+	 *   "page_number":2,
+	 *   "limit": 3,
+	 *   "order": "asc",
+	 *   "sort": "platform_uuid"
+	 * }
+	 * @apiSuccess (200) {String} data 数据
+	 * @apiSuccess (200) {number} count 数据总条数
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * {
+	 *	  "data": [
+	 *	    {
+	 *	      "resource_add_by": "de0c7b2480494fda98db82f7a4707649",
+	 *	      "resource_add_time": "2017-02-21 16:32:35",
+	 *	      "resource_level": 3,
+	 *	      "resource_name": "资源列表",
+	 *	      "resource_order": 1,
+	 *	      "resource_parent_uuid": "74d8acecef6c4404b863ffceb892a418",
+	 *	      "resource_platform_uuid": "fe178fd0073a4edea94e95a46bab15be",
+	 *	      "resource_status": 2,
+	 *	      "resource_url": "/resource/list",
+	 *	      "resource_uuid": "1dead8c5c0034355ad27b86c3f0d262f"
+	 *	    },
+	 *	    {
+	 *	      "resource_add_by": "de0c7b2480494fda98db82f7a4707649",
+	 *	      "resource_add_time": "2017-02-21 15:55:11",
+	 *	      "resource_level": 3,
+	 *	      "resource_name": "编辑平台",
+	 *	      "resource_order": 3,
+	 *	      "resource_parent_uuid": "f2e251236cae4e3eb1bca10535bdbf36",
+	 *	      "resource_platform_uuid": "fe178fd0073a4edea94e95a46bab15be",
+	 *	      "resource_status": 2,
+	 *	      "resource_url": "/platform/edit",
+	 *	      "resource_uuid": "21824222d2f54cbcb21cddeb9b9131b8"
+	 *	    },
+	 *	    {
+	 *	      "resource_add_by": "de0c7b2480494fda98db82f7a4707649",
+	 *        "resource_add_time": "2017-02-21 16:04:09",
+	 *	      "resource_level": 3,
+	 *	      "resource_name": "初始化角色表单下拉列表",
+	 *	      "resource_order": 6,
+	 *	      "resource_parent_uuid": "08fd65930c1446c588b73ffca084ea70",
+	 *	      "resource_platform_uuid": "fe178fd0073a4edea94e95a46bab15be",
+	 *	      "resource_status": 2,
+	 *	      "resource_url": "/role/getStatusList",
+	 *	      "resource_uuid": "2a588a35adc0403ba6ca47b6acd79b99"
+	 *	    }
+	 *	  ],
+	 *	  "count": 34
+	 *	}
+	 * @apiError (400) {String} error_message 错误说明
+	 * @apiError (400) {Boolean} is_pass　　格式是否正确
+	 * @apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "page_number非法",
+	 *									   "is_pass": false
+	 *									}
+	 * @apiError (500) {String} error 错误说明
+	 * @apiErrorExample {json} 错误500响应 :
+	 *									{
+	 *										"error": "服务器内部发生错误
+	 *									}
+	 *
+	 */
+	@GET
+	public Response pageQuery(@BeanParam Page page){
+		ValidationResult pageValidateResult = authorityResourcesService.validatePo(page, Default.class);
+		ValidationResult validateSortResult = authorityResourcesService.validateSort(AuthorityResourcesPO.class, page.getSort());
+		if(pageValidateResult != null){
+			return failValidate(pageValidateResult);
+		}else if(validateSortResult != null){
+			return failValidate(validateSortResult);
+		}else{
+			return success(authorityResourcesService.pageQuery(new AuthorityResourcesPO(), page));
+		}
+	}
+	
+	/**
+	 * 删除资源(批量)
+	 * @param deleteUser
+	 * @param uuids
+	 * @return
+	 * apidoc--------------------------->
+	 * @api {DELETE} /resources 删除(批量)
+	 * @apiExample {curl} curl请求示例:
+	 * curl -X DELETE 'http://localhost:9000/api/resources?delete_user=de0c7b2480494fda98db82f7a4707649&uuids=00598e96def14315aa03255cb517029a,3b453ee2d69a4543a14ee2f15cfef74c'
+	 * @apiGroup resources
+	 * @apiParam {String} delete_user　删除人
+	 * @apiParam {String} uuids 平台uuid集合(以,分割)
+	 * @apiParamExample {json} 请求参数示例:
+	 * {
+	 *  "delete_user" : "de0c7b2480494fda98db82f7a4707649",
+	 * 　"uuids" : "5e669e868cf04483802efeebe1608f9f,51f43adfea7045ff8c76b1433110c864"
+	 * }
+	 * @apiSuccess (200) {String} success 是否操作成功
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * 									{
+	 *									  "success": true
+	 *									}
+	 *
+	 * @apiError (400) {String} error_message 错误说明
+	 * @apiError (400) {Boolean} is_pass　　格式是否正确
+	 * @apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "删除人非法",
+	 *									   "is_pass": false
+	 *									}
+	 * @apiError (500) {String} error 错误说明
+	 * @apiErrorExample {json} 错误500响应 :
+	 *									{
+	 *										"error": "服务器内部发生错误
+	 *									}
+	 */
+	@DELETE
+	public Response delete(@QueryParam(value = "delete_user")String deleteUser , @QueryParam(value = "uuids")String uuids){
+		logger.debug("删除:delete_user--->" + deleteUser + "--->uuids---->" + uuids);
+		List<AuthorityResourcesPO> resourceListPo = new ArrayList<>();
+		for (String uuid : uuids.split(",")) {
+			AuthorityResourcesPO resourcePo = new AuthorityResourcesPO();
+			resourcePo.setResourceDelBy(deleteUser);
+			resourcePo.setResourceUuid(uuid);
+			ValidationResult deleteValidateResult = authorityResourcesService.validatePo(resourcePo, DeleteValidate.class);
+			if(deleteValidateResult != null){
+				return failValidate(deleteValidateResult);
+			}
+			resourceListPo.add(resourcePo);
+		}
+		Map<String , Object> deleteResultMap = new HashMap<>();
+		deleteResultMap.put("success", authorityResourcesService.deleteBatch(resourceListPo) > 0 ? true : false);
+		return success(deleteResultMap);
+	}
 
 }

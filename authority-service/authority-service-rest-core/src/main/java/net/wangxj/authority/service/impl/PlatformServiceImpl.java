@@ -8,7 +8,9 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 
 import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
+import net.wangxj.authority.dao.AuthorityResourcesDao;
 import net.wangxj.authority.dao.PlatformDao;
+import net.wangxj.authority.po.AuthorityResourcesPO;
 import net.wangxj.authority.po.PO;
 import net.wangxj.authority.po.Page;
 import net.wangxj.authority.po.PlatformPO;
@@ -32,15 +34,35 @@ public class PlatformServiceImpl implements PlatformService{
 	
 	@Resource
 	private PlatformDao platformDao;
+	@Resource
+	private AuthorityResourcesDao authorityResourcesDao;
 
 	/**
 	 * 添加
+	 * 在添加平台的同时,为该平台添加一级资源
 	 */
 	@Override
 	public Integer add(PlatformPO platformPo) {
 		platformPo.setPlatformUuid(UuidUtil.newGUID());
 		platformPo.setPlatformAddTime(TimeUtil.getNowStr());
 		platformPo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
+		//添加一级资源
+		//一级资源uuid和其父级uuid
+		String resourceUuid = UuidUtil.newGUID();
+		AuthorityResourcesPO resourcePo = new AuthorityResourcesPO();
+		resourcePo.setResourceAddBy(platformPo.getPlatformAddBy());
+		resourcePo.setResourceAddTime(TimeUtil.getNowStr());
+		resourcePo.setResourceIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
+		resourcePo.setResourceLevel(1);
+		resourcePo.setResourceName(platformPo.getPlatformName());
+		resourcePo.setResourceOrder(1);
+		resourcePo.setResourceParentUuid(resourceUuid);
+		resourcePo.setResourceUuid(resourceUuid);
+		resourcePo.setResourcePlatformUuid(platformPo.getPlatformUuid());
+		resourcePo.setResourceStatus(DataDictionaryConstant.RESOURCE_STATUS_ACTIVE_VALUE);
+		resourcePo.setResourceUrl("");
+		logger.debug("为平台--" + platformPo.getPlatformName() + "--添加一级资源--->" + resourcePo);
+		Integer count = authorityResourcesDao.insert(resourcePo);
 		logger.debug("添加平台开始:---->" + platformPo);
 		return platformDao.insert(platformPo);
 	}

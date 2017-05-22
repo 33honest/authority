@@ -23,9 +23,11 @@ import net.wangxj.util.validate.ValidationResult;
 import net.wangxj.util.validate.groups.AddValidate;
 import net.wangxj.util.validate.groups.DeleteValidate;
 import net.wangxj.util.validate.groups.EditValidate;
+import net.wangxj.authority.po.AuthorityResourcesPO;
 import net.wangxj.authority.po.AuthorityRolePO;
 import net.wangxj.authority.po.Page;
 import net.wangxj.authority.po.PlatformPO;
+import net.wangxj.authority.service.AuthorityResourcesService;
 import net.wangxj.authority.service.AuthorityRoleService;
 import net.wangxj.authority.service.PlatformService;
 
@@ -45,6 +47,8 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	private PlatformService platformService;
 	@Autowired
 	private AuthorityRoleService authorityRoleService;
+	@Autowired
+	private AuthorityResourcesService authorityResourcesService;
 	
 	/**
 	 * @apiDefine 200 成功 200
@@ -323,7 +327,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 * @return
 	 * @throws Exception
 	 * apidoc--------------------->
-	 * @api {POST} /platforms/{platform_uuid}/{roles} 向平台添加角色
+	 * @api {POST} /platforms/{platform_uuid}/{roles} 添加角色
 	 * @apiGroup platforms
 	 * @apiExample {curl} curl请求示例:
 	 * curl -i -X POST -H "Content-Type:application/json" -H "Accept:application/json" -d '
@@ -375,7 +379,80 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 		}
 	}
 
-
+	/**
+	 * 向平台添加资源
+	 * @param platformUuid 平台uuid
+	 * @param resourcesPo 资源信息
+	 * @return
+	 * @throws Exception
+	 * apidoc----------------------------->
+	 * @api {POST} /platforms/{platform_uuid}/resources 添加资源
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X POST -H "Content-Type:application/json" -H "Accept:application/json" -d '
+	 * {"resource_name" : "测试资源",
+	 *  "resource_status" : 1,
+	 *  "resource_url" : "/ceshi/ziyuan",
+	 *  "resource_level" : 2,
+	 *  "resource_order" : 1,
+	 *  "resource_parent_uuid" : "2d19a2d466d84b12b27689ed2a08589d",
+	 *  "resource_css_code" : "",
+	 *  "resource_add_by" : "db1d225261cf4a1293e7eb8d4371b667"
+	 * }' http://localhost:9000/api/platforms/51f43adfea7045ff8c76b1433110c864/resources
+	 * @apiGroup platforms
+	 * @apiParam {String} platform_uuid 平台Uuid
+	 * @apiParam {String} resource_name 资源名
+	 * @apiParam {number=1(已激活),2(已注销),3(未激活)} resource_status 资源状态
+	 * @apiParam {String{..128}} resource_url 资源url
+	 * @apiParam {number{1..10}} resource_level 资源层级
+	 * @apiParam {number{1..100}} resource_order 资源序号
+	 * @apiParam {String} resource_parent_uuid 资源父级uuid
+	 * @apiParam {String} [resource_css_code] 资源css code
+	 * @apiParam {String} resource_add_by 添加人
+	 * @apiParamExample {json} 请求参数示例:
+	 * {"platform_uuid" : "51f43adfea7045ff8c76b1433110c864",
+	 *  "resource_name" : "测试资源",
+	 *  "resource_status" : 1,
+	 *  "resource_url" : "/ceshi/ziyuan",
+	 *  "resource_level" : 2,
+	 *  "resource_order" : 1,
+	 *  "resource_parent_uuid" : "2d19a2d466d84b12b27689ed2a08589d",
+	 *  "resource_css_code" : "",
+	 *  "resource_add_by" : "db1d225261cf4a1293e7eb8d4371b667"
+	 * }
+	 * @apiSuccess (200) {String} success 是否操作成功
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * 									{
+	 *									  "success": true
+	 *									}
+	 *
+	 * @apiError (400) {String} error_message 错误说明
+	 * @apiError (400) {Boolean} is_pass　　格式是否正确
+	 * @apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "增加人不可为空",
+	 *									   "is_pass": false
+	 *									}
+	 * @apiError (500) {String} error 错误说明
+	 * @apiErrorExample {json} 错误500响应 :
+	 *									{
+	 *										"error": "服务器内部发生错误
+	 *									}  
+	 * 
+	 */
+	@POST
+	@Path("/{uuid}/resources")
+	public Response addResource(@PathParam(value = "uuid")String platformUuid , AuthorityResourcesPO resourcesPo) throws Exception{
+		resourcesPo.setResourcePlatformUuid(platformUuid);
+		ValidationResult addResourceValidateResult = authorityResourcesService.validatePoAndNotRepeadField(resourcesPo, AddValidate.class);
+		if(addResourceValidateResult != null){
+			return failValidate(addResourceValidateResult);
+		}else{
+			Map<String,Object> addResourcesResultMap = new HashMap<>();
+			addResourcesResultMap.put("success", authorityResourcesService.add(resourcesPo) == 1 ? true : false);
+			return success(addResourcesResultMap);
+		}
+	}
+	
 	
 	
 }

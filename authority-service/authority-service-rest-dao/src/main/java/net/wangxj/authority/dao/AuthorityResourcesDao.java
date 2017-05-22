@@ -1,8 +1,4 @@
-
-
 package net.wangxj.authority.dao;
-
-import java.util.List;
 
 import net.wangxj.authority.dao.base.IBaseDao;
 import net.wangxj.authority.po.AuthorityResourcesPO;
@@ -13,12 +9,4 @@ import net.wangxj.authority.po.AuthorityResourcesPO;
  */
 
 public interface AuthorityResourcesDao extends IBaseDao<AuthorityResourcesPO>{
-
-	/**
-	 * 批量修改
-	 * @param resourceList
-	 * @return
-	 */
-	Integer modifyByBatch(List<AuthorityResourcesPO> resourceList);
-	
 }

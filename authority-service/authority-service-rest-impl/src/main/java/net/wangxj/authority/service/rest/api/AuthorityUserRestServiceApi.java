@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.validation.groups.Default;
@@ -23,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import net.wangxj.util.constant.RegexConstant;
 import net.wangxj.util.string.TimeUtil;
 import net.wangxj.util.string.UuidUtil;
 import net.wangxj.util.validate.ValidationResult;
@@ -316,6 +318,51 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 		Map<String,Object> deleteResultMap = new HashMap<>();
 		deleteResultMap.put("success", authorityUserService.deleteBatch(userListPo) > 0 ? true : false);
 		return success(deleteResultMap);
+	}
+	
+	/**
+	 * 为用户授予角色
+	 * @param addUser
+	 * @param roleUuids
+	 * @return
+	 * apidoc------------------>
+	 * 
+	 */
+	@Path("{uuid}/roles")
+	@PUT
+	public Response grantRoles(@PathParam("uuid")String userUuid ,@QueryParam("platform_uuid")String platformUuid,
+								@QueryParam("add_user")String addUser , @QueryParam("role_uuids")String roleUuids){
+		//校验addUser与roleUuids,uuid
+		Map<String,Object> grantRoleResultMap = new HashMap<>();
+		ValidationResult validateResult = new ValidationResult();
+		List<String> roleUuidList = new ArrayList<>();
+		if(!Pattern.matches(RegexConstant.UUID_32, userUuid)){
+			 validateResult.setErrorMsg("user_uuid非法");
+			return failValidate(validateResult);
+		}else if(!Pattern.matches(RegexConstant.UUID_32, addUser)){
+			validateResult.setErrorMsg("add_user非法");
+			return failValidate(validateResult);
+		}else if(!Pattern.matches(RegexConstant.UUID_32, platformUuid)){
+			validateResult.setErrorMsg("platform_uuid非法");
+			return failValidate(validateResult);
+		}else{
+			for (String roleUuid : roleUuids.split(",")) {
+				if("".equals(roleUuid.trim())){
+					continue;
+				}else{
+					if(!Pattern.matches(RegexConstant.UUID_32, roleUuid)){
+						validateResult.setErrorMsg("role_uuid非法");
+						return failValidate(validateResult);
+					}
+					else{
+						roleUuidList.add(roleUuid);
+					}
+				}
+			}
+			//校验完毕,开始授予操作
+			grantRoleResultMap.put("success", authorityUserService.grantRoles(userUuid, platformUuid, roleUuidList, addUser));
+			return success(grantRoleResultMap);
+		}
 	}
 	
 

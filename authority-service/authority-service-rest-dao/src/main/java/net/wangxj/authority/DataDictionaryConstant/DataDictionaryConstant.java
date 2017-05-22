@@ -196,7 +196,7 @@ public class DataDictionaryConstant {
 	public static String RESOURCE_STATUS_ACTIVE_KEY = "已激活";
 	public static Integer RESOURCE_STATUS_ACTIVE_VALUE = 1;
 	
-	public static String RESOURCE_STATUS_CANCELATION_KEY = "已激活";
+	public static String RESOURCE_STATUS_CANCELATION_KEY = "已注销";
 	public static Integer RESOURCE_STATUS_CANCELATION_VALUE = 2;
 	
 	public static LinkedHashMap<String, Integer> resourceStatusKeyValueMap = new LinkedHashMap<>();
