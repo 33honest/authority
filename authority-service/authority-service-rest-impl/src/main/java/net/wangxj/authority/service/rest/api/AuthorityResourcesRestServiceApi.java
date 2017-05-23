@@ -79,6 +79,7 @@ public class AuthorityResourcesRestServiceApi extends AbstractAuthrotiyRestServi
 	
 	
 	/**
+	 * TODO 检查resource_parent_uuid,resource_platform_uuid,resource_edit_by是否存在,
 	 * 更新资源
 	 * @param resourceUuid 资源uuid
 	 * @param resourcePo 资源信息
@@ -95,7 +96,8 @@ public class AuthorityResourcesRestServiceApi extends AbstractAuthrotiyRestServi
 	 *  "resource_order" : 1,
 	 *  "resource_parent_uuid" : "2d19a2d466d84b12b27689ed2a08589d",
 	 *  "resource_css_code" : "",
-	 *  "resource_edit_by" : "db1d225261cf4a1293e7eb8d4371b667"
+	 *  "resource_edit_by" : "db1d225261cf4a1293e7eb8d4371b667",
+	 *  "resource_platform_uuid" : "51f43adfea7045ff8c76b1433110c864"
 	 * }' http://localhost:9000/api/resources/00598e96def14315aa03255cb517029a
 	 * @apiGroup resources
 	 * @apiParam {String} resource_uuid 资源Uuid
@@ -107,6 +109,7 @@ public class AuthorityResourcesRestServiceApi extends AbstractAuthrotiyRestServi
 	 * @apiParam {String} [resource_parent_uuid] 资源父级uuid
 	 * @apiParam {String} [resource_css_code] 资源css code
 	 * @apiParam {String} resource_edit_by 修改人
+	 * @apiParam {String} resource_platform_uuid 平台uuid
 	 * @apiParamExample {json} 请求参数示例:
 	 * {"resource_name" : "测试资源修改",
 	 *  "resource_status" : 1,
@@ -228,6 +231,7 @@ public class AuthorityResourcesRestServiceApi extends AbstractAuthrotiyRestServi
 	}
 	
 	/**
+	 * TODO 检查delete_user是否存在
 	 * 删除资源(批量)
 	 * @param deleteUser
 	 * @param uuids

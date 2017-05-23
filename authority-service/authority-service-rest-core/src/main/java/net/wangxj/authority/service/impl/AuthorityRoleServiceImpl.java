@@ -1,6 +1,7 @@
 package net.wangxj.authority.service.impl;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +10,12 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 
 import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
+import net.wangxj.authority.dao.AuthorityResourcesDao;
 import net.wangxj.authority.dao.AuthorityRoleDao;
+import net.wangxj.authority.dao.AuthorityRoleResourcesRelationDao;
+import net.wangxj.authority.po.AuthorityResourcesPO;
 import net.wangxj.authority.po.AuthorityRolePO;
+import net.wangxj.authority.po.AuthorityRoleResourcesRelationPO;
 import net.wangxj.authority.po.PO;
 import net.wangxj.authority.po.Page;
 import net.wangxj.authority.service.AuthorityRoleService;
@@ -32,6 +37,10 @@ public class AuthorityRoleServiceImpl implements AuthorityRoleService{
 	
 	@Resource
 	private AuthorityRoleDao authorityRoleDao;
+	@Resource
+	private AuthorityRoleResourcesRelationDao authorityRoleResourcesRelationDao;
+	@Resource
+	private AuthorityResourcesDao authorityResourcesDao;
 	
 	@Override
 	public Integer add(AuthorityRolePO authorityRolePo) {
@@ -140,5 +149,57 @@ public class AuthorityRoleServiceImpl implements AuthorityRoleService{
 			NotRepeat notRepeatAnnotation = annotatedNotRepeatFiled.getAnnotation(NotRepeat.class);
 			return notRepeatAnnotation.message();
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.service.AuthorityRoleService#grantResources(java.lang.String, java.util.List)
+	 */
+	@Override
+	public Boolean grantResources(String roleUuid,String addUser, List<String> resourceUuids) {
+		logger.debug("为角色" + roleUuid + "授予资源-->" + resourceUuids);
+		//删除该角色下已被授予的所有资源
+		Integer deletedCount = authorityRoleResourcesRelationDao.deleteBy(roleUuid);
+		//开始新的授权
+		Integer count = 0;
+		for(String uuidGandType : resourceUuids){
+			String[] uuidAndTypeArr = uuidGandType.split("-");
+			String uuid = uuidAndTypeArr[0];
+			String grantType = uuidAndTypeArr[1];
+			AuthorityRoleResourcesRelationPO roleResourceRelationPo = new AuthorityRoleResourcesRelationPO();
+			roleResourceRelationPo.setRrAddBy(addUser);
+			roleResourceRelationPo.setRrAddTime(TimeUtil.getNowStr());
+			roleResourceRelationPo.setRrGrantType(Integer.valueOf(grantType));
+			roleResourceRelationPo.setRrIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
+			roleResourceRelationPo.setRrResourceUuid(uuid);
+			roleResourceRelationPo.setRrRoleUuid(roleUuid);
+			roleResourceRelationPo.setRrUuid(UuidUtil.newGUID());
+			//添加操作
+			authorityRoleResourcesRelationDao.insert(roleResourceRelationPo);
+			logger.debug("完成第--" + (++count) + "--条授权操作");
+		}
+		logger.debug("共完成--" + count + "--条授权操作");
+		return resourceUuids.size() == count;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.service.AuthorityRoleService#getResources(java.lang.String)
+	 */
+	@Override
+	public List<AuthorityResourcesPO> getResources(String roleUuid) {
+		List<AuthorityResourcesPO> getResultList = new ArrayList<>();
+		//获取该角色下所有角色uuid
+		AuthorityRoleResourcesRelationPO roleResourcePo = new AuthorityRoleResourcesRelationPO();
+		roleResourcePo.setRrRoleUuid(roleUuid);
+		List<AuthorityRoleResourcesRelationPO> roleResourceListPo = authorityRoleResourcesRelationDao.selectListByCondition(roleResourcePo);
+		logger.debug("角色" + roleUuid + "下的角色:-->" + roleResourceListPo);
+		for (AuthorityRoleResourcesRelationPO authorityRoleResourcesRelationPO : roleResourceListPo) {
+			//查询每个resource
+			String resourceUuid = authorityRoleResourcesRelationPO.getRrResourceUuid();
+			AuthorityResourcesPO resourcePO = new AuthorityResourcesPO();
+			resourcePO.setResourceUuid(resourceUuid);
+			getResultList.add(authorityResourcesDao.selectListByCondition(resourcePO).get(0));
+		}
+		logger.debug("查询结果:-->" + roleUuid + ":" + getResultList);
+		return getResultList;
 	}
 }

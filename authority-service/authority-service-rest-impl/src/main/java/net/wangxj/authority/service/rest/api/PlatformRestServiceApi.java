@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.validation.groups.Default;
 import javax.ws.rs.BeanParam;
@@ -19,6 +20,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import net.wangxj.util.constant.RegexConstant;
 import net.wangxj.util.validate.ValidationResult;
 import net.wangxj.util.validate.groups.AddValidate;
 import net.wangxj.util.validate.groups.DeleteValidate;
@@ -83,6 +86,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	
 	
 	/**
+	 * TODO 检查platform_add_user是否存在该用户
 	 * 添加平台
 	 * @param platformPo
 	 * @return {success: true/false]
@@ -132,6 +136,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	}
 
 	/**
+	 * TODO 检查platform_edit_user是否存在该用户
 	 * 修改平台(根据uuid)
 	 * @param platformPo
 	 * @return
@@ -266,6 +271,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	}
 
 	/**
+	 * TODO 检查是否存在delete_user该用户
 	 * 删除  http://localhost:9000/api/platforms?delete_user=de0c7b2480494fda98db82f7a4707649&uuids=5e669e868cf04483802efeebe1608f9f,51f43adfea7045ff8c76b1433110c864
 	 * @param user 删除人
 	 * @param uuids 
@@ -321,6 +327,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	}
 	
 	/**
+	 * TODO 1,检查是否存在platform_uuid该平台 2,检查是否存在role_add_by该用户
 	 * 向该平台添加角色
 	 * @param platformUuid 平台uuid
 	 * @param rolePo	角色信息
@@ -380,6 +387,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	}
 
 	/**
+	 * TODO 1,检查是否存在platform_uuid该平台 2,检查是否存在resource_add_by该用户
 	 * 向平台添加资源
 	 * @param platformUuid 平台uuid
 	 * @param resourcesPo 资源信息
@@ -450,6 +458,69 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 			Map<String,Object> addResourcesResultMap = new HashMap<>();
 			addResourcesResultMap.put("success", authorityResourcesService.add(resourcesPo) == 1 ? true : false);
 			return success(addResourcesResultMap);
+		}
+	}
+	
+	/**
+	 * 该平台下的所有角色
+	 * @param platformUuid
+	 * @return
+	 * apidoc----------------->
+	 * @api {GET} /platforms/{platform_uuid}/roles 角色列表
+	 * @apiExample {curl} curl请求示例:
+	 * curl -X GET 'http://localhost:9000/api/platforms/fe178fd0073a4edea94e95a46bab15be/roles'
+	 * @apiGroup platforms
+	 * @apiParam {String} platform_uuid 平台uuid
+	 * @apiParamExample {json} 参数请求示例:
+	 * {
+	 * 	"platform_uuid" : "fe178fd0073a4edea94e95a46bab15be"
+	 * }
+	 * @apiSuccess (200) {String} data 响应数据
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * 	[
+	 *	  {
+	 *	    "role_add_by": "de0c7b2480494fda98db82f7a4707649",
+	 *	    "role_add_time": "2017-02-21 16:45:54",
+	 *	    "role_name": "管理员",
+	 *	    "role_platform_uuid": "fe178fd0073a4edea94e95a46bab15be",
+	 *	    "role_status": 2,
+	 *	    "role_uuid": "2be1d2b183f84483a8f9762a3da2a4c9"
+	 *	  },
+	 *	  {
+	 *	    "role_add_by": "db1d225261cf4a1293e7eb8d4371b667",
+	 *	    "role_add_time": "2017-05-21 09:42:06",
+	 *	    "role_edit_by": "db1d225261cf4a1293e7eb8d4371b667",
+	 *	    "role_edit_time": "2017-05-21 11:10:05",
+	 *	    "role_name": "测试角色修改",
+	 *	    "role_platform_uuid": "fe178fd0073a4edea94e95a46bab15be",
+	 *	    "role_status": 1,
+	 *	    "role_uuid": "369552346cf94f2483f3b1a7b9ff4cf9"
+	 *	  }
+	 *	]
+	 * @apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "platform_uuid非法",
+	 *									   "is_pass": false
+	 *									}
+	 * @apiError (500) {String} error 错误说明
+	 * @apiErrorExample {json} 错误500响应 :
+	 *									{
+	 *										"error": "服务器内部发生错误
+	 *									}  
+	 */
+	@Path("/{uuid}/roles")
+	@GET
+	public Response roles(@PathParam("uuid") String platformUuid){
+		ValidationResult validateResult = new ValidationResult();
+		if(!Pattern.matches(RegexConstant.UUID_32, platformUuid)){
+			validateResult.setErrorMsg("platform_uuid非法");
+			return failValidate(validateResult);
+		}else{
+			AuthorityRolePO rolePo = new AuthorityRolePO();
+			rolePo.setRolePlatformUuid(platformUuid);
+			Map<String,Object> rolesMap = new HashMap<>();
+			rolesMap.put("data", authorityRoleService.query(rolePo));
+			return success(rolesMap);
 		}
 	}
 	

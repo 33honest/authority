@@ -88,6 +88,7 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 	
 	
 	/**
+	 * TODO 1,检查user_add_by是否存在 2,密码在接口调用传输过程中应该加密(可逆加密)
 	 * 添加用户
 	 * @param userPo
 	 * @return
@@ -143,6 +144,7 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 	}
 	
 	/**
+	 * TODO 1,检查user_edit_by该用户是否存在 2,更新密码应该加密(可逆加密)
 	 * 更新用户
 	 * @param uuid
 	 * @param userPo
@@ -169,7 +171,7 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 	 *  @apiParam {number=1(已注册未激活),2(已注册并激活),3(已锁定)} [user_status] 用户状态
 	 *  @apiParam {number=1(内部用户),2(外部用户)} [user_type] 用户类型
 	 *  @apiParam {number=1(被内部用户添加),2(自己注册)} [user_add_type] 用户添加类型
-	 *  @apiParam {String} user_add_by 添加人
+	 *  @apiParam {String} user_edit_by 修改人
 	 *  @apiParamExample {json} 请求参数示例:
 	 * {"user_uuid" : "db1d225261cf4a1293e7eb8d4371b667",
 	 *  "user_login_name":"CE_SHI",
@@ -281,6 +283,7 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 	}
 	
 	/**
+	 * TODO 1,检查delete_user是否存在
 	 * 批量删除
 	 * @param user
 	 * @param uuids
@@ -321,12 +324,36 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 	}
 	
 	/**
+	 * TODO 1,检查user_uuid,add_user,platform_uuid,role_uuids是否存在 2,检查role_uuids所在平台与platform_uuid是否为同一平台
 	 * 为用户授予角色
 	 * @param addUser
 	 * @param roleUuids
 	 * @return
 	 * apidoc------------------>
-	 * 
+	 * @api {PUT} /users/{user_uuid}/roles 授予角色
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X PUT 'http://localhost:9000/api/users/db1d225261cf4a1293e7eb8d4371b667/roles?platform_uuid=fe178fd0073a4edea94e95a46bab15be&add_user=db1d225261cf4a1293e7eb8d4371b667&role_uuids=2be1d2b183f84483a8f9762a3da2a4c9,369552346cf94f2483f3b1a7b9ff4cf9'
+	 * @apiGroup users
+	 * @apiParam {String} user_uuid 被授权用户uuid
+	 * @apiParam {String} platform_uuid 资源所在平台uuid
+	 * @apiParam {String} add_user 添加人uuid
+	 * @apiParam {String} role_uuids 角色uuid集合
+	 * @apiParamExample {json} 请求参数示例:
+	 * {
+	 *  "user_uuid" : "db1d225261cf4a1293e7eb8d4371b667",
+	 *  "platform_uuid" : "fe178fd0073a4edea94e95a46bab15be",
+	 *  "add_user" : "db1d225261cf4a1293e7eb8d4371b667",
+	 *  "role_uuids" : "2be1d2b183f84483a8f9762a3da2a4c9,369552346cf94f2483f3b1a7b9ff4cf9"
+	 * }
+	 * @apiUse userSuccessResponse
+	 * @apiError (400) {String} error_message 错误说明
+	 * @apiError (400) {Boolean} is_pass　　格式是否正确
+	 * @apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "user_uuid非法",
+	 *									   "is_pass": false 
+	 *									}
+	 * @apiUse user500Response
 	 */
 	@Path("{uuid}/roles")
 	@PUT
@@ -359,6 +386,7 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 					}
 				}
 			}
+			
 			//校验完毕,开始授予操作
 			grantRoleResultMap.put("success", authorityUserService.grantRoles(userUuid, platformUuid, roleUuidList, addUser));
 			return success(grantRoleResultMap);
