@@ -145,6 +145,15 @@ public class AuthorityRoleResourcesRelationPO extends PO implements Serializable
 	public void setRrEditTime(String rrEditTime) {
 		this.rrEditTime = rrEditTime;
 	}
+
+
+	@Override
+	public String toString() {
+		return "AuthorityRoleResourcesRelationPO [rrRoleUuid=" + rrRoleUuid + ", rrResourceUuid=" + rrResourceUuid
+				+ ", rrUuid=" + rrUuid + ", rrAddTime=" + rrAddTime + ", rrAddBy=" + rrAddBy + ", rrDelTime="
+				+ rrDelTime + ", rrDelBy=" + rrDelBy + ", rrIsDelete=" + rrIsDelete + ", rrGrantType=" + rrGrantType
+				+ ", rrEditBy=" + rrEditBy + ", rrEditTime=" + rrEditTime + "]";
+	}
 	
 	
 }

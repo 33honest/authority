@@ -130,6 +130,14 @@ public class AuthorityUserRoleRelationPO extends PO implements Serializable{
 	public void setUrEditTime(String urEditTime) {
 		this.urEditTime = urEditTime;
 	}
+
+	@Override
+	public String toString() {
+		return "AuthorityUserRoleRelationPO [urUuid=" + urUuid + ", urUserUuid=" + urUserUuid + ", urRoleUuid="
+				+ urRoleUuid + ", urAddTime=" + urAddTime + ", urAddBy=" + urAddBy + ", urDelTime=" + urDelTime
+				+ ", urDelBy=" + urDelBy + ", urIsDelete=" + urIsDelete + ", urEditBy=" + urEditBy + ", urEditTime="
+				+ urEditTime + "]";
+	}
 	
 	
 }

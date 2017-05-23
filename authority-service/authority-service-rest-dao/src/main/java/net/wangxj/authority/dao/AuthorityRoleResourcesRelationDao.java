@@ -13,5 +13,16 @@ import net.wangxj.authority.po.AuthorityRoleResourcesRelationPO;
 public interface AuthorityRoleResourcesRelationDao extends IBaseDao<AuthorityRoleResourcesRelationPO>{
 
 	Integer deleteBy(String rrRoleUuid);
+	/**
+	 * 删除一个平台下角色与资源的所有对应关系
+	 * @param platformUuid
+	 * @return
+	 */
+	Integer deleteByPlatform(String platformUuid);
+	/**
+	 * 删除与该资源有关联的所有关联关系
+	 * @param resourceUuid
+	 */
+	Integer deleteByResource(String resourceUuid);
 	
 }

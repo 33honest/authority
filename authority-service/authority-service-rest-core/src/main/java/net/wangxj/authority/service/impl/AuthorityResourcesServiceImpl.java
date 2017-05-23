@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
 import net.wangxj.authority.dao.AuthorityResourcesDao;
+import net.wangxj.authority.dao.AuthorityRoleResourcesRelationDao;
 import net.wangxj.authority.po.AuthorityResourcesPO;
 import net.wangxj.authority.po.PO;
 import net.wangxj.authority.po.Page;
@@ -31,6 +32,8 @@ public class AuthorityResourcesServiceImpl implements AuthorityResourcesService{
 	
 	@Resource
 	private AuthorityResourcesDao authorityResourcesDao;
+	@Resource
+	private AuthorityRoleResourcesRelationDao authorityRoleResourcesRelationDao;
 	
 	@Override
 	public Integer add(AuthorityResourcesPO authorityResourcesPo) {
@@ -99,9 +102,10 @@ public class AuthorityResourcesServiceImpl implements AuthorityResourcesService{
 	 */
 	@Override
 	public Integer delete(AuthorityResourcesPO resourcePo) {
-		resourcePo.setResourceDelTime(TimeUtil.getNowStr());
-		resourcePo.setResourceIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
-		return authorityResourcesDao.updateByUuid(resourcePo);
+		//删除资源与所有角色的关联
+		authorityRoleResourcesRelationDao.deleteByResource(resourcePo.getResourceUuid());
+		//删除该资源本身
+		return authorityResourcesDao.delete(resourcePo);
 	}
 
 	/* (non-Javadoc)

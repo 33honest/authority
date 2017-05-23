@@ -208,5 +208,14 @@
 	 <delete id="delete" parameterType="java.lang.String">
         delete from authority_role_resources_relation where  rr_role_uuid = #{rrRoleUuid}
 	 </delete>
+	 
+	 <delete id="deleteByPlatform" parameterType="java.lang.Map">
+	 	DELETE FROM authority_role_resources_relation WHERE rr_role_uuid IN 
+	 	(SELECT role_uuid from authority_role WHERE role_platform_uuid = #{platformUuid} and role_is_delete = 2);
+	 </delete>
+	 
+	 <delete id="deleteByResource" parameterType = "java.lang.String">
+	 	DELETE FROM from authority_role_resources_relation WHERE rr_resource_uuid = #{resourceUuid}
+	 </delete>
 </mapper>
 

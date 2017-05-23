@@ -1,6 +1,7 @@
 package net.wangxj.authority.service.impl;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +10,11 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 
 import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
+import net.wangxj.authority.dao.AuthorityRoleDao;
 import net.wangxj.authority.dao.AuthorityUserDao;
 import net.wangxj.authority.dao.AuthorityUserRoleRelationDao;
+import net.wangxj.authority.po.AuthorityResourcesPO;
+import net.wangxj.authority.po.AuthorityRolePO;
 import net.wangxj.authority.po.AuthorityUserPO;
 import net.wangxj.authority.po.AuthorityUserRoleRelationPO;
 import net.wangxj.authority.po.PO;
@@ -36,6 +40,8 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	private AuthorityUserDao authorityUserDao;
 	@Resource
 	private AuthorityUserRoleRelationDao authorityUserRoleRelationDao;
+	@Resource
+	private AuthorityRoleDao authorityRoleDao;
 	
 	@Override
 	public Integer add(AuthorityUserPO authorityUserPo) throws Exception {
@@ -118,9 +124,10 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	 */
 	@Override
 	public Integer delete(AuthorityUserPO userPo) {
-		userPo.setUserDelTime(TimeUtil.getNowStr());
-		userPo.setUserIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
-		return authorityUserDao.updateByUuid(userPo);
+		//删除与该用户所关联的所有与角色的关联关系
+		authorityUserRoleRelationDao.deleteByUser(userPo.getUserUuid());
+		//删除用户本身
+		return authorityUserDao.delete(userPo);
 	}
 
 	/* (non-Javadoc)
@@ -184,6 +191,31 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 		}
 		logger.debug("共为用户" + userUuid + "添加--" + count + "--条授权");
 		return rolesUuidList.size() == count.intValue();
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.service.AuthorityUserService#roles(java.lang.String)
+	 */
+	@Override
+	public List<AuthorityRolePO> roles(String userUuid) {
+		List<AuthorityRolePO> roleList = new ArrayList<>();
+		//获取该用户所对应的所有resource uuid列表
+		AuthorityUserRoleRelationPO userRolePo = new AuthorityUserRoleRelationPO();
+		userRolePo.setUrUserUuid(userUuid);
+		List<AuthorityUserRoleRelationPO> userHasRoleList = authorityUserRoleRelationDao.selectListByCondition(userRolePo);
+		logger.debug("用户" + userUuid + "拥有的角色:-->" + userHasRoleList);
+		for (AuthorityUserRoleRelationPO authorityUserRoleRelationPO : userHasRoleList) {
+			String roleUuid = authorityUserRoleRelationPO.getUrRoleUuid();
+			AuthorityRolePO rolePo = new AuthorityRolePO();
+			rolePo.setRoleUuid(roleUuid);
+			List<AuthorityRolePO> roles = authorityRoleDao.selectListByCondition(rolePo);
+			if(roles == null || roles.size() == 0){
+				continue;
+			}
+			roleList.add(roles.get(0));
+		}
+		logger.debug("用户" + userUuid + "拥有的角色列表-->" + roleList);
+		return roleList;
 	}
 
 }

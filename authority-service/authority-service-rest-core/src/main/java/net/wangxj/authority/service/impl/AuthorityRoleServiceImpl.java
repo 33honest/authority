@@ -13,6 +13,7 @@ import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
 import net.wangxj.authority.dao.AuthorityResourcesDao;
 import net.wangxj.authority.dao.AuthorityRoleDao;
 import net.wangxj.authority.dao.AuthorityRoleResourcesRelationDao;
+import net.wangxj.authority.dao.AuthorityUserRoleRelationDao;
 import net.wangxj.authority.po.AuthorityResourcesPO;
 import net.wangxj.authority.po.AuthorityRolePO;
 import net.wangxj.authority.po.AuthorityRoleResourcesRelationPO;
@@ -37,6 +38,8 @@ public class AuthorityRoleServiceImpl implements AuthorityRoleService{
 	
 	@Resource
 	private AuthorityRoleDao authorityRoleDao;
+	@Resource
+	private AuthorityUserRoleRelationDao authorityUserRoleRelationDao;
 	@Resource
 	private AuthorityRoleResourcesRelationDao authorityRoleResourcesRelationDao;
 	@Resource
@@ -112,9 +115,12 @@ public class AuthorityRoleServiceImpl implements AuthorityRoleService{
 	 */
 	@Override
 	public Integer delete(AuthorityRolePO rolePo) {
-		rolePo.setRoleIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
-		rolePo.setRoleDelTime(TimeUtil.getNowStr());
-		return authorityRoleDao.updateByUuid(rolePo);
+		//删除角色与用户的所有关联
+		authorityUserRoleRelationDao.deleteByRole(rolePo.getRoleUuid());
+		//删除角色与资源的所有关联
+		authorityRoleResourcesRelationDao.deleteBy(rolePo.getRoleUuid());
+		//删除角色
+		return authorityRoleDao.delete(rolePo);
 	}
 
 	/* (non-Javadoc)

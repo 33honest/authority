@@ -64,4 +64,33 @@ public class AuthorityUserRoleRelationDaoImpl extends BaseSessionDaoSupport impl
 		map.put("platformUuid", platformUuid);
 		return (Integer)super.getSqlSession().selectOne("AuthorityUserRoleRelationPOMapper.delete", map);
 	}
+
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.AuthorityUserRoleRelationDao#deleteByPlatform(java.lang.String)
+	 */
+	@Override
+	public Integer deleteByPlatform(String platformUuid) {
+		Map<String,String> paramMap = new HashMap<>();
+		paramMap.put("platformUuid", platformUuid);
+		return super.getSqlSession().delete("AuthorityUserRoleRelationPOMapper.deleteByPlatform", paramMap);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.AuthorityUserRoleRelationDao#deleteByRole(java.lang.String)
+	 */
+	@Override
+	public Integer deleteByRole(String roleUuid) {
+		return super.getSqlSession().delete("AuthorityUserRoleRelationPOMapper.deleteByRole", roleUuid);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.AuthorityUserRoleRelationDao#deleteByUser(java.lang.String)
+	 */
+	@Override
+	public Integer deleteByUser(String userUuid) {
+		return super.getSqlSession().delete("AuthorityUserRoleRelationPOMapper.deleteByUser", userUuid);
+	}
 }

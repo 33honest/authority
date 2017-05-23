@@ -11,6 +11,8 @@ import com.github.pagehelper.PageHelper;
 
 import net.wangxj.authority.dao.base.BaseSessionDaoSupport;
 import net.wangxj.authority.po.AuthorityRolePO;
+import net.wangxj.util.string.TimeUtil;
+import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
 import net.wangxj.authority.dao.AuthorityRoleDao;
 import org.apache.log4j.Logger;
 
@@ -56,6 +58,16 @@ public class AuthorityRoleDaoImpl extends BaseSessionDaoSupport implements Autho
 	public Integer getCountByCondition(AuthorityRolePO authorityRolePo) {
 		
 		return (Integer)super.getSqlSession().selectOne("AuthorityRolePOMapper.selectCountByCondition", authorityRolePo);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.AuthorityRoleDao#delete(net.wangxj.authority.po.AuthorityRolePO)
+	 */
+	@Override
+	public Integer delete(AuthorityRolePO rolePo) {
+		rolePo.setRoleDelTime(TimeUtil.getNowStr());
+		rolePo.setRoleIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
+		return super.getSqlSession().update("AuthorityRolePOMapper.updateByUuid", rolePo);
 	}
 	
 }

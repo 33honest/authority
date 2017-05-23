@@ -9,6 +9,8 @@ import com.github.pagehelper.PageHelper;
 
 import net.wangxj.authority.dao.base.BaseSessionDaoSupport;
 import net.wangxj.authority.po.AuthorityResourcesPO;
+import net.wangxj.util.string.TimeUtil;
+import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
 import net.wangxj.authority.dao.AuthorityResourcesDao;
 import org.apache.log4j.Logger;
 
@@ -55,6 +57,17 @@ public class AuthorityResourcesDaoImpl extends BaseSessionDaoSupport implements 
 	public Integer getCountByCondition(AuthorityResourcesPO authorityResourcesPo) {
 		
 		return (Integer)super.getSqlSession().selectOne("AuthorityResourcesPOMapper.selectCountByCondition", authorityResourcesPo);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.AuthorityResourcesDao#delete(net.wangxj.authority.po.AuthorityResourcesPO)
+	 */
+	@Override
+	public Integer delete(AuthorityResourcesPO resourcePo) {
+		resourcePo.setResourceDelTime(TimeUtil.getNowStr());
+		resourcePo.setResourceIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
+		return super.getSqlSession().update("AuthorityResourcesPOMapper.updateByUuid", resourcePo);
 	}
 	
 }

@@ -2,6 +2,7 @@
 
 package net.wangxj.authority.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +61,26 @@ public class AuthorityRoleResourcesRelationDaoImpl extends BaseSessionDaoSupport
 	public Integer deleteBy(String rrRoleUuid) {
 		
 		return super.getSqlSession().delete("AuthorityRoleResourcesRelationPOMapper.delete", rrRoleUuid);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.AuthorityRoleResourcesRelationDao#deleteByPlatform(java.lang.String)
+	 */
+	@Override
+	public Integer deleteByPlatform(String platformUuid) {
+		Map<String,String> paramMap = new HashMap<>();
+		paramMap.put("platformUuid", platformUuid);
+		return super.getSqlSession().delete("AuthorityRoleResourcesRelationPOMapper.deleteByPlatform" ,paramMap);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.AuthorityRoleResourcesRelationDao#deleteByResource(java.lang.String)
+	 */
+	@Override
+	public Integer deleteByResource(String resourceUuid) {
+		return super.getSqlSession().delete("AuthorityRoleResourcesRelationPOMapper.deleteByResource", resourceUuid);
 	}
 	
 }

@@ -223,7 +223,19 @@
 					</if>		        	
 					and ur_role_uuid IN (SELECT role_uuid FROM authority_role WHERE role_platform_uuid = #{platformUuid});
      </delete>
+     
+     <delete id="deleteByPlatform" parameterType="java.util.Map">
+     	DELETE FROM authority_user_role_relation WHERE ur_role_uuid in 
+     	(SELECT role_uuid from authority_role WHERE role_platform_uuid = #{platformUuid} and role_is_delete = 2)
+     </delete>
 
+	 <delete id="deleteByRole" parameterType = "java.lang.String">
+	 	DELETE FROM authority_user_role_relation WHERE ur_role_uuid = #{roleUuid}
+	 </delete>
+	 
+	 <delete id="deleteByUser" parameterType = "java.lang.String">
+	 	DELETE FROM authority_user_role_relation WHERE ur_user_uuid = #{userUuid}
+	 </delete>
 	
 </mapper>
 

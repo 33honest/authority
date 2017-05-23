@@ -393,5 +393,56 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 		}
 	}
 	
+	
+	/**
+	 * 获取指定用户所拥有的所有角色
+	 * @param userUuid 用户uuid
+	 * @return
+	 * apidoc------------------------------>
+	 * @api {GET} /users/{user_uuid}/roles 角色列表
+	 * @apiExample {curl} curl请求示例:
+	 * curl -X GET 'http://localhost:9000/api/users/de0c7b2480494fda98db82f7a4707649/roles'
+	 * @apiGroup users
+	 * @apiParam {String} user_uuid 用户uuid
+	 * @apiParamExample {json} 请求参数示例:
+	 * {
+	 *  "user_uuid" : "de0c7b2480494fda98db82f7a4707649"
+	 * }
+	 * @apiSuccess (200) {String} data 角色列表
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * 	{
+	 *	  "data": [
+	 *	    {
+	 *	      "role_add_by": "de0c7b2480494fda98db82f7a4707649",
+	 *	      "role_add_time": "2017-02-21 16:45:54",
+	 *	      "role_name": "管理员",
+	 *	      "role_platform_uuid": "fe178fd0073a4edea94e95a46bab15be",
+	 *	      "role_status": 2,
+	 *        "role_uuid": "2be1d2b183f84483a8f9762a3da2a4c9"
+	 *	    }
+	 *	  ]
+	 *	}
+	 * @apiError (400) {String} error_message 错误说明
+	 * @apiError (400) {Boolean} is_pass　　格式是否正确
+	 * @apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "user_uuid非法",
+	 *									   "is_pass": false 
+	 *									} 
+	 * @apiUse user500Response
+	 */
+	@Path("/{uuid}/roles")
+	@GET
+	public Response roles(@PathParam("uuid")String userUuid){
+		ValidationResult valiateResult = new ValidationResult();
+		if(!Pattern.matches(RegexConstant.UUID_32, userUuid)){
+			valiateResult.setErrorMsg("user_uuid非法");
+			return failValidate(valiateResult);
+		}else{
+			Map<String,Object> rolesResultMap = new HashMap<>();
+			rolesResultMap.put("data", authorityUserService.roles(userUuid));
+			return success(rolesResultMap);
+		}
+	}
 
 }

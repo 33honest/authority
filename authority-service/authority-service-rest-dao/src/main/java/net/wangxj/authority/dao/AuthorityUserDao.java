@@ -13,5 +13,11 @@ import net.wangxj.authority.po.AuthorityUserPO;
  */
 
 public interface AuthorityUserDao extends IBaseDao<AuthorityUserPO>{
+
+	/**
+	 * @param userPo
+	 * @return
+	 */
+	Integer delete(AuthorityUserPO userPo);
 	
 }

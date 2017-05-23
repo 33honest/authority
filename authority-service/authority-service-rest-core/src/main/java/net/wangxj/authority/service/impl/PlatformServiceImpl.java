@@ -9,8 +9,12 @@ import org.apache.log4j.Logger;
 
 import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
 import net.wangxj.authority.dao.AuthorityResourcesDao;
+import net.wangxj.authority.dao.AuthorityRoleDao;
+import net.wangxj.authority.dao.AuthorityRoleResourcesRelationDao;
+import net.wangxj.authority.dao.AuthorityUserRoleRelationDao;
 import net.wangxj.authority.dao.PlatformDao;
 import net.wangxj.authority.po.AuthorityResourcesPO;
+import net.wangxj.authority.po.AuthorityRolePO;
 import net.wangxj.authority.po.PO;
 import net.wangxj.authority.po.Page;
 import net.wangxj.authority.po.PlatformPO;
@@ -36,6 +40,12 @@ public class PlatformServiceImpl implements PlatformService{
 	private PlatformDao platformDao;
 	@Resource
 	private AuthorityResourcesDao authorityResourcesDao;
+	@Resource
+	private AuthorityRoleDao authorityRoleDao;
+	@Resource
+	private AuthorityUserRoleRelationDao authorityUserRoleRelationDao;
+	@Resource
+	private AuthorityRoleResourcesRelationDao authorityRoleResourcesRelationDao;
 
 	/**
 	 * 添加
@@ -127,13 +137,24 @@ public class PlatformServiceImpl implements PlatformService{
 
 	/* (non-Javadoc)
 	 * @see net.wangxj.authority.service.AuthorityService#delete(java.lang.Object)
+	 * 该操作会删除掉1）平台信息 2)平台下的所有角色信息 3)平台下的资源信息 4)平台下所有角色与用户对应的关联信息 5)平台下所有资源与角色对应的关联信息
 	 */
 	@Override
 	public Integer delete(PlatformPO po) {
-		po.setPlatformDelTime(TimeUtil.getNowStr());
-		po.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
-		logger.debug("开始删除---->" + po);
-		return platformDao.updateByUuid(po);
+		//删除用户在该平台下的角色
+		authorityUserRoleRelationDao.deleteByPlatform(po.getPlatformUuid());
+		//删除该平台下所有角色的资源
+		authorityRoleResourcesRelationDao.deleteByPlatform(po.getPlatformUuid());
+		//删除该平台下的所有角色
+		AuthorityRolePO rolePo = new AuthorityRolePO();
+		rolePo.setRoleAddBy(po.getPlatformAddBy());
+		authorityRoleDao.delete(rolePo);
+		//删除该平台下的所有资源
+		AuthorityResourcesPO resourcePo = new AuthorityResourcesPO();
+		resourcePo.setResourceAddBy(po.getPlatformAddBy());
+		authorityResourcesDao.delete(resourcePo);
+		
+		return platformDao.delete(po);
 	}
 
 	/* (non-Javadoc)

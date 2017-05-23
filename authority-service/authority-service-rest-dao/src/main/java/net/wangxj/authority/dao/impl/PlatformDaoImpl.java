@@ -11,6 +11,8 @@ import com.github.pagehelper.PageHelper;
 
 import net.wangxj.authority.dao.base.BaseSessionDaoSupport;
 import net.wangxj.authority.po.PlatformPO;
+import net.wangxj.util.string.TimeUtil;
+import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
 import net.wangxj.authority.dao.PlatformDao;
 import org.apache.log4j.Logger;
 
@@ -55,6 +57,16 @@ public class PlatformDaoImpl extends BaseSessionDaoSupport implements PlatformDa
 	@Override
 	public Integer getCountByCondition(PlatformPO platformPo) {
 		return (Integer)super.getSqlSession().selectOne("PlatformPOMapper.selectCountByCondition", platformPo);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.PlatformDao#delete(net.wangxj.authority.po.PlatformPO)
+	 */
+	@Override
+	public Integer delete(PlatformPO platformPo) {
+		platformPo.setPlatformDelTime(TimeUtil.getNowStr());
+		platformPo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
+		return super.getSqlSession().delete("PlatformPOMapper.updateByUuid", platformPo);
 	}
 	
 }

@@ -9,4 +9,11 @@ import net.wangxj.authority.po.AuthorityResourcesPO;
  */
 
 public interface AuthorityResourcesDao extends IBaseDao<AuthorityResourcesPO>{
+	
+	/**
+	 * 删除资源
+	 * @param resourcePo
+	 * @return
+	 */
+	public Integer delete(AuthorityResourcesPO resourcePo);
 }

@@ -13,5 +13,12 @@ import net.wangxj.authority.po.PlatformPO;
  */
 
 public interface PlatformDao extends IBaseDao<PlatformPO>{
+
+	/**
+	 * 删除平台
+	 * @param po
+	 * @return
+	 */
+	Integer delete(PlatformPO po);
 	
 }
