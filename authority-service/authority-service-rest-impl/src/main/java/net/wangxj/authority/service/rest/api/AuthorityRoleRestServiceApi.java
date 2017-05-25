@@ -135,14 +135,16 @@ public class AuthorityRoleRestServiceApi extends AbstractAuthrotiyRestService{
 	 * apidoc------------------------->
 	 * @api {GET} /roles 分页查询
 	 * @apiExample {curl} curl请求示例:
-	 * curl -X GET 'http://localhost:9000/api/roles?page_number=1&limit=3&order=asc&sort=role_uuid'
+	 * curl -X GET 'http://localhost:9000/api/roles?search=管理员&page_number=1&limit=3&order=asc&sort=role_uuid'
 	 * @apiGroup roles
+	 * @apiParam {String} [search] 查询字符串
 	 * @apiParam {number} page_number 页码
 	 * @apiParam {number}  limit 每页条数
 	 * @apiParam {String="desc","asc"} order 排序(正序/反序)
 	 * @apiParam {String} sort 排序字段(按该字段排序)
 	 * @apiParamExample {json} 请求参数示例:
 	 * {
+	 *   "search" : "管理员",
 	 *   "page_number":2,
 	 *   "limit": 3,
 	 *   "order": "asc",
@@ -174,7 +176,7 @@ public class AuthorityRoleRestServiceApi extends AbstractAuthrotiyRestService{
 	 * @apiUse role500Response
 	 */
 	@GET
-	public Response pageQuery(@BeanParam Page page){
+	public Response pageQuery(@BeanParam Page page,@QueryParam("search") String search){
 		ValidationResult validatePageResult = authorityRoleService.validatePo(page, Default.class);
 		ValidationResult validateSortResult = authorityRoleService.validateSort(AuthorityRolePO.class, page.getSort());
 		logger.debug("验证结果:-->" + validatePageResult + "-->" + validateSortResult);
@@ -183,7 +185,7 @@ public class AuthorityRoleRestServiceApi extends AbstractAuthrotiyRestService{
 		}else if(validateSortResult != null){
 			return failValidate(validateSortResult);
 		}else{
-			return success(authorityRoleService.pageQuery(new AuthorityRolePO(), page));
+			return success(authorityRoleService.search(search, page));
 		}
 	}
 	

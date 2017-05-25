@@ -19,5 +19,23 @@ public interface AuthorityUserDao extends IBaseDao<AuthorityUserPO>{
 	 * @return
 	 */
 	Integer delete(AuthorityUserPO userPo);
+
+	/**
+	 * 分页查询
+	 * @param search
+	 * @param pageNum
+	 * @param limit
+	 * @param order
+	 * @param sort
+	 * @return
+	 */
+	List<AuthorityUserPO> search(String search, Integer pageNum, Integer limit, String order, String sort);
+
+	/**
+	 * 搜索查询数量
+	 * @param search
+	 * @return
+	 */
+	Integer searchCount(String search);
 	
 }

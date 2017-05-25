@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.github.pagehelper.PageHelper;
 
 import net.wangxj.authority.dao.base.BaseSessionDaoSupport;
+import net.wangxj.authority.po.AuthorityResourcesPO;
 import net.wangxj.authority.po.AuthorityRolePO;
 import net.wangxj.util.string.TimeUtil;
 import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
@@ -68,6 +69,38 @@ public class AuthorityRoleDaoImpl extends BaseSessionDaoSupport implements Autho
 		rolePo.setRoleDelTime(TimeUtil.getNowStr());
 		rolePo.setRoleIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
 		return super.getSqlSession().update("AuthorityRolePOMapper.updateByUuid", rolePo);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.AuthorityRoleDao#getRoleByResource(java.lang.String)
+	 */
+	@Override
+	public List<AuthorityResourcesPO> getRoleByResource(String resourceUuid) {
+		
+		return super.getSqlSession().selectList("AuthorityRolePOMapper.getRoleByResource", resourceUuid);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.AuthorityRoleDao#search(java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public List<AuthorityRolePO> search(String search, Integer pageNum, Integer limit, String order, String sort) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("search", search);
+		map.put("order", order);
+		map.put("sort", sort);
+		PageHelper.startPage(pageNum, limit);
+		return super.getSqlSession().selectList("AuthorityRolePOMapper.search", map);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.AuthorityRoleDao#searchCount(java.lang.String)
+	 */
+	@Override
+	public Integer searchCount(String search) {
+		Map<String,String> paramMap = new HashMap<>();
+		paramMap.put("search", search);
+		return super.getSqlSession().selectOne("AuthorityRolePOMapper.searchCount", paramMap);
 	}
 	
 }

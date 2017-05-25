@@ -1,9 +1,11 @@
 package net.wangxj.authority.service;
 
 import java.util.List;
+import java.util.Map;
 
 import net.wangxj.authority.po.AuthorityRolePO;
 import net.wangxj.authority.po.AuthorityUserPO;
+import net.wangxj.authority.po.Page;
 
 /**
  * created by	: wangxj
@@ -27,4 +29,11 @@ public interface AuthorityUserService extends AuthorityService<AuthorityUserPO>{
 	 * @return 该用户所拥有的所有角色
 	 */
 	public List<AuthorityRolePO> roles(String userUuid);
+	/**
+	 * 搜索分页
+	 * @param search
+	 * @param page
+	 * @return
+	 */
+	public Map<String, Object> search(String search, Page page);
 }

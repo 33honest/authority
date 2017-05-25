@@ -208,4 +208,27 @@ public class AuthorityRoleServiceImpl implements AuthorityRoleService{
 		logger.debug("查询结果:-->" + roleUuid + ":" + getResultList);
 		return getResultList;
 	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.service.AuthorityRoleService#search(java.lang.String, net.wangxj.authority.po.Page)
+	 */
+	@Override
+	public Map<String, Object> search(String search, Page page) {
+		List<AuthorityRolePO> listRolePo = authorityRoleDao.search(search, page.getPageNum(), page.getLimit(), page.getOrder(), page.getSort());
+		Integer count = authorityRoleDao.searchCount(search);
+		Map<String, Object> searchResultMap = new HashMap<>();
+		searchResultMap.put("data", listRolePo);
+		searchResultMap.put("count", count);
+		logger.debug("查询结果:-->" + searchResultMap);
+		return searchResultMap;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.service.AuthorityRoleService#searchCount(java.lang.String)
+	 */
+	@Override
+	public Integer searchCount(String search) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

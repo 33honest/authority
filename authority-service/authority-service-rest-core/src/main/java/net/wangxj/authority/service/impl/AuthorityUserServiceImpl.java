@@ -218,4 +218,18 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 		return roleList;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.service.AuthorityUserService#search(java.lang.String, net.wangxj.authority.po.Page)
+	 */
+	@Override
+	public Map<String, Object> search(String search, Page page) {
+		List<AuthorityUserPO> searchList = authorityUserDao.search(search,page.getPageNum(), page.getLimit(), page.getOrder(), page.getSort());
+		Integer count = authorityUserDao.searchCount(search);
+		Map<String, Object> resutlMap = new HashMap<>();
+		resutlMap.put("count", count);
+		resutlMap.put("data", searchList);
+		logger.debug("搜索查询结果:--->" + resutlMap);
+		return resutlMap;
+	}
+
 }

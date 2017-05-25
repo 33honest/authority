@@ -205,7 +205,30 @@
 					<if test="roleEditTime != null  and  roleEditTime != '' " > 
 						and role_edit_time = #{roleEditTime}
 					</if>	        	
-	</select>	
+	</select>
+	
+	<select id="getRoleByResource" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT <include refid="Base_Column_List" /> 
+		 from authority_role WHERE role_uuid IN (SELECT rr_role_uuid from authority_role_resources_relation where rr_resource_uuid = #{resourceUuid})
+	</select>
+	
+	<select id="search" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="Base_Column_List" /> 
+		 from authority_role WHERE 1=1 and role_is_delete = 2
+		 <if test = "search != null and search != ''">
+		  and MATCH (role_uuid,role_name,role_platform_uuid) AGAINST (#{search})
+		 </if>
+		 <if test="order != null  and  order != '' and sort != null and sort != '' " > 
+			ORDER BY ${sort} ${order}
+		</if>
+	</select>
+	
+	<select id = "searchCount" resultType="int" parameterType="java.util.Map">
+		select count(*) from authority_role WHERE 1=1 and role_is_delete = 2 
+		 <if test = "search != null and search != ''">
+		  and MATCH (role_uuid,role_name,role_platform_uuid) AGAINST (#{search})
+		 </if>
+	</select>
 	
 </mapper>
 

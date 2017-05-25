@@ -3,9 +3,11 @@
 package net.wangxj.authority.service;
 
 import java.util.List;
+import java.util.Map;
 
 import net.wangxj.authority.po.AuthorityResourcesPO;
 import net.wangxj.authority.po.AuthorityRolePO;
+import net.wangxj.authority.po.Page;
 
 /**
  * created by	: wangxj
@@ -28,4 +30,17 @@ public interface AuthorityRoleService extends AuthorityService<AuthorityRolePO>{
 	 * @return
 	 */
 	public List<AuthorityResourcesPO> getResources(String roleUuid);
+	/**
+	 * 搜索分页
+	 * @param search
+	 * @param page
+	 * @return
+	 */
+	public Map<String, Object> search(String search, Page page);
+	/**
+	 * 搜索分页数量
+	 * @param search
+	 * @return
+	 */
+	public Integer  searchCount(String search);
 }

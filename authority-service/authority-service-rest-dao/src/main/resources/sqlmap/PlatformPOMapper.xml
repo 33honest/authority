@@ -224,5 +224,27 @@
 					</if>		        	
 	</select>	
 	
+	<select id="search"  resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT <include refid="Base_Column_List" />
+		 from platform WHERE 
+		 1=1  and platform_is_delete = 2 
+		 <if test = "search != null and search != ''">
+		  and MATCH (platform_uuid,platform_name,platform_sign,platform_domain_name,platform_add_time,
+                             platform_edit_time) AGAINST (#{search})
+		 </if>
+	     <if test="order != null  and  order != '' and sort != null and sort != '' " > 
+			ORDER BY ${sort} ${order}
+		</if>
+	</select>
+	
+	<select id="searchCount" resultType="int" parameterType="java.util.Map">
+		select count(*) from platform WHERE 
+		 1=1  and platform_is_delete = 2 
+		 <if test = "search != null and search != ''">
+		  and MATCH (platform_uuid,platform_name,platform_sign,platform_domain_name,platform_add_time,
+                             platform_edit_time) AGAINST (#{search})
+		 </if>
+	</select>
+	
 </mapper>
 

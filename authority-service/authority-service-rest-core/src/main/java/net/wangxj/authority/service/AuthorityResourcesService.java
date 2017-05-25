@@ -1,5 +1,7 @@
 package net.wangxj.authority.service;
 
+import java.util.List;
+
 import net.wangxj.authority.po.AuthorityResourcesPO;
 
 /**
@@ -8,4 +10,18 @@ import net.wangxj.authority.po.AuthorityResourcesPO;
  */
 
 public interface AuthorityResourcesService extends AuthorityService<AuthorityResourcesPO>{
+
+	/**
+	 * 查询一个平台下的资源树
+	 * @param resourcePo
+	 * @return
+	 */
+	Object queryResourceTreeByPlatform(AuthorityResourcesPO resourcePo);
+
+	/**
+	 * 获取访问一个资源需要的角色
+	 * @param resourceUuid
+	 * @return
+	 */
+	List<AuthorityResourcesPO> roles(String resourceUuid);
 }

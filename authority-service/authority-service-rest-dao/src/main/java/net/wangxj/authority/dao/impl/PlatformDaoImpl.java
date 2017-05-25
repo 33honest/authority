@@ -68,5 +68,29 @@ public class PlatformDaoImpl extends BaseSessionDaoSupport implements PlatformDa
 		platformPo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
 		return super.getSqlSession().delete("PlatformPOMapper.updateByUuid", platformPo);
 	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.PlatformDao#search(java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public List<PlatformPO> search(String search, Integer pageNum, Integer limit, String order, String sort) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("search", search);
+		map.put("order", order);
+		map.put("sort", sort);
+		PageHelper.startPage(pageNum, limit);
+		return super.getSqlSession().selectList("PlatformPOMapper.search", map);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.PlatformDao#searchCount(java.lang.String)
+	 */
+	@Override
+	public Integer searchCount(String search) {
+		Map<String,String> paramMap = new HashMap<>();
+		paramMap.put("search", search);
+		return super.getSqlSession().selectOne("PlatformPOMapper.searchCount", paramMap);
+	}
 	
 }
+ 

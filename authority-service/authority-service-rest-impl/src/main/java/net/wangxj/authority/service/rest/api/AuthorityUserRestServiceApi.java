@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import javax.annotation.Resource;
 import javax.validation.groups.Default;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
@@ -21,12 +20,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import net.wangxj.util.constant.RegexConstant;
-import net.wangxj.util.string.TimeUtil;
-import net.wangxj.util.string.UuidUtil;
 import net.wangxj.util.validate.ValidationResult;
 import net.wangxj.util.validate.groups.AddValidate;
 import net.wangxj.util.validate.groups.DeleteValidate;
@@ -211,14 +207,16 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 	 * apidoc----------------------->
 	 * @api {GET} /users 分页查询
 	 * @apiExample {curl} curl请求示例:
-	 * curl -X GET 'http://localhost:9000/api/users?page_number=2&limit=3&order=asc&sort=user_uuid'
+	 * curl -X GET 'http://localhost:9000/api/users?search=admin&page_number=2&limit=3&order=asc&sort=user_uuid'
 	 * @apiGroup users
+	 * @apiParam {String} [search] 搜索字符串
 	 * @apiParam {number} page_number 页码
 	 * @apiParam {number}  limit 每页条数
 	 * @apiParam {String="desc","asc"} order 排序(正序/反序)
 	 * @apiParam {String} sort 排序字段(按该字段排序)
 	 * @apiParamExample {json} 请求参数示例:
 	 * {
+	 *   "search" : "admin",
 	 *   "page_number":2,
 	 *   "limit": 3,
 	 *   "order": "asc",
@@ -269,7 +267,7 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 	 *
 	 */
 	@GET
-	public Response pageQuery(@BeanParam Page page){
+	public Response pageQuery(@BeanParam Page page, @QueryParam("search")String search){
 		ValidationResult pageValidateResult = authorityUserService.validatePo(page, Default.class);
 		ValidationResult validatleSortResult = authorityUserService.validateSort(AuthorityUserPO.class, page.getSort());
 		if(pageValidateResult != null){
@@ -277,7 +275,7 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 		}else if(validatleSortResult != null){
 			return failValidate(validatleSortResult);
 		}else{
-			Map<String, Object> pageResultMap = authorityUserService.pageQuery(new AuthorityUserPO(), page);
+			Map<String, Object> pageResultMap = authorityUserService.search(search, page);
 			return success(pageResultMap);
 		}
 	}
@@ -395,6 +393,7 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 	
 	
 	/**
+	 * TODO 检查useruuid是否存在
 	 * 获取指定用户所拥有的所有角色
 	 * @param userUuid 用户uuid
 	 * @return
@@ -442,6 +441,58 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 			Map<String,Object> rolesResultMap = new HashMap<>();
 			rolesResultMap.put("data", authorityUserService.roles(userUuid));
 			return success(rolesResultMap);
+		}
+	}
+	
+	/**
+	 * TODO 检查userUuid是否存在
+	 * 根据userUuid查询
+	 * @param userUuid
+	 * @return
+	 * apidoc--------------------->
+	 * @api {GET} /users/{user_uuid} 用户信息
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X GET 'http://localhost:9000/api/users/de0c7b2480494fda98db82f7a4707649'
+	 * @apiParam {String} user_uuid 用户uuid
+	 * @apiGroup users
+	 * @apiExample {curl} curl请求示例:
+	 * {
+	 *  "user_uuid" : "de0c7b2480494fda98db82f7a4707649"
+	 * }
+	 * @apiSuccess (200) {String} data 角色列表
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * 	{
+	 *	  "user_add_by": "de0c7b2480494fda98db82f7a4707649",
+	 *	  "user_add_time": "2017-02-21 16:53:23",
+	 *	  "user_add_type": 1,
+	 *	  "user_email": "1416236046@qq.com",
+	 *	  "user_login_name": "admin",
+	 *	  "user_login_password": "",
+	 *	  "user_phone": "13811255489",
+	 *	  "user_status": 2,
+	 *	  "user_type": 1,
+	 *	  "user_uuid": "de0c7b2480494fda98db82f7a4707649"
+	 *	}
+	 * @apiError (400) {String} error_message 错误说明
+	 * @apiError (400) {Boolean} is_pass　　格式是否正确
+	 * @apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "user_uuid非法",
+	 *									   "is_pass": false 
+	 *									} 
+	 * @apiUse user500Response
+	 */
+	@Path("/{uuid}")
+	@GET
+	public Response query(@PathParam("uuid")String userUuid){
+		ValidationResult valiateResult = new ValidationResult();
+		if(!Pattern.matches(RegexConstant.UUID_32, userUuid)){
+			valiateResult.setErrorMsg("user_uuid非法");
+			return failValidate(valiateResult);
+		}else{
+			AuthorityUserPO userPo = new AuthorityUserPO();
+			userPo.setUserUuid(userUuid);
+			return success(authorityUserService.query(userPo).get(0));
 		}
 	}
 

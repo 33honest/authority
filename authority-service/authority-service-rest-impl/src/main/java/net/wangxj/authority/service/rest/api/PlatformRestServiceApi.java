@@ -184,20 +184,22 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	}
 	
 	/**
-	 * http://localhost:9000/api/platforms?page_number=2&limit=3&order=asc&sort=platform_uuid
+	 * http://localhost:9000/api/platforms?search=权限平台&page_number=2&limit=3&order=asc&sort=platform_uuid
 	 * 分页查询
 	 * 
 	 * apidoc----------------->
 	 * @api {GET} /platforms 分页查询
 	 * @apiExample {curl} curl请求示例:
-	 * curl -X GET 'http://localhost:9000/api/platforms?page_number=2&limit=3&order=asc&sort=platform_uuid'
+	 * curl -X GET 'http://localhost:9000/api/platforms?search=权限平台&page_number=2&limit=3&order=asc&sort=platform_uuid'
 	 * @apiGroup platforms
+	 * @apiParam {String} [search] 搜索字符串
 	 * @apiParam {number} page_number 页码
 	 * @apiParam {number}  limit 每页条数
 	 * @apiParam {String="desc","asc"} order 排序(正序/反序)
 	 * @apiParam {String} sort 排序字段(按该字段排序)
 	 * @apiParamExample {json} 请求参数示例:
 	 * {
+	 *   "search" : "权限平台",
 	 *   "page_number":2,
 	 *   "limit": 3,
 	 *   "order": "asc",
@@ -255,7 +257,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 *									}
 	 */ 
 	@GET
-	public Response pageQuery(@BeanParam Page page){
+	public Response pageQuery(@BeanParam Page page,@QueryParam("search")String search){
 		ValidationResult validateResult = platformService.validatePo(page, Default.class);
 		ValidationResult validateSortRes = platformService.validateSort(PlatformPO.class, page.getSort());
 		if(validateResult != null){
@@ -265,7 +267,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 			return failValidate(validateSortRes);
 		}
 		else{
-			Map<String , Object>  pageResMap = platformService.pageQuery(new PlatformPO(), page);
+			Map<String , Object>  pageResMap = platformService.search(search, page);
 			return success(pageResMap);
 		}
 	}
@@ -524,6 +526,136 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 		}
 	}
 	
+	/**
+	 * 该平台下的所有资源
+	 * @param platformUuid 平台uuid
+	 * @return
+	 * apidoc----------------------->
+	 * @api {GET} /platforms/{platform_uuid}/resources 资源树
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X GET 'http://localhost:9000/api/platforms/fe178fd0073a4edea94e95a46bab15be/resources'
+	 * @apiGroup platforms
+	 * @apiParam {String} platform_uuid 平台uuid
+	 * @apiParamExample {json} 请求参数示例:
+	 * {
+	 *  "platform_uuid" : "fe178fd0073a4edea94e95a46bab15be"
+	 * }
+	 * @apiSuccess (200) {String} success 是否操作成功
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 *	{
+	 *		data": [
+	 *		    {
+	 *		      "childList": [
+	 *			  	 {
+	 *			      "resource_add_by": "de0c7b2480494fda98db82f7a4707649",
+	 *		          "resource_add_time": "2017-02-14 17:15:37",
+	 *		          "resource_level": 2,
+	 *		          "resource_name": "平台管理",
+	 *		          "resource_order": 1,
+	 *		          "resource_parent_uuid": "2d19a2d466d84b12b27689ed2a08589d",
+	 *		          "resource_platform_uuid": "fe178fd0073a4edea94e95a46bab15be",
+	 *		          "resource_status": 2,
+	 *		          "resource_url": "/platform",
+	 *		          "resource_uuid": "f2e251236cae4e3eb1bca10535bdbf36"
+	 *		        }
+	 *		      ],
+	 *			  "resource_add_by": "de0c7b2480494fda98db82f7a4707649",
+	 *		      "resource_add_time": "2017-02-14 12:05:09",
+	 *		      "resource_edit_by": "de0c7b2480494fda98db82f7a4707649",
+	 *		      "resource_edit_time": "2017-02-14 17:08:45",
+	 *		      "resource_level": 1,
+	 *		      "resource_name": "权限平台",
+	 *		      "resource_order": 1,
+	 *		      "resource_parent_uuid": "#",
+	 *		      "resource_platform_uuid": "fe178fd0073a4edea94e95a46bab15be",
+	 *		      "resource_status": 2,
+	 *		      "resource_url": "/authority",
+	 *		      "resource_uuid": "2d19a2d466d84b12b27689ed2a08589d"
+	 *		    }
+	 *	  	]
+	 *	}
+	 * @apiError (400) {String} error_message 错误说明
+	 * @apiError (400) {Boolean} is_pass　　格式是否正确
+	 * @apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "platform_uuid非法",
+	 *									   "is_pass": false
+	 *									} 
+	 * @apiError (500) {String} error 错误说明
+	 * @apiErrorExample {json} 错误500响应 :
+	 *									{
+	 *										"error": "服务器内部发生错误
+	 *									}
+	 * 
+	 */
+	@Path("/{uuid}/resources")
+	@GET
+	public Response resources(@PathParam("uuid")String platformUuid){
+		ValidationResult validateResult = new ValidationResult();
+		if(!Pattern.matches(RegexConstant.UUID_32, platformUuid)){
+			validateResult.setErrorMsg("platform_uuid非法");
+			return failValidate(validateResult);
+		}else{
+			AuthorityResourcesPO resourcePo = new AuthorityResourcesPO();
+			resourcePo.setResourcePlatformUuid(platformUuid);
+			Map<String,Object> resourcesMap = new HashMap<>();
+			resourcesMap.put("data", authorityResourcesService.queryResourceTreeByPlatform(resourcePo));
+			return success(resourcesMap);
+		}
+	}
 	
+	/**
+	 * 平台信息
+	 * @param platformUuid 平台uuid
+	 * @return
+	 * apidoc--------------------------->
+	 * @api {GET} /platforms/{platform_uuid} 平台信息
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X GET 'http://localhost:9000/api/platforms/fe178fd0073a4edea94e95a46bab15be'
+	 * @apiGroup platforms
+	 * @apiParam {String} platform_uuid 平台uuid
+	 * @apiParamExample {json} 请求参数示例:
+	 * {
+	 *  "platform_uuid" : "fe178fd0073a4edea94e95a46bab15be"
+	 * }
+	 * @apiSuccess (200) {String} success 是否操作成功
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * {
+	 *	  "platform_add_time": "2017-01-01 12:12:12",
+	 *	  "platform_add_user": "de0c7b2480494fda98db82f7a4707649",
+	 *	  "platform_domain": "authority.com",
+	 *	  "platform_name": "权限平台",
+	 *	  "platform_sign": "authority",
+	 *	  "platform_status": 1,
+	 *	  "platform_uuid": "fe178fd0073a4edea94e95a46bab15be"
+	 *	}
+	 *
+	 * @apiError (400) {String} error_message 错误说明
+	 * @apiError (400) {Boolean} is_pass　　格式是否正确
+	 * @apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "platform_uuid非法",
+	 *									   "is_pass": false
+	 *									}
+	 * @apiError (500) {String} error 错误说明
+	 * @apiErrorExample {json} 错误500响应 :
+	 *									{
+	 *										"error": "服务器内部发生错误
+	 *									}
+	 *  
+	 */
+	@Path("/{uuid}")
+	@GET
+	public Response query(@PathParam("uuid")String platformUuid){
+		ValidationResult validateResult = new ValidationResult();
+		if(!Pattern.matches(RegexConstant.UUID_32, platformUuid)){
+			validateResult.setErrorMsg("platform_uuid非法");
+			return failValidate(validateResult);
+		}else{
+			PlatformPO platformPo = new PlatformPO();
+			platformPo.setPlatformUuid(platformUuid);
+			return success(platformService.query(platformPo).get(0));
+		}
+	}
 	
 }

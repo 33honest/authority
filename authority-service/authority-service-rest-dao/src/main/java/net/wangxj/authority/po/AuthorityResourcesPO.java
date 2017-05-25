@@ -1,6 +1,7 @@
 package net.wangxj.authority.po;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -114,6 +115,8 @@ public class AuthorityResourcesPO extends PO implements Serializable{
 	@JSONField(name = "resource_edit_time")
 	private String resourceEditTime;
 	
+	private List<AuthorityResourcesPO> childList;
+	
 	public AuthorityResourcesPO(){
 		super();
 	}
@@ -122,7 +125,7 @@ public class AuthorityResourcesPO extends PO implements Serializable{
 			Integer resourceStatus, String resourceUrl, Integer resourceLevel, Integer resourceOrder,
 			String resourceParentUuid, String resourceCssCode, String resourceAddTime, String resourceAddBy,
 			String resourceDelTime, String resourceDelBy, Integer resourceIsDelete, String resourceEditBy,
-			String resourceEditTime) {
+			String resourceEditTime, List<AuthorityResourcesPO> childList) {
 		super();
 		this.resourceUuid = resourceUuid;
 		this.resourceName = resourceName;
@@ -140,6 +143,7 @@ public class AuthorityResourcesPO extends PO implements Serializable{
 		this.resourceIsDelete = resourceIsDelete;
 		this.resourceEditBy = resourceEditBy;
 		this.resourceEditTime = resourceEditTime;
+		this.childList = childList;
 	}
 
 	public String getResourceUuid() {
@@ -270,6 +274,14 @@ public class AuthorityResourcesPO extends PO implements Serializable{
 		this.resourceEditTime = resourceEditTime;
 	}
 
+	public List<AuthorityResourcesPO> getChildList() {
+		return childList;
+	}
+
+	public void setChildList(List<AuthorityResourcesPO> childList) {
+		this.childList = childList;
+	}
+
 	@Override
 	public String toString() {
 		return "AuthorityResourcesPO [resourceUuid=" + resourceUuid + ", resourceName=" + resourceName
@@ -278,10 +290,9 @@ public class AuthorityResourcesPO extends PO implements Serializable{
 				+ resourceOrder + ", resourceParentUuid=" + resourceParentUuid + ", resourceCssCode=" + resourceCssCode
 				+ ", resourceAddTime=" + resourceAddTime + ", resourceAddBy=" + resourceAddBy + ", resourceDelTime="
 				+ resourceDelTime + ", resourceDelBy=" + resourceDelBy + ", resourceIsDelete=" + resourceIsDelete
-				+ ", resourceEditBy=" + resourceEditBy + ", resourceEditTime=" + resourceEditTime + "]";
+				+ ", resourceEditBy=" + resourceEditBy + ", resourceEditTime=" + resourceEditTime + ", childList="
+				+ childList + "]";
 	}
-	
-	
 	
 }
 

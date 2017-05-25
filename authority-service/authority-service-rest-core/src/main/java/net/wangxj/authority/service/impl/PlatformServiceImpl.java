@@ -190,4 +190,19 @@ public class PlatformServiceImpl implements PlatformService{
 			return notRepeatAnnotation.message();
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.service.PlatformService#search(java.lang.String, net.wangxj.authority.po.Page)
+	 */
+	@Override
+	public Map<String, Object> search(String search, Page page) {
+		//数量
+		List<PlatformPO> listPo = platformDao.search(search,page.getPageNum(),page.getLimit(),page.getOrder(),page.getSort());
+		Integer count = platformDao.searchCount(search);
+		logger.debug("搜索分页查询:-->count:" + count + "---->data:"+listPo);
+		Map<String, Object> resutlMap = new HashMap<>();
+		resutlMap.put("count", count);
+		resutlMap.put("data", listPo);
+		return resutlMap;
+	}
 }

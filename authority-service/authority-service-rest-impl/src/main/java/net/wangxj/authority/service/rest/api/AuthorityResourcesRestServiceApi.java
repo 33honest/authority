@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.validation.groups.Default;
 import javax.ws.rs.BeanParam;
@@ -20,6 +21,7 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import net.wangxj.util.constant.RegexConstant;
 import net.wangxj.util.validate.ValidationResult;
 import net.wangxj.util.validate.groups.DeleteValidate;
 import net.wangxj.util.validate.groups.EditValidate;
@@ -284,6 +286,58 @@ public class AuthorityResourcesRestServiceApi extends AbstractAuthrotiyRestServi
 		Map<String , Object> deleteResultMap = new HashMap<>();
 		deleteResultMap.put("success", authorityResourcesService.deleteBatch(resourceListPo) > 0 ? true : false);
 		return success(deleteResultMap);
+	}
+	
+	/**
+	 * 获取角色依据资源
+	 * @param resourceUuid
+	 * @return
+	 * apidoc------------------>
+	 * @api {GET} /resources/{resource_uuid}/roles 角色列表
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X GET 'http://localhost:9000/api/resources/08fd65930c1446c588b73ffca084ea70/roles'
+	 * @apiGroup resources
+	 * @apiParam {String} resource_uuid 资源uuid
+	 * @apiParamExample {json} 请求参数示例:
+	 * {
+	 *  "resource_uuid" : "08fd65930c1446c588b73ffca084ea70"
+	 * }
+	 * @apiSuccess (200) {String} success 是否操作成功
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * 	{
+	 *	  "data": [
+	 *		    {
+	 *		      "role_add_by": "de0c7b2480494fda98db82f7a4707649",
+	 *		      "role_add_time": "2017-02-21 16:45:54",
+	 *		      "role_name": "管理员",
+	 *		      "role_platform_uuid": "fe178fd0073a4edea94e95a46bab15be",
+	 *		      "role_status": 2,
+	 *		      "role_uuid": "2be1d2b183f84483a8f9762a3da2a4c9"
+	 *		    }
+	 *		  ]
+	 *	}
+	 * @apiError (400) {String} error_message 错误说明
+	 * @apiError (400) {Boolean} is_pass　　格式是否正确
+	 * @apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "resource_uuid非法",
+	 *									   "is_pass": false
+	 *									}
+	 * @apiUse resource500Response
+	 */
+	@Path("/{uuid}/roles")
+	@GET
+	public Response roles(@PathParam("uuid")String resourceUuid){
+		ValidationResult validateResult = new ValidationResult();
+		if(!Pattern.matches(RegexConstant.UUID_32, resourceUuid)){
+			validateResult.setErrorMsg("resource_uuid非法");
+			return failValidate(validateResult);
+		}else{
+			Map<String,Object> rolesResultMap = new HashMap<>();
+			rolesResultMap.put("data", authorityResourcesService.roles(resourceUuid));
+			return success(rolesResultMap);
+		}
+		
 	}
 
 }

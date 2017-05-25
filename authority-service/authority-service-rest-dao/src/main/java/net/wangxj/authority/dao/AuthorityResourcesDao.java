@@ -1,5 +1,7 @@
 package net.wangxj.authority.dao;
 
+import java.util.List;
+
 import net.wangxj.authority.dao.base.IBaseDao;
 import net.wangxj.authority.po.AuthorityResourcesPO;
 
@@ -16,4 +18,10 @@ public interface AuthorityResourcesDao extends IBaseDao<AuthorityResourcesPO>{
 	 * @return
 	 */
 	public Integer delete(AuthorityResourcesPO resourcePo);
+	/**
+	 * 根据条件查询，带有字节点
+	 * @param resourcePO
+	 * @return
+	 */
+	public List<AuthorityResourcesPO> hasChildListByCondition(AuthorityResourcesPO resourcePO);
 }

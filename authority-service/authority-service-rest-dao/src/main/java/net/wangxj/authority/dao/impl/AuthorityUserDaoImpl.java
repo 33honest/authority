@@ -69,6 +69,31 @@ public class AuthorityUserDaoImpl extends BaseSessionDaoSupport implements Autho
 		userPo.setUserIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
 		return super.getSqlSession().update("AuthorityUserPOMapper.updateByUuid", userPo);
 	}
+
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.AuthorityUserDao#search(java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public List<AuthorityUserPO> search(String search, Integer pageNum, Integer limit, String order, String sort) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("search", search);
+		map.put("order", order);
+		map.put("sort", sort);
+		PageHelper.startPage(pageNum, limit);
+		return super.getSqlSession().selectList("AuthorityUserPOMapper.search", map);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.AuthorityUserDao#searchCount(java.lang.String)
+	 */
+	@Override
+	public Integer searchCount(String search) {
+		Map<String,String> paramMap = new HashMap<>();
+		paramMap.put("search", search);
+		return super.getSqlSession().selectOne("AuthorityUserPOMapper.searchCount", paramMap);
+	}
 	
 	
 }

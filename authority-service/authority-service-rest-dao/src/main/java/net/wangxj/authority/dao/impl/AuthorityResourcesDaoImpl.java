@@ -69,5 +69,17 @@ public class AuthorityResourcesDaoImpl extends BaseSessionDaoSupport implements 
 		resourcePo.setResourceIsDelete(DataDictionaryConstant.ISDELETE_YES_VALUE);
 		return super.getSqlSession().update("AuthorityResourcesPOMapper.updateByUuid", resourcePo);
 	}
+
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.dao.AuthorityResourcesDao#hasChildListByCondition(net.wangxj.authority.po.AuthorityResourcesPO)
+	 */
+	@Override
+	public List<AuthorityResourcesPO> hasChildListByCondition(AuthorityResourcesPO resourcePO) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("resource", resourcePO);
+		return super.getSqlSession().selectList("AuthorityResourcesPOMapper.selectByConditionHasChildList", map);
+	}
 	
 }

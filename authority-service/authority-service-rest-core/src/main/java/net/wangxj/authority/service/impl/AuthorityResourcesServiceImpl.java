@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
 import net.wangxj.authority.dao.AuthorityResourcesDao;
+import net.wangxj.authority.dao.AuthorityRoleDao;
 import net.wangxj.authority.dao.AuthorityRoleResourcesRelationDao;
 import net.wangxj.authority.po.AuthorityResourcesPO;
 import net.wangxj.authority.po.PO;
@@ -34,6 +35,8 @@ public class AuthorityResourcesServiceImpl implements AuthorityResourcesService{
 	private AuthorityResourcesDao authorityResourcesDao;
 	@Resource
 	private AuthorityRoleResourcesRelationDao authorityRoleResourcesRelationDao;
+	@Resource
+	private AuthorityRoleDao authorityRoleDao;
 	
 	@Override
 	public Integer add(AuthorityResourcesPO authorityResourcesPo) {
@@ -142,6 +145,26 @@ public class AuthorityResourcesServiceImpl implements AuthorityResourcesService{
 			NotRepeat notRepeatAnnotation = annotatedNotRepeatFiled.getAnnotation(NotRepeat.class);
 			return notRepeatAnnotation.message();
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.service.AuthorityResourcesService#queryResourceByPlatform(net.wangxj.authority.po.AuthorityResourcesPO)
+	 */
+	@Override
+	public Object queryResourceTreeByPlatform(AuthorityResourcesPO resourcePo) {
+		AuthorityResourcesPO authorityResourcesPO = new AuthorityResourcesPO();
+		authorityResourcesPO.setResourcePlatformUuid(resourcePo.getResourcePlatformUuid());
+		authorityResourcesPO.setResourceLevel(1);
+		authorityResourcesPO.setResourceIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
+		return authorityResourcesDao.hasChildListByCondition(authorityResourcesPO);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.wangxj.authority.service.AuthorityResourcesService#roles(java.lang.String)
+	 */
+	@Override
+	public List<AuthorityResourcesPO> roles(String resourceUuid) {
+		return authorityRoleDao.getRoleByResource(resourceUuid);
 	}
 
 }

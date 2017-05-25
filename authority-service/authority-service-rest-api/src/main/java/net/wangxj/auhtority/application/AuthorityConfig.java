@@ -18,7 +18,7 @@ import com.alibaba.fastjson.support.jaxrs.FastJsonProvider;
 public class AuthorityConfig extends ResourceConfig{
 	
 	public AuthorityConfig(){
-		packages("net.wangxj.authority.service.rest.api,net.wangxj.authority.service.rest.exception");
+		packages("net.wangxj.authority.service.rest.api,net.wangxj.authority.exception");
 		property(CommonProperties.MOXY_JSON_FEATURE_DISABLE, true);
 		register(new FastJsonFeature()).register(FastJsonProvider.class);
 		register(CORSResponseFilter.class);

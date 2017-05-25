@@ -20,5 +20,23 @@ public interface PlatformDao extends IBaseDao<PlatformPO>{
 	 * @return
 	 */
 	Integer delete(PlatformPO po);
+
+	/**
+	 * 搜索分页
+	 * @param search
+	 * @param pageNum
+	 * @param limit
+	 * @param order
+	 * @param sort
+	 * @return
+	 */
+	List<PlatformPO> search(String search, Integer pageNum, Integer limit, String order, String sort);
+
+	/**
+	 * 搜索数量
+	 * @param search
+	 * @return
+	 */
+	Integer searchCount(String search);
 	
 }
