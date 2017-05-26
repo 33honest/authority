@@ -145,7 +145,7 @@ public class AuthorityRoleServiceImpl implements AuthorityRoleService{
 		AuthorityRolePO singleRolePo = (AuthorityRolePO) singlePo;
 		AuthorityRolePO originRolePo = (AuthorityRolePO) originPo;
 		singleRolePo.setRolePlatformUuid(originRolePo.getRolePlatformUuid());
-		List<AuthorityRolePO> repeatResultList = authorityRoleDao.selectListByCondition(singleRolePo);
+		List<AuthorityRolePO> repeatResultList = this.query(singleRolePo);
 		if(repeatResultList == null || repeatResultList.size() == 0){
 			return null;
 		}else if(repeatResultList.size() == 1 && repeatResultList.get(0).getRoleUuid().equals(originRolePo.getRoleUuid())){

@@ -6,6 +6,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
+import javax.ws.rs.QueryParam;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -35,12 +36,14 @@ public class AuthorityUserPO extends PO implements Serializable{
 	@Null(message = "无法识别user_uuid,请严格按照API文档调用" , groups = {AddValidate.class})
 	@Pattern(regexp = RegexConstant.UUID_32 , message = "用户uuid非法" , groups = {EditValidate.class , DeleteValidate.class})
 	@NotBlank(message = "用户uuid为必填值" , groups = {EditValidate.class})
+	@QueryParam("user_uuid")
 	@JSONField(name = "user_uuid")
 	private String userUuid;
     // 登录名 由字母，数字，下划线组合 
 	@Pattern(regexp=RegexConstant.LETTER_NUMBER_UNDERLINE,message="登录名必须由字母数字下划线组合，下划线不可开头与结尾",groups={AddValidate.class,EditValidate.class})
 	@Length(min=2,max=64,message="长度必须在2-64个字符长度",groups={AddValidate.class,EditValidate.class})
 	@NotRepeat(message = "该user_login_name已被注册")
+	@QueryParam("user_login_name")
 	@JSONField(name = "user_login_name")
 	private String userLoginName;
     // 登陆密码 	
@@ -53,12 +56,14 @@ public class AuthorityUserPO extends PO implements Serializable{
 	@Email(regexp=RegexConstant.EMAIL,message="不符合邮箱格式", groups={AddValidate.class,EditValidate.class})
 	@NotBlank(message="邮箱不可为空", groups={AddValidate.class})
 	@NotRepeat(message = "该user_email已被注册")
+	@QueryParam("user_email")
 	@JSONField(name = "user_email")
 	private String userEmail;
     // 用户电话 
 	@Pattern(regexp=RegexConstant.PHONE, message="不符合电话或手机格式", groups={AddValidate.class, EditValidate.class})
 	@NotRepeat(message = "该user_phone已被使用")
 	@JSONField(name = "user_phone")
+	@QueryParam("user_phone")
 	private String userPhone;
     // 用户状态: 已注册未激活: 1 已注册并激活:2 已锁定:3 	
 	@Min(value=1,message="用户状态不合法", groups={AddValidate.class, EditValidate.class})

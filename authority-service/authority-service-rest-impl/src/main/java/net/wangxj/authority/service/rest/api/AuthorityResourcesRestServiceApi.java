@@ -337,7 +337,48 @@ public class AuthorityResourcesRestServiceApi extends AbstractAuthrotiyRestServi
 			rolesResultMap.put("data", authorityResourcesService.roles(resourceUuid));
 			return success(rolesResultMap);
 		}
-		
 	}
+	
+	
+	/**
+	 * 验证重复
+	 * @param resourcePo
+	 * @return
+	 * apidoc------------------------>
+	 * @api {GET} /resources/repeats 验证存在
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X GET 'http://localhost:9000/api/resources/repeats?resource_uuid=72b35fb7612f48eb912f6fccc49b7e2b&resource_name=测试资源&resource_platform_uuid=51f43adfea7045ff8c76b1433110c864&resource_url=/ceshi/ziyuan'
+	 * @apiGroup resources
+	 * @apiParam {String} [resource_uuid] 资源uuid(编辑验证，该字段必须有)
+	 * @apiParam {String} [resource_name] 资源名称
+	 * @apiParam {String} [resource_url] 资源url
+	 * @apiParam {String} resource_platform_uuid 资源所属平台
+	 * @apiParamExample {json} 请求参数示例:
+	 * {
+	 *  "resource_uuid" : "72b35fb7612f48eb912f6fccc49b7e2b",
+	 *  "resource_name" : "测试资源",
+	 *  "resource_platform_uuid" : "51f43adfea7045ff8c76b1433110c864",
+	 *  "resource_url" : "/ceshi/ziyuan"
+	 * }
+	 * @apiError (200) {String} error_message 验证信息
+	 * @apiError (200) {Boolean} is_pass　　是否存在(存在:false，不存在: true)
+	 * @apiSuccessExample {json} 请求成功响应 : 
+	 *									{
+	 *									   "error_message": "该resource_name已存在",
+	 *									   "is_pass": false
+	 *									} 
+	 * @apiUse resource500Response
+	 */
+    @Path("/repeats")
+    @GET
+    public Response repeats(@BeanParam AuthorityResourcesPO resourcePo){
+    	ValidationResult validateResult = authorityResourcesService.validateRepeat(resourcePo);
+    	if(validateResult == null){
+    		validateResult = new ValidationResult();
+    		validateResult.setIsPass(true);
+    		validateResult.setErrorMsg("");
+    	}
+    	return success(validateResult);
+    }
 
 }

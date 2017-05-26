@@ -658,4 +658,51 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 		}
 	}
 	
+	/**
+	 * 验证不重复字段是否重复
+	 * @param platformPo
+	 * @return
+	 * apidoc--------------------->
+	 * @api {GET} /platforms/repeats 验证存在
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X GET 'http://localhost:9000/api/platforms/repeats?platform_uuid=fe178fd0073a4edea94e95a46bab15be&platform_name=权限平台&platform_sign=authority&platform_domain=authority.com'
+	 * @apiGroup platforms
+	 * @apiParam {String} [platform_uuid] 平台uuid(编辑验证该字段必需有)
+	 * @apiParam {String} [platform_name] 平台名
+	 * @apiParam {String} [platform_sign] 平台标识
+	 * @apiParam {String} [platform_domain] 平台域名
+	 * @apiParamExample {json} 请求参数示例:
+	 * {
+	 *  "platform_uuid" : "fe178fd0073a4edea94e95a46bab15be",
+	 *  "platform_name" : "权限平台",
+	 *  "platform_sign" : "authority",
+	 *  "platform_domain" : "authority.com"
+	 * }
+	 * @apiSuccess (200) {String} error_message 验证信息
+	 * @apiSuccess (200) {boolean} is_pass 是否存在(存在:false,不存在:true)
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * {
+	 *	  "error_message": "该平台名已存在",
+	 *	  "is_pass": false
+	 *	}
+	 * @apiError (500) {String} error 错误说明
+	 * @apiErrorExample {json} 错误500响应 :
+	 *									{
+	 *										"error": "服务器内部发生错误
+	 *									}
+	 */
+	@Path("/repeats")
+	@GET
+	public Response repeats(@BeanParam PlatformPO platformPo){
+		ValidationResult validateResult = platformService.validateRepeat(platformPo);
+		if(validateResult == null){
+			validateResult  = new ValidationResult();
+			validateResult.setIsPass(true);
+			validateResult.setErrorMsg("");
+		}
+		return success(validateResult);
+	}
+	
+	
+	
 }

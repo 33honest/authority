@@ -8,6 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
+import javax.ws.rs.QueryParam;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -37,17 +38,20 @@ public class AuthorityResourcesPO extends PO implements Serializable{
 	@NotBlank(message = "资源uuid为必填值" , groups = {EditValidate.class,DeleteValidate.class})
 	@Pattern(regexp=RegexConstant.UUID_32, message="uuid非法", groups={EditValidate.class, DeleteValidate.class})
 	@JSONField(name = "resource_uuid")
+	@QueryParam("resource_uuid")
 	private String resourceUuid;
     // 资源名称 	
 	@Pattern(regexp=RegexConstant.MORETHAN_TWO_CHINESECHAR, message="角色名必须是2-25个汉字", groups={AddValidate.class, EditValidate.class})
 	@NotBlank(message="角色名不可为空", groups={AddValidate.class})
 	@NotRepeat(message = "该resource_name已存在")
 	@JSONField(name = "resource_name")
+	@QueryParam("resource_name")
 	private String resourceName;
     // 资源所在平台uuid 
 	@Pattern(regexp=RegexConstant.UUID_32, message="资源平台非法", groups={AddValidate.class, EditValidate.class})
 	@NotBlank(message="资源平台不可为空", groups={AddValidate.class})
 	@JSONField(name = "resource_platform_uuid")
+	@QueryParam("resource_platform_uuid")
 	private String resourcePlatformUuid;
     // 资源状态: 未激活：3 已激活：1 已注销：2
 	@Max(value=3, message="资源状态非法", groups={AddValidate.class, EditValidate.class})
@@ -61,6 +65,7 @@ public class AuthorityResourcesPO extends PO implements Serializable{
 	@NotBlank(message="资源url不可为空", groups={AddValidate.class})
 	@NotRepeat(message = "该resource_url已存在")
 	@JSONField(name = "resource_url")
+	@QueryParam("resource_url")
 	private String resourceUrl;
     // 资源层级： 资源分为: 1:系统 ，2:菜单3：菜单下资源。。。 	
 	@Max(value=10, message="资源层级非法", groups={AddValidate.class, EditValidate.class})

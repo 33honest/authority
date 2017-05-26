@@ -7,6 +7,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
+import javax.ws.rs.QueryParam;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -38,12 +40,14 @@ public class PlatformPO extends PO implements Serializable{
 	@NotBlank(message = "平台uuid为必填项" , groups = {EditValidate.class,DeleteValidate.class})
 	@Null(message = "无法识别platform_uuid,请严格按照API文档调用" , groups = AddValidate.class)
 	@JSONField(name = "platform_uuid")
-	private String platformUuid;
+	@QueryParam("platform_uuid")
     // 平台名
+	private String platformUuid;
 	@Pattern(regexp=RegexConstant.MORETHAN_TWO_CHINESECHAR, message="平台名必须是2-25个汉字", groups={AddValidate.class, EditValidate.class})
 	@NotBlank(message="平台名是必填项",groups={AddValidate.class})
 	@Null(message = "无法识别platform_name,请严格按照API文档调用" , groups = {DeleteValidate.class})
 	@NotRepeat(message = "该平台名已存在")
+	@QueryParam("platform_name")
 	@JSONField(name= "platform_name")
 	private String platformName;
     // 平台标识
@@ -51,6 +55,7 @@ public class PlatformPO extends PO implements Serializable{
 	@NotBlank(message="平台标识为必填项", groups={AddValidate.class})
 	@Null(message = "无法识别platform_sign,请严格按照API文档调用" , groups = {DeleteValidate.class})
 	@NotRepeat(message = "该平台标识已存在")
+	@QueryParam("platform_sign")
 	@JSONField(name = "platform_sign")
 	private String platformSign;
     // 平台域名
@@ -59,6 +64,7 @@ public class PlatformPO extends PO implements Serializable{
 	@NotBlank(message="平台域名为必填值", groups={AddValidate.class})
 	@Null(message = "无法识别platform_domain,请严格按照API文档调用" , groups = {DeleteValidate.class})
 	@NotRepeat(message = "该平台域名已存在")
+	@QueryParam("platform_domain")
 	@JSONField(name = "platform_domain")
 	private String platformDomainName;
     // 添加时间 yyyy-MM-dd HH:mm:ss

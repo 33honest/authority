@@ -365,7 +365,47 @@ public class AuthorityRoleRestServiceApi extends AbstractAuthrotiyRestService{
 			resourceMap.put("data", authorityRoleService.getResources(roleUuid));
 			return success(resourceMap);
 		}
+	}
+	
+	
+	/**
+	 * 验证重复
+	 * @param rolePo
+	 * @return
+	 * apidoc--------------------------->
+	 * @api {GET} /roles/repeats 验证重复
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X GET 'http://localhost:9000/api/roles/repeats?role_uuid=2be1d2b183f84483a8f9762a3da2a4c9&role_name=管理员&role_platform_uuid=fe178fd0073a4edea94e95a46bab15be'
+	 * @apiGroup roles
+	 * @apiParam {String} [role_uuid] 角色uuid(编辑验证该字段必须有)
+	 * @apiParam {String} [role_name] 角色名
+	 * @apiParam {String} role_platform_uuid 角色所属平台
+	 * @apiParamExample {json} 请求参数示例:
+	 * {
+	 *  "role_uuid" : "2be1d2b183f84483a8f9762a3da2a4c9",
+	 *  "role_name" : "管理员",
+	 *  "role_platform_uuid" : "fe178fd0073a4edea94e95a46bab15be"
+	 * }
+	 * @apiError (200) {String} error_message 验证信息
+	 * @apiError (200) {Boolean} is_pass　　是否存在(存在:false，不存在: true)
+	 * @apiSuccessExample {json} 请求成功响应 : 
+	 *									{
+	 *									   "error_message": "该role_name已存在",
+	 *									   "is_pass": false
+	 *									} 
+	 * @apiUse role500Response
+	 */
+	@Path("/repeats")
+	@GET
+	public Response repeats(@BeanParam AuthorityRolePO rolePo){
+		ValidationResult validateResult = authorityRoleService.validateRepeat(rolePo);
+		if(validateResult == null){
+			validateResult = new ValidationResult();
+			validateResult.setIsPass(false);
+			validateResult.setErrorMsg("");
+		}
 		
+		return success(validateResult);
 	}
 
 }

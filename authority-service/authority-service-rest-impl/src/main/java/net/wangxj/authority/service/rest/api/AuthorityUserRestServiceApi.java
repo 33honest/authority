@@ -495,5 +495,46 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 			return success(authorityUserService.query(userPo).get(0));
 		}
 	}
+	
+	/**
+	 * 验证存在
+	 * @param userPo
+	 * @return
+	 * apidoc------------------->
+	 * @api {GET} /users/repeats 验证存在
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X GET 'http://localhost:9000/api/users/repeats?user_uuid=de0c7b2480494fda98db82f7a4707649&user_login_name=admin&user_email=1416236046@qq.com&user_phone=13811255489'
+	 * @apiGroup users
+	 * @apiParam {String} [user_uuid] 用户uuid(编辑验证该字段为必带)
+	 * @apiParam {String} [user_login_name] 用户登录名
+	 * @apiParam {String} [user_email] 邮箱
+	 * @apiParam {String} [user_phone] 电话
+	 * @apiParamExample {json} 请求参数示例:
+	 * {
+	 *  "user_uuid" : "de0c7b2480494fda98db82f7a4707649",
+	 *  "user_login_name" : "admin",
+	 *  "user_email" : "1416236046@qq.com",
+	 *  "user_phone" : "13811255489"
+	 * }
+	 * @apiSuccess (200) {String} error_message 验证信息
+	 * @apiSuccess (200) {boolean} is_pass 是否存在(存在:false,不存在:true)
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * {
+	 *	  "error_message": "该user_login_name已被注册",
+	 *	  "is_pass": false
+	 *	}
+	 *@apiUse user500Response
+	 */
+	@Path("/repeats")
+	@GET
+	public Response repeats(@BeanParam AuthorityUserPO userPo){
+		ValidationResult validateResult = authorityUserService.validateRepeat(userPo);
+		if(validateResult == null){
+			validateResult = new ValidationResult();
+			validateResult.setIsPass(true);
+			validateResult.setErrorMsg("");
+		}
+		return success(validateResult);
+	}
 
 }

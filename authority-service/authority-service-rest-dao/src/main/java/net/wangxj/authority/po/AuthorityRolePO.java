@@ -7,6 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
+import javax.ws.rs.QueryParam;
 
 import org.apache.commons.collections4.sequence.EditCommand;
 import org.hibernate.validator.constraints.NotBlank;
@@ -36,11 +37,13 @@ public class AuthorityRolePO extends PO implements Serializable{
 	@Null(message = "无法识别role_uuid,请样个按照API文档调用" , groups = {AddValidate.class})
 	@NotBlank(message = "role_uuid为必填值" , groups = {EditValidate.class, DeleteValidate.class})
 	@JSONField(name = "role_uuid")
+	@QueryParam("role_uuid")
 	private String roleUuid;
     // 角色名称 	
 	@Pattern(regexp = RegexConstant.TWO_TO_SIXTEEN_CHINESECHAR, message = "角色名称必须为2-16个汉字组合字符串", groups = {AddValidate.class,EditValidate.class})
 	@NotBlank(message = "角色名称不可为空", groups = {AddValidate.class})
 	@NotRepeat(message = "该role_name已存在")
+	@QueryParam("role_name")
 	@JSONField(name = "role_name")
 	private String roleName;
     // 角色状态: 已添加：1 已激活: 	2
@@ -75,6 +78,7 @@ public class AuthorityRolePO extends PO implements Serializable{
 	@Pattern(regexp = RegexConstant.UUID_32, message = "平台不合法" , groups = {AddValidate.class, EditValidate.class})
 	@NotBlank(message = "平台不合法", groups = {AddValidate.class})
 	@JSONField(name = "role_platform_uuid")
+	@QueryParam("role_platform_uuid")
 	private String rolePlatformUuid;
 	//编辑人
 	@Pattern(regexp = RegexConstant.UUID_32, message = "编辑人不合法", groups = {EditValidate.class})
