@@ -10,6 +10,10 @@
   <description>war包</description>
   
   <dependencies>
+   <dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+	</dependency>
   	<dependency>
   		<groupId>net.wangxj.authority</groupId>
   		<artifactId>authority-service-rest-impl</artifactId>
@@ -26,8 +30,17 @@
          <artifactId>jetty-webapp</artifactId>
          <version>${jetty.version}</version>
      </dependency>
-    
-     
+    <!-- jersey test  -->
+     <dependency>
+        <groupId>org.glassfish.jersey.test-framework</groupId>
+        <artifactId>jersey-test-framework-core</artifactId>
+        <scope>test</scope>
+     </dependency>
+     <dependency>
+        <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+        <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+        <scope>test</scope>
+     </dependency>
   </dependencies>
    <build>
    	<finalName>authority-service</finalName>

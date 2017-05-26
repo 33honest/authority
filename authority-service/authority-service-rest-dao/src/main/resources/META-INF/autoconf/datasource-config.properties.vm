@@ -1,7 +1,0 @@
-database.url			   	=${database_url}						    
-database.username			   	=${database_username}							    
-database.password		   	=${database_password}						    
-database.maxActive	   	=${database_maxActive}			    
-database.validateQuery   	=${database_validateQuery}				
-                                                            
-database.aop.point.expression		=${database_aop_point_expression}	

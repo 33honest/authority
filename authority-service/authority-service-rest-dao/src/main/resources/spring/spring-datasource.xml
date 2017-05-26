@@ -16,17 +16,6 @@
 							http://www.springframework.org/schema/tx
 							http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
-	<!-- 数据库常量配置 -->
-	<bean id="datasourceConfig"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="order" value="1" />
-		<property name="ignoreUnresolvablePlaceholders" value="true" />
-		<property name="locations">
-			<list>
-				<value>classpath:config/datasource-config.properties</value>
-			</list>
-		</property>
-	</bean>
 
 	<!-- DataSource定义。 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" 
