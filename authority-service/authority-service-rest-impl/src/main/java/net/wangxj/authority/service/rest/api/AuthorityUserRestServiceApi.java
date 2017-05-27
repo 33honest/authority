@@ -492,7 +492,8 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 		}else{
 			AuthorityUserPO userPo = new AuthorityUserPO();
 			userPo.setUserUuid(userUuid);
-			return success(authorityUserService.query(userPo).get(0));
+			List<AuthorityUserPO> userList = authorityUserService.query(userPo);
+			return success(userList.size() == 1 ? userList.get(0) : null);
 		}
 	}
 	

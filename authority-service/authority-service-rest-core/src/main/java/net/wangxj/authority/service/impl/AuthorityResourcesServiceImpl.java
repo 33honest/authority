@@ -136,11 +136,15 @@ public class AuthorityResourcesServiceImpl implements AuthorityResourcesService{
 		//在同一平台下不重复
 		singleResourcePo.setResourcePlatformUuid(originResourcePo.getResourcePlatformUuid());
 		List<AuthorityResourcesPO> singleFieldQueryResult = authorityResourcesDao.selectListByCondition(singleResourcePo);
+		Integer total = this.getCount(new AuthorityResourcesPO());
 		if(singleFieldQueryResult == null || singleFieldQueryResult.size() == 0){
 			return null;
 		}else if(singleFieldQueryResult.size() == 1 && singleFieldQueryResult.get(0).getResourceUuid().equals(originResourcePo.getResourceUuid())){
 			return null;
-		}else{
+		}else if(singleFieldQueryResult != null && singleFieldQueryResult.size() == total && total != 1){
+			return null;
+		}
+		else{
 			Field annotatedNotRepeatFiled = AuthorityResourcesPO.class.getDeclaredField(fieldName);
 			NotRepeat notRepeatAnnotation = annotatedNotRepeatFiled.getAnnotation(NotRepeat.class);
 			return notRepeatAnnotation.message();

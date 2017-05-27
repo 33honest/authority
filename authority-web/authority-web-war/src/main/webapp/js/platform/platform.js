@@ -21,41 +21,41 @@ function initTable() {
 	                valign: 'middle'
 	            },
                 {
-                    field: 'platformUuid',
+                    field: 'platform_uuid',
                     title: 'PlatformUUID',
                     sortable: true,
                     align: 'center'
                 }, {
-                    field: 'platformName',
+                    field: 'platform_name',
                     title: '平台名',
                     sortable: true,
                     align: 'center',
                 }, {
-                	field: 'platformSign',
+                	field: 'platform_sign',
                 	title: '平台标识',
                 	sortable: true,
                 	align: 'center',
                 },{
-                	field: 'platformDomainName',
+                	field: 'platform_domain',
                 	title: '平台域名',
                 	sortable: true,
                 	align: 'center',
                 },{
-                	field: 'platformAddTime',
+                	field: 'platform_add_time',
                 	title: '增加时间',
                 	sortable: true,
                 	align: 'center'
                 },{
-                	field: 'platformEditTime',
+                	field: 'platform_edit_time',
                 	title: '修改时间',
                 	sortable: true,
                 	align: 'center'
                 },{
-                	field: 'platformAddByName',
+                	field: 'platform_add_by_name',
                 	title: '增加人',
                 	align: 'center'
                 },{
-                	field: 'platformStatusName',
+                	field: 'platform_status_name',
                 	title: '平台状态',
                 	align: 'center',
                 }, {
@@ -79,21 +79,21 @@ function initTable() {
         
 function getIdSelections() {
     return $.map($table.bootstrapTable('getSelections'), function (row) {
-        return row.platformUuid;
+        return row.platform_uuid;
     });
 }
         
 //详情
 function detailFormatter(index, row) {
     var html = [];
-    html.push('<p><b>' + 'PlatformUuid' + ':</b> ' + row.platformUuid + '</p>');
-    html.push('<p><b>' + '平台名' + ':</b> ' + row.platformName + '</p>');
-    html.push('<p><b>' + '平台标识' + ':</b> ' + row.platformSign + '</p>');
-    html.push('<p><b>' + '平台域名' + ':</b> ' + row.platformDomainName + '</p>');
-    html.push('<p><b>' + '增加时间' + ':</b> ' + row.platformAddTime + '</p>');
-    html.push('<p><b>' + '修改时间' + ':</b> ' + row.platformEditTime + '</p>');
-    html.push('<p><b>' + '增加人' + ':</b> ' + row.platformAddByName+ '</p>');
-    html.push('<p><b>' + '平台状态' + ':</b> ' + row.platformStatusName+ '</p>');
+    html.push('<p><b>' + 'PlatformUuid' + ':</b> ' + row.platform_uuid + '</p>');
+    html.push('<p><b>' + '平台名' + ':</b> ' + row.platform_name + '</p>');
+    html.push('<p><b>' + '平台标识' + ':</b> ' + row.platform_sign + '</p>');
+    html.push('<p><b>' + '平台域名' + ':</b> ' + row.platform_domain + '</p>');
+    html.push('<p><b>' + '增加时间' + ':</b> ' + row.platform_add_time + '</p>');
+    html.push('<p><b>' + '修改时间' + ':</b> ' + row.platform_edit_time + '</p>');
+    html.push('<p><b>' + '增加人' + ':</b> ' + row.platform_add_by_name+ '</p>');
+    html.push('<p><b>' + '平台状态' + ':</b> ' + row.platform_status_name+ '</p>');
     return html.join('');
 }
 //操作:删除,编辑
@@ -118,11 +118,11 @@ window.operateEvents = {
         $("#addPage").attr("sign","edit");
         $("#addPage").modal("show");
         if($("#platformuuid").length <= 0){
-        	uuidInput = '<input id="platformuuid" name="platformUuid" class="form-control" type="hidden" value="'+row.platformUuid+'">';
+        	uuidInput = '<input id="platformuuid" name="platform_uuid" class="form-control" type="hidden" value="'+row.platform_uuid+'">';
             $("#addForm").append(uuidInput);
         }
         else{
-        	$("#platformuuid").val(row.platformUuid);
+        	$("#platformuuid").val(row.platform_uuid);
         }
         $.each(row, function(key, value){
         	$("#"+key).val(value);
@@ -130,7 +130,7 @@ window.operateEvents = {
     },
     'click .remove': function (e, value, row, index) {
     		var param = {};
-    		param.platformUuid = row.platformUuid;
+    		param.platform_uuid = row.platform_uuid;
     	    swal({
     	        title: "您确定要删除这条信息吗",
     	        text: "删除后将无法恢复，请谨慎操作！",
@@ -181,19 +181,20 @@ function validate(){
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	validator = $("#addForm").validate({
 			    rules: {
-			    	platformName:{
+			    	platform_name:{
 			    	 	required:true,
 			    	 	checkPlatName: true,
+			    	 	checkPlatformNameRepeat: true,
 			    	 	rangelength:[2,25],
 			    	 	
 			    	},
-			    	platformSign:{
+			    	platform_sign:{
 			    		required: true,
 			    		checkPlatSign: true,
 			    		rangelength:[2,32],
 			    		checkSignRepeat: true
 			    	},
-			    	platformDomainName:{
+			    	platform_domain:{
 			    		required: true,
 			    		checkDomain: true,
 			    		checkDomainRepeat: true
@@ -201,15 +202,15 @@ function validate(){
 			       
 			    },
 			    messages: {
-			    	platformName:{
+			    	platform_name:{
 			    		required: icon+"平台名是必填项",
 			    		rangelength:icon+"长度必须在2-25个字符"
 			    	},
-			    	platformSign:{
+			    	platform_sign:{
 			    		required: icon+"平台标识是必填项",
 			    		rangelength:icon+"长度必须在2-32个字符"
 			    	},
-			    	platformDomainName:{
+			    	platform_domain:{
 			    		required: icon+"平台域名是必填项"
 			    	}
 			    },
@@ -217,8 +218,9 @@ function validate(){
 			    	$(form).ajaxSubmit({
 			    		type: "POST",
 			    		dataType: "json",
-			    		success: function(data){
-			    			if(data.code == 0 && data.resObject == 1){
+			    		success: function(res){
+			    			var data = $.parseJSON(res);
+			    			if(data.success){
 			    				$("#addPage").modal('hide');
 			    				$table.bootstrapTable('refresh');
 			    				if($("#addPage").attr("sign")  == 'add')
@@ -255,12 +257,12 @@ function validate(){
 			    	});
 			    }
 			});
-
-	$.validator.addMethod("checkDomainRepeat",function(value,element,params){  
+	
+	$.validator.addMethod("checkPlatformNameRepeat",function(value,element,params){  
 		var param = {};
-		param.platformDomainName = value;
+		param.platform_name = value;
 		if($("#platformuuid").length > 0){
-			param.platformUuid = $("#platformuuid").val();
+			param.platform_uuid = $("#platformuuid").val();
 		}
 		var result;
 		$.ajax({  
@@ -269,7 +271,8 @@ function validate(){
 	       data: param,
 	       async:false,
 	       success: function (data) {  
-	    	   if(typeof data == 'boolean'){
+	    	   var data = $.parseJSON(data);
+	    	   if(typeof data == "boolean"){
 	    		  result=data;
 	    	   }
 	    	   else{
@@ -289,14 +292,51 @@ function validate(){
 				});
 	       }  
 	   });  
-		return this.optional(element)||!result;  
+		return this.optional(element) || result;  
+    },icon+"已存在该平台名");  
+
+	$.validator.addMethod("checkDomainRepeat",function(value,element,params){  
+		var param = {};
+		param.platform_domain = value;
+		if($("#platformuuid").length > 0){
+			param.platform_uuid = $("#platformuuid").val();
+		}
+		var result;
+		$.ajax({  
+	       url: "/platform/isRepeat",  
+	       dataType: "json", 
+	       data: param,
+	       async:false,
+	       success: function (data) {  
+	    	   var data = $.parseJSON(data);
+	    	   if(typeof data == "boolean"){
+	    		  result=data;
+	    	   }
+	    	   else{
+	    		   swal({
+	 					title: "",
+	 					text: "发生错误",
+	 					type: "error"
+	 				});
+	    		   return;
+	    	   }
+	       },  
+	       error: function (XMLHttpRequest, textStatus, errorThrown) {  
+	    	   swal({
+					title: "",
+					text: "发生错误",
+					type: "error"
+				});
+	       }  
+	   });  
+		return this.optional(element) || result;  
     },icon+"已存在该域名");  
 	
 	$.validator.addMethod("checkSignRepeat",function(value,element,params){  
 		var param = {};
-		param.platformSign = value;
+		param.platform_sign = value;
 		if($("#platformuuid").length > 0){
-			param.platformUuid = $("#platformuuid").val();
+			param.platform_uuid = $("#platformuuid").val();
 		}
 		var result;
 		$.ajax({  
@@ -305,7 +345,8 @@ function validate(){
 		       data: param,
 		       async:false,
 		       success: function (data) {  
-		    	   if(typeof data == 'boolean'){
+		    	   var data = $.parseJSON(data);
+		    	   if(typeof data == "boolean"){
 		    		   result=data;
 		    	   }else{
 		    		   swal({
@@ -324,7 +365,7 @@ function validate(){
 	 				});
 		       }  
 		   });  
-		return this.optional(element)||!result;  
+		return this.optional(element) || result;  
 	    },icon+"已存在该平台标识");  
 	    
 	$.validator.addMethod("checkPlatName",function(value,element,params){  
@@ -350,7 +391,8 @@ function initStatus(){
 	$.ajax({  
 	       url: "/platform/getStatusList",  
 	       dataType: "json",  
-	       success: function (data) {  
+	       success: function (res) {  
+	    	  var data = $.parseJSON(res);
 	    	   $.each(data, function (key, value) {  
 	    	        $("#platformStatus").append("<option value="+value+">" +key + "</option>");  
 	    	    });  

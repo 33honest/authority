@@ -154,10 +154,14 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 		AuthorityUserPO userPo = (AuthorityUserPO) singlePo;
 		AuthorityUserPO originUserPo = (AuthorityUserPO) originPo;
 		List<AuthorityUserPO> listUserPo = this.query(userPo);
+		Integer total = this.getCount(new AuthorityUserPO());
 		if(listUserPo == null || listUserPo.size() == 0 ){
 			return null;
 		}
 		else if(listUserPo.size() == 1 && listUserPo.get(0).getUserUuid().equals(originUserPo.getUserUuid())){
+			return null;
+		}
+		else if(listUserPo != null && listUserPo.size() == total && total != 1){
 			return null;
 		}
 		else{

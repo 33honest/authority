@@ -42,13 +42,12 @@ public class PlatformTest /*extends JerseyTest*/{
 	}*/
 	
 	@Test
-	public void testAddPost(){
-		
+	public void testGet(){
 		ResourceConfig resourceConfig = new ResourceConfig();
 		resourceConfig.property(CommonProperties.MOXY_JSON_FEATURE_DISABLE, true);
 		resourceConfig.register(new FastJsonFeature()).register(FastJsonProvider.class);
 		
-		Client newClient = ClientBuilder.newClient();
+		Client newClient = ClientBuilder.newClient(resourceConfig);
 		WebTarget webtarget = newClient.target(BASE_URI).path("platforms").queryParam("search", "").queryParam("page_number", 1).queryParam("limit", 3).
 				 queryParam("order", "desc").queryParam("sort", "platform_uuid");
 		Builder invocationBuilder = webtarget.request(MediaType.APPLICATION_JSON);
@@ -57,6 +56,12 @@ public class PlatformTest /*extends JerseyTest*/{
 //		String readEntity = response.readEntity(String.class);
 		Map readEntity = response.readEntity(Map.class);
 		System.out.println(readEntity);
+	}
+	
+	@Test
+	public void testAddPost(){
+		
+		
 		
 		
 		

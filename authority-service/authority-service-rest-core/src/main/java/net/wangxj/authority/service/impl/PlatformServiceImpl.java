@@ -70,7 +70,7 @@ public class PlatformServiceImpl implements PlatformService{
 		resourcePo.setResourceUuid(resourceUuid);
 		resourcePo.setResourcePlatformUuid(platformPo.getPlatformUuid());
 		resourcePo.setResourceStatus(DataDictionaryConstant.RESOURCE_STATUS_ACTIVE_VALUE);
-		resourcePo.setResourceUrl("");
+		resourcePo.setResourceUrl("#");
 		logger.debug("为平台--" + platformPo.getPlatformName() + "--添加一级资源--->" + resourcePo);
 		Integer count = authorityResourcesDao.insert(resourcePo);
 		logger.debug("添加平台开始:---->" + platformPo);
@@ -178,10 +178,15 @@ public class PlatformServiceImpl implements PlatformService{
 		PlatformPO platformPo = (PlatformPO) singlePo;
 		PlatformPO originPlatformPo = (PlatformPO) originPo;
 		List<PlatformPO> existListPo = this.query(platformPo);
+		Integer total = this.getCount(new PlatformPO());
+		
 		if(existListPo == null || existListPo.size() == 0){
 			return null;
 		}
 		else if(existListPo.size() == 1 && existListPo.get(0).getPlatformUuid().equals(originPlatformPo.getPlatformUuid())){
+			return null;
+		}
+		else if(existListPo!= null && total == existListPo.size() && total != 1){
 			return null;
 		}
 		else{

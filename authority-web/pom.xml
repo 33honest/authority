@@ -14,7 +14,6 @@
   
   <modules>
 	<module>authority-web-resources</module>
-	<module>authority-web-service</module>
 	<module>authority-web-war</module>
   </modules>
 </project>

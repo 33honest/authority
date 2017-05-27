@@ -8,8 +8,6 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">   
                          
 	<import resource="classpath:spring/applicationContext.xml"/>
- 	<import resource="classpath*:/dubbo_use.xml" />
- 	
 	
 	<!--配置变量注入 -->
 	<bean id="propertyOpenConfigurer"
@@ -26,15 +24,25 @@
  	<context:component-scan base-package="${component.scan.package}"/> 
     <!-- 注解支持 -->
 	<mvc:annotation-driven>
-	    <mvc:message-converters>
-	        <bean class="org.springframework.http.converter.StringHttpMessageConverter">
-	            <property name="supportedMediaTypes">
-	                <list>
-	                    <value>application/json;charset=UTF-8</value>
-	                </list>
-	            </property>
-	        </bean>
-	    </mvc:message-converters>
+	    <mvc:message-converters register-defaults="true">
+		    <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">  
+		      <property name="supportedMediaTypes">
+		      	<list>  
+                    <value>text/html;charset=UTF-8</value>  
+                    <value>application/json</value>  
+                </list> 
+		      </property>
+		      <!--设置fastjson特性-->
+		      <property name="features">
+		        <array>
+		          <!--设置null值也要输出，fastjson默认是关闭的-->
+		          <value>WriteMapNullValue</value>
+		          <!--设置使用文本方式输出日期，fastjson默认是long-->
+		          <value>WriteDateUseDateFormat</value>
+		        </array>
+		      </property>
+		    </bean>
+	  </mvc:message-converters>
 	</mvc:annotation-driven>
 	<!-- <mvc:default-servlet-handler/> -->
 	   <mvc:resources location="/img/" mapping="/img/**"/>        
