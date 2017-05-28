@@ -73,7 +73,9 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	public Integer update(AuthorityUserPO authorityUserPo) throws Exception {
 		try {
 			String userLoginPwd = authorityUserPo.getUserLoginPwd();
-			authorityUserPo.setUserLoginPwd(PBKDF2SHA1.generateStorngPasswordHash(userLoginPwd));
+			if(userLoginPwd != null && !"".equals(userLoginPwd)){
+				authorityUserPo.setUserLoginPwd(PBKDF2SHA1.generateStorngPasswordHash(userLoginPwd));
+			}
 		} catch (Exception e) {
 			logger.debug("加密失败", e);
 			throw e;
@@ -154,14 +156,10 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 		AuthorityUserPO userPo = (AuthorityUserPO) singlePo;
 		AuthorityUserPO originUserPo = (AuthorityUserPO) originPo;
 		List<AuthorityUserPO> listUserPo = this.query(userPo);
-		Integer total = this.getCount(new AuthorityUserPO());
 		if(listUserPo == null || listUserPo.size() == 0 ){
 			return null;
 		}
 		else if(listUserPo.size() == 1 && listUserPo.get(0).getUserUuid().equals(originUserPo.getUserUuid())){
-			return null;
-		}
-		else if(listUserPo != null && listUserPo.size() == total && total != 1){
 			return null;
 		}
 		else{

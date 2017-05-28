@@ -40,33 +40,7 @@
 //
 //	@Override
 //	public String getPageList(String jsonStr) {
-//		
-//		JSONObject jsonObj = JSONObject.parseObject(jsonStr);
-//		String order = jsonObj.getString("order");
-//		Integer limit = jsonObj.getInteger("limit");
-//		Integer offset = jsonObj.getInteger("offset");
-//		String sort = jsonObj.getString("sort");
-//		
-//		AuthorityRoleDTO roleDto = new AuthorityRoleDTO();
-//		Integer pageNum = offset/limit + 1;
-//		Integer page =  0;
-//		Integer count = 0;
-//		String jsonString = "[]";
-//		//条件查询
-//		Response<AuthorityRoleDTO> pageListResponse = authorityRoleShareService.queryPageListByCondition(roleDto, pageNum, limit, order, sort);
-//		Response<Integer> countResponse = authorityRoleShareService.getCountByCondition(roleDto, true);
-//		logger.debug(pageListResponse.getMessage());
-//		if(pageListResponse.getCode() == 0L && countResponse.getCode() == 0L){
-//			List<AuthorityRoleDTO> data = pageListResponse.getData();
-//			count = countResponse.getResObject();
-//			page = count/limit + 1;
-//			JSONObject json = new JSONObject();
-//			json.put("rows", data);
-//			json.put("total", count);
-//			json.put("page", page);
-//			jsonString = JSON.toJSONString(json);
-//		}
-//		return jsonString;
+
 //	}
 //
 //	@Override
@@ -172,15 +146,14 @@
 //
 //	@Override
 //	public String getPlatformAndRoleStatus() {
-//		List<PlatformDTO> platformList = platformShareService.queryListByCondition(new PlatformDTO(), true).getData();
-//		Map<String, Map> platformAndRoleStatu = new HashMap<>();
-//		Map<String, String> platformMap = new HashMap<>();
-//		for (PlatformDTO platformDTO : platformList) {
-//			platformMap.put(platformDTO.getPlatformName(), platformDTO.getPlatformUuid());
-//		}
-//		platformAndRoleStatu.put("platform", platformMap);
-//		platformAndRoleStatu.put("roleStatus", DataDictionaryConstant.roleStatusKeyValueMap);
-//		return JSONObject.toJSONString(platformAndRoleStatu);
+		List<PlatformDTO> platformList = platformShareService.queryListByCondition(new PlatformDTO(), true).getData();
+		Map<String, Map> platformAndRoleStatu = new HashMap<>();
+		Map<String, String> platformMap = new HashMap<>();
+		for (PlatformDTO platformDTO : platformList) {
+			platformMap.put(platformDTO.getPlatformName(), platformDTO.getPlatformUuid());
+		}
+		
+		return JSONObject.toJSONString(platformAndRoleStatu);
 //	}
 //
 //	@Override

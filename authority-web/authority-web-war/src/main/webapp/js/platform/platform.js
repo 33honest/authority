@@ -117,12 +117,12 @@ window.operateEvents = {
         $("#save").text("修改");
         $("#addPage").attr("sign","edit");
         $("#addPage").modal("show");
-        if($("#platformuuid").length <= 0){
-        	uuidInput = '<input id="platformuuid" name="platform_uuid" class="form-control" type="hidden" value="'+row.platform_uuid+'">';
+        if($("#platform_uuid").length <= 0){
+        	uuidInput = '<input id="platform_uuid" name="platform_uuid" class="form-control" type="hidden" value="'+row.platform_uuid+'">';
             $("#addForm").append(uuidInput);
         }
         else{
-        	$("#platformuuid").val(row.platform_uuid);
+        	$("#platform_uuid").val(row.platform_uuid);
         }
         $.each(row, function(key, value){
         	$("#"+key).val(value);
@@ -145,8 +145,9 @@ window.operateEvents = {
 			    	  	       url: "/platform/delete",  
 			    	  	       dataType: "json", 
 			    	  	       data: param,
-			    	  	       success: function (data) {  
-			    	  	    	  if(data.code == 0 && data.resObject == 1){
+			    	  	       success: function (res) {  
+			    	  	    	  var data = $.parseJSON(res);
+			    	  	    	  if(data.success){
 			    	  	    		  	$table.bootstrapTable('refresh');
 			    	  					swal({
 			    	 	    					title: "",
@@ -261,8 +262,8 @@ function validate(){
 	$.validator.addMethod("checkPlatformNameRepeat",function(value,element,params){  
 		var param = {};
 		param.platform_name = value;
-		if($("#platformuuid").length > 0){
-			param.platform_uuid = $("#platformuuid").val();
+		if($("#platform_uuid").length > 0){
+			param.platform_uuid = $("#platform_uuid").val();
 		}
 		var result;
 		$.ajax({  
@@ -298,8 +299,8 @@ function validate(){
 	$.validator.addMethod("checkDomainRepeat",function(value,element,params){  
 		var param = {};
 		param.platform_domain = value;
-		if($("#platformuuid").length > 0){
-			param.platform_uuid = $("#platformuuid").val();
+		if($("#platform_uuid").length > 0){
+			param.platform_uuid = $("#platform_uuid").val();
 		}
 		var result;
 		$.ajax({  
@@ -335,8 +336,8 @@ function validate(){
 	$.validator.addMethod("checkSignRepeat",function(value,element,params){  
 		var param = {};
 		param.platform_sign = value;
-		if($("#platformuuid").length > 0){
-			param.platform_uuid = $("#platformuuid").val();
+		if($("#platform_uuid").length > 0){
+			param.platform_uuid = $("#platform_uuid").val();
 		}
 		var result;
 		$.ajax({  
@@ -387,14 +388,14 @@ function validate(){
 
 //初始化下拉列表
 function initStatus(){
-	$("#platformStatus").html("");
+	$("#platform_status").html("");
 	$.ajax({  
 	       url: "/platform/getStatusList",  
 	       dataType: "json",  
 	       success: function (res) {  
 	    	  var data = $.parseJSON(res);
 	    	   $.each(data, function (key, value) {  
-	    	        $("#platformStatus").append("<option value="+value+">" +key + "</option>");  
+	    	        $("#platform_status").append("<option value="+value+">" +key + "</option>");  
 	    	    });  
 	       },  
 	       error: function (XMLHttpRequest, textStatus, errorThrown) {  
@@ -424,15 +425,16 @@ $(function () {
 	    $("#save").text("保存");
 	    $("#addPage").attr("sign","add");
 	    $("#addPage").modal("show");
-	    if($("#platformuuid").length > 0){
-	    	$("#platformuuid").remove();
+	    if($("#platform_uuid").length > 0){
+	    	$("#platform_uuid").remove();
         }
-	    $("#platformName").val("");
-	    $("#platformSign").val("");
-	    $("#platformSign").attr("disabled",false);
-	    $("#platformDomainName").val("");
-	    $("#platformDomainName").attr("disabled",false);
-	    $("#platformStatus").val(3);
+	    $("#platform_name").val("");
+	    $("#platform_name").attr("disabled",false);
+	    $("#platform_sign").val("");
+	    $("#platform_sign").attr("disabled",false);
+	    $("#platform_domain").val("");
+	    $("#platform_domain").attr("disabled",false);
+	    $("#platform_status").val(3);
    });
    $remove.on("click", function(){
 	   swal({
@@ -451,8 +453,9 @@ $(function () {
 					       dataType: "json",  
 					       contentType:"application/json",
 					       data: JSON.stringify(selections), 
-					       success: function (data) {  
-					    	  if(data.code == 0 && data.resObject == selections.length){
+					       success: function (res) { 
+					    	  var data = $.parseJSON(res);
+					    	  if(data.success){
 					    		  $table.bootstrapTable('refresh');
 					    		  swal({
 					    			  title: "",

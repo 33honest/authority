@@ -95,25 +95,25 @@
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台名：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="platformName" name="platform_name" class="form-control" type="text"/>
+	                                    <input id="platform_name" name="platform_name" class="form-control" type="text"/>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台标识：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="platformSign" name="platform_sign" class="form-control" type="text"/>
+	                                    <input id="platform_sign" name="platform_sign" class="form-control" type="text"/>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台域名：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="platformDomainName" name="platform_domain" class="form-control" type="text"/>
+	                                    <input id="platform_domain" name="platform_domain" class="form-control" type="text"/>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">平台状态：</label>
 	                                <div class="col-sm-6">
-	                                   <select class="form-control" id="platformStatus" name="platform_status"></select> 
+	                                   <select class="form-control" id="platform_status" name="platform_status"></select> 
 	                                </div>
 	                            </div>
 	                        </form>

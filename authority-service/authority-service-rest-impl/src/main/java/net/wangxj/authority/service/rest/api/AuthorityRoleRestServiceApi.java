@@ -401,7 +401,7 @@ public class AuthorityRoleRestServiceApi extends AbstractAuthrotiyRestService{
 		ValidationResult validateResult = authorityRoleService.validateRepeat(rolePo);
 		if(validateResult == null){
 			validateResult = new ValidationResult();
-			validateResult.setIsPass(false);
+			validateResult.setIsPass(true);
 			validateResult.setErrorMsg("");
 		}
 		

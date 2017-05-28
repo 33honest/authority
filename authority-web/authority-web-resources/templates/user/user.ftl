@@ -73,7 +73,7 @@
 						           data-side-pagination="server"
 						           data-url="/user/list"
 						           data-method="post"
-						           data-sort-name="userAddTime"
+						           data-sort-name="user_add_time"
 						           data-sort-order="desc">
                         	</table>
                         </div>
@@ -94,43 +94,43 @@
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">登录名：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="userLoginName" name="userLoginName" class="form-control" type="text"/>
+	                                    <input id="user_login_name" name="user_login_name" class="form-control" type="text"/>
 	                                </div>
 	                            </div>
 	                            <div id="divEmail" class="form-group">
 	                                <label class="col-sm-3 control-label">邮箱：</label>
 	                                <div class="col-sm-6">
-	                                   <input class="form-control" id="userEmail" name="userEmail"/><span class="help-block m-b-none"><i class="fa fa-warning"></i>一旦确定不可再修改</span>
+	                                   <input class="form-control" id="user_email" name="user_email"/><span class="help-block m-b-none"><i class="fa fa-warning"></i>一旦确定不可再修改</span>
 	                                </div>
 	                            </div>
 	                            <div id="divPass" class="form-group">
 	                                <label class="col-sm-3 control-label">登录密码：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="userLoginPwd" name="userLoginPwd" class="form-control" type="password"/>
+	                                    <input id="user_login_password" name="user_login_password" class="form-control" type="password"/>
 	                                </div>
 	                            </div>
 	                            <div id="divrePass" class="form-group">
 	                                <label class="col-sm-3 control-label">重复密码：</label>
 	                                <div class="col-sm-6">
-	                                    <input id="reUserLoginPwd" name="reUserLoginPwd" class="form-control" type="password"/>
+	                                    <input id="re_user_login_password" name="re_user_login_password" class="form-control" type="password"/>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
-	                                <label class="col-sm-3 control-label">手机：</label>
+	                                <label class="col-sm-3 control-label">手机：</label>  
 	                                <div class="col-sm-6">
-	                                   <input class="form-control" id="userPhone" name="userPhone"/>
+	                                   <input class="form-control" id="user_phone" name="user_phone"/>
 	                                </div>
 	                            </div>
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">用户状态：</label>
 	                                <div class="col-sm-6"> 
-	                                   <select class="form-control" id="userStatus" name="userStatus"></select>
-	                                </div>
-	                            </div>
+	                                   <select class="form-control" id="user_status" name="user_status"></select>
+	                                </div>  
+	                            </div> 
 	                            <div class="form-group">
 	                                <label class="col-sm-3 control-label">用户类型：</label>
 	                                <div class="col-sm-6"> 
-	                                   <select class="form-control" id="userType" name="userType"></select>
+	                                   <select class="form-control" id="user_type" name="user_type"></select>
 	                                </div>
 	                             </div>
 	                             

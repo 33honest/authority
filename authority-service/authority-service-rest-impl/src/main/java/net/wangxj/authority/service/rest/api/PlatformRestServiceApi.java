@@ -336,7 +336,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 * @return
 	 * @throws Exception
 	 * apidoc--------------------->
-	 * @api {POST} /platforms/{platform_uuid}/{roles} 添加角色
+	 * @api {POST} /platforms/{platform_uuid}/roles 添加角色
 	 * @apiGroup platforms
 	 * @apiExample {curl} curl请求示例:
 	 * curl -i -X POST -H "Content-Type:application/json" -H "Accept:application/json" -d '
@@ -702,6 +702,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 		}
 		return success(validateResult);
 	}
+	
 	
 	
 	

@@ -178,15 +178,10 @@ public class PlatformServiceImpl implements PlatformService{
 		PlatformPO platformPo = (PlatformPO) singlePo;
 		PlatformPO originPlatformPo = (PlatformPO) originPo;
 		List<PlatformPO> existListPo = this.query(platformPo);
-		Integer total = this.getCount(new PlatformPO());
-		
 		if(existListPo == null || existListPo.size() == 0){
 			return null;
 		}
 		else if(existListPo.size() == 1 && existListPo.get(0).getPlatformUuid().equals(originPlatformPo.getPlatformUuid())){
-			return null;
-		}
-		else if(existListPo!= null && total == existListPo.size() && total != 1){
 			return null;
 		}
 		else{

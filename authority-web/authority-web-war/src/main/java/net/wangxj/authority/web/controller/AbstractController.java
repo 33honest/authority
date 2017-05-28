@@ -1,6 +1,7 @@
 package net.wangxj.authority.web.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,12 +14,15 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
+
 import com.alibaba.fastjson.JSONObject;
 
 import net.wangxj.authority.jersey.HttpConnectPool;
 import net.wangxj.authority.jersey.RequestMethod;
 import net.wangxj.authority.web.constant.DataDictionaryConstant;
 import net.wangxj.authority.web.dto.AuthorityUserDTO;
+import net.wangxj.authority.web.dto.PlatformDTO;
 
 /**
  * @author huoshan
@@ -27,15 +31,56 @@ import net.wangxj.authority.web.dto.AuthorityUserDTO;
  */
 public class AbstractController<T> {
 	
+	private static Logger logger = Logger.getLogger(AbstractController.class);
+	
 	public String BASE_URL = "http://localhost:9000/api";
 	
-	public String getUserName(String userUuid){
+	public Map<String,String> getPlatMap(){
+		Map<String, String> platMap = new HashMap<>();
+		//参数
+	    Map<String,Object> paramMap = new HashMap<>();
+	    paramMap.put("search", "");
+	    paramMap.put("page_number", 1);
+	    paramMap.put("limit", 20);
+	    paramMap.put("order", "desc");
+	    paramMap.put("sort", "platform_add_time");
+	    String platformStr = rest(RequestMethod.GET, "/platforms", null, null, paramMap, null);
+	    logger.debug("查询结果:--->" + platformStr);
+		@SuppressWarnings("rawtypes")
+		Map resultMap = (Map) JSONObject.parse(platformStr);
+		if(resultMap != null){
+			List<PlatformDTO> data = JSONObject.parseArray(JSONObject.toJSONString(resultMap.get("data")), PlatformDTO.class);
+			if(data != null){
+				for (PlatformDTO platformDTO : data) {
+					platMap.put(platformDTO.getPlatformName(), platformDTO.getPlatformUuid());
+				}
+			}
+		}
+		return platMap;
+	}
+	
+	
+	public String getPlatformName(String platformUuid){
 		List<String> pathList = new ArrayList<>();
-		pathList.add("users");
-		pathList.add(userUuid);
-		String userInfo = rest(RequestMethod.GET, "",pathList,null, null, null);
-		AuthorityUserDTO user = JSONObject.parseObject(userInfo, AuthorityUserDTO.class);
-		return user != null ? user.getUserLoginName() : "";
+		pathList.add("platforms");
+		pathList.add(platformUuid);
+		String platformInfo = rest(RequestMethod.GET, "", pathList, null, null, null);
+		PlatformDTO platformDto = JSONObject.parseObject(platformInfo,PlatformDTO.class);
+		return platformDto != null ? platformDto.getPlatformName() : "";
+	}
+	
+	public String getUserName(String userUuid){
+		if(userUuid != null && !"".equals(userUuid)){
+			List<String> pathList = new ArrayList<>();
+			pathList.add("users");
+			pathList.add(userUuid);
+			String userInfo = rest(RequestMethod.GET, "",pathList,null, null, null);
+			AuthorityUserDTO user = JSONObject.parseObject(userInfo, AuthorityUserDTO.class);
+			return user != null ? user.getUserLoginName() : "";
+		}
+		else{
+			return "";
+		}
 	}
 	
 	public String getUserId(){

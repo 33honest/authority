@@ -146,12 +146,9 @@ public class AuthorityRoleServiceImpl implements AuthorityRoleService{
 		AuthorityRolePO originRolePo = (AuthorityRolePO) originPo;
 		singleRolePo.setRolePlatformUuid(originRolePo.getRolePlatformUuid());
 		List<AuthorityRolePO> repeatResultList = this.query(singleRolePo);
-		Integer total = this.getCount(new AuthorityRolePO());
 		if(repeatResultList == null || repeatResultList.size() == 0){
 			return null;
 		}else if(repeatResultList.size() == 1 && repeatResultList.get(0).getRoleUuid().equals(originRolePo.getRoleUuid())){
-			return null;
-		}else if(repeatResultList != null && repeatResultList.size() == total && total != null){
 			return null;
 		}
 		else{

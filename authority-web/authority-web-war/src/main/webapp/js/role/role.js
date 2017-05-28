@@ -21,41 +21,41 @@ function initTable() {
 	                valign: 'middle'
 	            },
                 {
-                    field: 'roleUuid',
+                    field: 'role_uuid',
                     title: 'RoleUUID',
                     sortable: true,
                     align: 'center'
                 }, {
-                    field: 'roleName',
+                    field: 'role_name',
                     title: '角色名',
                     sortable: true,
                     align: 'center',
                 }, {
-                    field: 'rolePlatformName',
+                    field: 'role_platform_name',
                     title: '所属平台',
                     sortable: true,
                     align: 'center',
                 }, {
-                	field: 'roleStatusName',
+                	field: 'role_status_name',
                 	title: '角色状态',
                 	sortable: true,
                 	align: 'center',
                 },{
-                	field: 'roleAddTime',
+                	field: 'role_add_time',
                 	title: '增加时间',
                 	sortable: true,
                 	align: 'center'
                 },{
-                	field: 'roleEditTime',
+                	field: 'role_edit_time',
                 	title: '修改时间',
                 	sortable: true,
                 	align: 'center'
                 },{
-                	field: 'roleAddByName',
+                	field: 'role_add_by_name',
                 	title: '增加人',
                 	align: 'center'
                 },{
-                	field: 'roleEditByName',
+                	field: 'role_edit_by_name',
                 	title: '修改人',
                 	align: 'center'
                 }, {
@@ -79,21 +79,21 @@ function initTable() {
         
 function getIdSelections() {
     return $.map($table.bootstrapTable('getSelections'), function (row) {
-        return row.roleUuid;
+        return row.role_uuid;
     });
 }
         
 //详情
 function detailFormatter(index, row) {
     var html = [];
-    html.push('<p><b>' + 'roleUUID' + ':</b> ' + row.roleUuid + '</p>');
-    html.push('<p><b>' + '角色名' + ':</b> ' + row.roleName + '</p>');
-    html.push('<p><b>' + '角色状态' + ':</b> ' + row.roleStatusName + '</p>');
-    html.push('<p><b>' + '所属平台' + ':</b> ' + row.rolePlatformName + '</p>');
-    html.push('<p><b>' + '增加时间' + ':</b> ' + row.roleAddTime + '</p>');
-    html.push('<p><b>' + '修改时间' + ':</b> ' + row.roleEditTime + '</p>');
-    html.push('<p><b>' + '增加人' + ':</b> ' + row.roleAddByName + '</p>');
-    html.push('<p><b>' + '修改人' + ':</b> ' + row.roleEditByName+ '</p>');
+    html.push('<p><b>' + 'roleUUID' + ':</b> ' + row.role_uuid + '</p>');
+    html.push('<p><b>' + '角色名' + ':</b> ' + row.role_name + '</p>');
+    html.push('<p><b>' + '角色状态' + ':</b> ' + row.role_status_name + '</p>');
+    html.push('<p><b>' + '所属平台' + ':</b> ' + row.role_platform_name + '</p>');
+    html.push('<p><b>' + '增加时间' + ':</b> ' + row.role_add_time + '</p>');
+    html.push('<p><b>' + '修改时间' + ':</b> ' + row.role_edit_time + '</p>');
+    html.push('<p><b>' + '增加人' + ':</b> ' + row.role_add_by_name + '</p>');
+    html.push('<p><b>' + '修改人' + ':</b> ' + row.role_edit_by_name+ '</p>');
     return html.join('');
 }
 //操作:删除,编辑
@@ -104,9 +104,6 @@ function operateFormatter(value, row, index) {
         '</a>  　',
         '<a class="remove" href="javascript:void(0)" title="删除">',
         '<i class="fa fa-remove"></i>',
-        '</a>'  ,
-        '<a class="grant" href="javascript:void(0)" title="分配资源">',
-        '<i class="fa fa-cogs"></i>',
         '</a>'
     ].join('');
 }
@@ -120,12 +117,12 @@ window.operateEvents = {
         $("#save").text("修改");
         $("#addPage").attr("sign","edit");
         $("#addPage").modal("show");
-        if($("#roleuuid").length <= 0){
-        	uuidInput = '<input id="roleuuid" name="roleUuid" class="form-control" type="hidden" value="'+row.roleUuid+'">';
+        if($("#role_uuid").length <= 0){
+        	uuidInput = '<input id="role_uuid" name="role_uuid" class="form-control" type="hidden" value="'+row.role_uuid+'">';
             $("#addForm").append(uuidInput);
         }
         else{
-        	$("#roleuuid").val(row.roleUuid);
+        	$("#role_uuid").val(row.role_uuid);
         }
         $.each(row, function(key, value){
         		$("#"+key).val(value);
@@ -133,7 +130,7 @@ window.operateEvents = {
     },
     'click .remove': function (e, value, row, index) {
     		var param = {};
-    		param.roleUuid = row.roleUuid;
+    		param.role_uuid = row.role_uuid;
     	    swal({
     	        title: "您确定要删除这条信息吗",
     	        text: "删除后将无法恢复，请谨慎操作！",
@@ -148,8 +145,9 @@ window.operateEvents = {
 			    	  	       url: "/role/delete",  
 			    	  	       dataType: "json", 
 			    	  	       data: param,
-			    	  	       success: function (data) {  
-			    	  	    	  if(data.code == 0 && data.resObject == 1){
+			    	  	       success: function (res) {  
+			    	  	    	   var data = $.parseJSON(res);
+			    	  	    	  if(data.success){
 			    	  	    		  	$table.bootstrapTable('refresh');
 			    	  					swal({
 			    	 	    					title: "",
@@ -176,38 +174,6 @@ window.operateEvents = {
     	    });
     },
     
-    'click .grant': function (e, value, row, index) {
-    	var uuid = '<input id="grand_role_uuid" name="roleUuid" class="form-control" type="hidden" value="'+row.roleUuid+'">';
-    	if($("#grand_role_uuid").length <= 0){
-    		$("#grandForm").append(uuid);
-    	}
-    	else{
-    		$("#grand_role_uuid").val(row.roleUuid);
-    	}
-    	
-    	var param = {};
-    	param.resourcePlatformUuid = row.rolePlatformUuid;
-    	$.ajax({  
-    	       url: "/resource/getListByPlatform",  
-    	       dataType: "json",  
-    	       data: param,
-    	       success: function (data) {  
-    	    	   $("#selectAll").attr("checked",false);
-    	    	   $("#resourceList").html("");
-    	    	   $.each(data, function (key, value) {  
-    	    		   $("#resourceList").append('<label><input class="resour" name="resourceList" type="checkbox" value="'+value['resourceUuid']+'"/> <i>'+value['resourceName']+'</i></label>');
-    	    	    });  
-    	       },  
-    	       error: function (XMLHttpRequest, textStatus, errorThrown) {  
-    	    	   swal({
-    					title: "",
-    					text: "发生错误",
-    					type: "error"
-    				});
-    	       }  
-    	   });  
-    	$("#grantResource").modal("show");
-    }
 };
 
 
@@ -219,38 +185,32 @@ function validate(){
 	var icon = "<i class='fa fa-times-circle'></i> ";
 	validator = $("#addForm").validate({
 			    rules: {
-			    	rolePlatformUuid:{
+			    	role_platform_uuid:{
 			    	 	required:true
 			    	},
-			    	roleName:{
+			    	role_name:{
 			    		required: true,
 			    		checkRoleName: true,
 			    		rangelength:[2,16],
 			    		checkRoleNameRepeat: true
-			    	},
-			    	roleStatusName:{
-			    		required: true
 			    	}
-			       
 			    },
 			    messages: {
-			    	rolePlatformUuid:{
+			    	role_platform_uuid:{
 			    		required: icon+"平台是必填项"
 			    	},
-			    	roleName:{
+			    	role_name:{
 			    		required: icon+"角色名是必填项",
 			    		rangelength:icon+"长度必须在2-16个字符"
-			    	},
-			    	roleStatusName:{
-			    		required: icon+"平台域名是必填项"
 			    	}
 			    },
 			    submitHandler: function(form){
 			    	$(form).ajaxSubmit({
 			    		type: "POST",
 			    		dataType: "json",
-			    		success: function(data){
-			    			if(data.code == 0 && data.resObject == 1){
+			    		success: function(res){
+			    			var data = $.parseJSON(res);
+			    			if(data.success){
 			    				$("#addPage").modal('hide');
 			    				$table.bootstrapTable('refresh');
 			    				if($("#addPage").attr("sign")  == 'add')
@@ -290,10 +250,10 @@ function validate(){
 
 	$.validator.addMethod("checkRoleNameRepeat",function(value,element,params){  
 		var param = {};
-		param.roleName = value;
-		param.rolePlatformUuid = $("#rolePlatformUuid").val();
-		if($("#roleuuid").length > 0){
-			param.roleUuid = $("#roleuuid").val();
+		param.role_name = value;
+		param.role_platform_uuid = $("#role_platform_uuid").val();
+		if($("#role_uuid").length > 0){
+			param.role_uuid = $("#role_uuid").val();
 		}
 		var result;
 		$.ajax({  
@@ -301,7 +261,8 @@ function validate(){
 	       dataType: "json", 
 	       data: param,
 	       async:false,
-	       success: function (data) {  
+	       success: function (res) {  
+	    	   var data = $.parseJSON(res);
 	    	   if(typeof data == 'boolean'){
 	    		  result=data;
 	    	   }
@@ -322,7 +283,7 @@ function validate(){
 				});
 	       }  
 	   });  
-		return this.optional(element)||!result;  
+		return this.optional(element) || result;  
     },icon+"该平台已存在该角色名");  
 	
 	$.validator.addMethod("checkRoleName",function(value,element,params){  
@@ -333,21 +294,22 @@ function validate(){
 
 //初始化下拉列表
 function initStatus(){
-	$("#rolePlatformUuid").html("");
-	$("#roleStatus").html("");
+	$("#role_platform_uuid").html("");
+	$("#role_status").html("");
 	$.ajax({  
 	       url: "/role/getStatusList",  
 	       dataType: "json",  
-	       success: function (data) {  
+	       success: function (res) {  
+	    	   var data = $.parseJSON(res);
 	    	   $.each(data, function (key, value) {  
-	    			if("roleStatus" == key){
+	    			if("role_status" == key){
 	    		   		$.each(value, function(key, value){
-	    		   			$("#roleStatus").append("<option value="+value+">" +key + "</option>");
+	    		   			$("#role_status").append("<option value="+value+">" +key + "</option>");
 	    		   		});
 	    		   	}
 	    		   	if("platform" == key){
 	    		   		$.each(value, function(key, value){
-	    		   			$("#rolePlatformUuid").append("<option value="+value+">" +key + "</option>");
+	    		   			$("#role_platform_uuid").append("<option value="+value+">" +key + "</option>");
 	    		   		});
 	    		   	}
 	    	    });  
@@ -362,35 +324,6 @@ function initStatus(){
 	   });  
 }
 
-//验证授权表单
-function validateGrandAuth(){
-	var grandvalidator = $("#grandForm").validate({
-	    submitHandler: function(form){
-	    	$(form).ajaxSubmit({
-	    		type: "POST",
-	    		dataType: "json",
-	    		success: function(data){
-	    			if(data == "success"){
-	    				swal({
-	    					title: "",
-	    					text: "成功",
-	    					type: "success"
-	    				});
-	    			}
-	    			else{
-	    				swal({
-	    					title: "",
-	    					text: "发生错误",
-	    					type: "error"
-	    				});
-	    			}
-	    			$("#grantResource").modal("hide");
-	    		}
-	    	});
-	    }
-	});
-}
-
 
         
 $(function () {
@@ -398,14 +331,10 @@ $(function () {
    initTable();
    initStatus();
    validate();
-   validateGrandAuth();
    
    $("#save").on("click",function(){
 	   $("#addForm").submit();
    });
-   $("#grantResourceSave").on("click",function(){
-	   $("#grandForm").submit();
-   })
    
    $("#addButton").on("click",function(){
 	   validator.resetForm();
@@ -414,10 +343,10 @@ $(function () {
 	    $("#save").text("保存");
 	    $("#addPage").attr("sign","add");
 	    $("#addPage").modal("show");
-	    if($("#roleuuid").length > 0){
-	    	$("#roleuuid").remove();
+	    if($("#role_uuid").length > 0){
+	    	$("#role_uuid").remove();
         }
-	    $("#roleName").val("");
+	    $("#role_name").val("");
 	    initStatus();
    });
    $remove.on("click", function(){
@@ -437,8 +366,9 @@ $(function () {
 					       dataType: "json",  
 					       contentType:"application/json",
 					       data: JSON.stringify(selections), 
-					       success: function (data) {  
-					    	  if(data.code == 0 && data.resObject == selections.length){
+					       success: function (res) {  
+					    	  var data = $.parseJSON(res);
+					    	  if(data.success){
 					    		  $table.bootstrapTable('refresh');
 					    		  swal({
 					    			  title: "",

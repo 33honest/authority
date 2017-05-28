@@ -33,24 +33,34 @@ public class AuthorityUserDTO extends DTO implements Serializable{
     // 用户状态: 已注册未激活: 1 已注册并激活:2 已锁定:3 	
 	@JSONField(name = "user_status")
 	private java.lang.Integer userStatus;
+	@JSONField(name = "user_status_name")
+	private String userStatusName;
     // 添加用户时间 yyyy-MM-dd HH:mm:ss
 	@JSONField(name = "user_add_time")
 	private String userAddTime;
     // 添加用户人(用户主键)
 	@JSONField(name = "user_add_by")
 	private String userAddBy;
+	@JSONField(name = "user_add_by_name")
+	private String userAddByName;
     // 删除用户人（用户主键） 	
 	@JSONField(name = "user_delete_by" ,serialize = false)
 	private String userDelBy;
     // 用户类型： 内部用户:1 外部用户：2 	
 	@JSONField(name = "user_type")
 	private java.lang.Integer userType;
+	@JSONField(name = "user_type_name")
+	private String userTypeName;
     // 添加用户类型: 被内部用户添加：1 自己注册:2 	
 	@JSONField(name = "user_add_type")
 	private java.lang.Integer userAddType;
+	@JSONField(name = "user_add_type_name")
+	private String userAddTypeName;
 	//编辑人
 	@JSONField(name = "user_edit_by")
 	private String userEditBy;
+	@JSONField(name = "user_edit_by_name")
+	private String userEditByName;
 	//编辑时间
 	@JSONField(name = "user_edit_time")
 	private String userEditTime;
@@ -60,8 +70,9 @@ public class AuthorityUserDTO extends DTO implements Serializable{
 	}
 
 	public AuthorityUserDTO(String userUuid, String userLoginName, String userLoginPwd, String userEmail,
-			String userPhone, Integer userStatus, String userAddTime, String userAddBy, String userDelBy,
-			Integer userType, Integer userAddType, String userEditBy, String userEditTime) {
+			String userPhone, Integer userStatus, String userStatusName, String userAddTime, String userAddBy,
+			String userAddByName, String userDelBy, Integer userType, String userTypeName, Integer userAddType,
+			String userAddTypeName, String userEditBy, String userEditByName, String userEditTime) {
 		super();
 		this.userUuid = userUuid;
 		this.userLoginName = userLoginName;
@@ -69,12 +80,17 @@ public class AuthorityUserDTO extends DTO implements Serializable{
 		this.userEmail = userEmail;
 		this.userPhone = userPhone;
 		this.userStatus = userStatus;
+		this.userStatusName = userStatusName;
 		this.userAddTime = userAddTime;
 		this.userAddBy = userAddBy;
+		this.userAddByName = userAddByName;
 		this.userDelBy = userDelBy;
 		this.userType = userType;
+		this.userTypeName = userTypeName;
 		this.userAddType = userAddType;
+		this.userAddTypeName = userAddTypeName;
 		this.userEditBy = userEditBy;
+		this.userEditByName = userEditByName;
 		this.userEditTime = userEditTime;
 	}
 
@@ -126,6 +142,14 @@ public class AuthorityUserDTO extends DTO implements Serializable{
 		this.userStatus = userStatus;
 	}
 
+	public String getUserStatusName() {
+		return userStatusName;
+	}
+
+	public void setUserStatusName(String userStatusName) {
+		this.userStatusName = userStatusName;
+	}
+
 	public String getUserAddTime() {
 		return userAddTime;
 	}
@@ -140,6 +164,14 @@ public class AuthorityUserDTO extends DTO implements Serializable{
 
 	public void setUserAddBy(String userAddBy) {
 		this.userAddBy = userAddBy;
+	}
+
+	public String getUserAddByName() {
+		return userAddByName;
+	}
+
+	public void setUserAddByName(String userAddByName) {
+		this.userAddByName = userAddByName;
 	}
 
 	public String getUserDelBy() {
@@ -158,6 +190,14 @@ public class AuthorityUserDTO extends DTO implements Serializable{
 		this.userType = userType;
 	}
 
+	public String getUserTypeName() {
+		return userTypeName;
+	}
+
+	public void setUserTypeName(String userTypeName) {
+		this.userTypeName = userTypeName;
+	}
+
 	public java.lang.Integer getUserAddType() {
 		return userAddType;
 	}
@@ -166,12 +206,28 @@ public class AuthorityUserDTO extends DTO implements Serializable{
 		this.userAddType = userAddType;
 	}
 
+	public String getUserAddTypeName() {
+		return userAddTypeName;
+	}
+
+	public void setUserAddTypeName(String userAddTypeName) {
+		this.userAddTypeName = userAddTypeName;
+	}
+
 	public String getUserEditBy() {
 		return userEditBy;
 	}
 
 	public void setUserEditBy(String userEditBy) {
 		this.userEditBy = userEditBy;
+	}
+
+	public String getUserEditByName() {
+		return userEditByName;
+	}
+
+	public void setUserEditByName(String userEditByName) {
+		this.userEditByName = userEditByName;
 	}
 
 	public String getUserEditTime() {
@@ -186,14 +242,12 @@ public class AuthorityUserDTO extends DTO implements Serializable{
 	public String toString() {
 		return "AuthorityUserDTO [userUuid=" + userUuid + ", userLoginName=" + userLoginName + ", userLoginPwd="
 				+ userLoginPwd + ", userEmail=" + userEmail + ", userPhone=" + userPhone + ", userStatus=" + userStatus
-				+ ", userAddTime=" + userAddTime + ", userAddBy=" + userAddBy + ", userDelBy=" + userDelBy
-				+ ", userType=" + userType + ", userAddType=" + userAddType + ", userEditBy=" + userEditBy
+				+ ", userStatusName=" + userStatusName + ", userAddTime=" + userAddTime + ", userAddBy=" + userAddBy
+				+ ", userAddByName=" + userAddByName + ", userDelBy=" + userDelBy + ", userType=" + userType
+				+ ", userTypeName=" + userTypeName + ", userAddType=" + userAddType + ", userAddTypeName="
+				+ userAddTypeName + ", userEditBy=" + userEditBy + ", userEditByName=" + userEditByName
 				+ ", userEditTime=" + userEditTime + "]";
 	}
-	
-	
-	
-	
-	
+
 }
 

@@ -12,6 +12,7 @@ import net.wangxj.authority.po.PO;
 import net.wangxj.authority.po.Page;
 import net.wangxj.util.annotation.util.JsonFieldUtil;
 import net.wangxj.util.annotation.util.NotRepeatUtil;
+import net.wangxj.util.reflect.ClazzUtil;
 import net.wangxj.util.validate.ValidateUtil;
 import net.wangxj.util.validate.ValidationResult;
 
@@ -119,6 +120,10 @@ public interface AuthorityService<T> {
 					Entry<String, Object> nameObjEntry = iterator.next();
 					String fieldName = nameObjEntry.getKey();
 					PO singleFieldPo = (PO) nameObjEntry.getValue();
+					//如果该对象中所有熟悉没值，则跳过
+					if(ClazzUtil.isEmptyofObj(singleFieldPo)){
+						continue;
+					}
 					String errorMsg;
 					errorMsg = validateRepeat(singleFieldPo,po, fieldName);
 					logger.debug("验证" + fieldName + ":---->" + errorMsg);
