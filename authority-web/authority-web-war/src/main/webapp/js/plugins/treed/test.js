@@ -1,0 +1,33 @@
+/**
+ * Created by huoshan on 17-5-31.
+ */
+var test = {
+    "children":[
+        {
+            "size":9,
+            "name":"/platform",
+            "uuid":"f2e251236cae4e3eb1bca10535bdbf36",
+            "level":2,
+            "order":1
+        },
+        {
+            "children":[
+                {
+                    "size":14,
+                    "name":"/resources/add",
+                    "uuid":"f2e251236cae4e3eb1bca10535bdbf38",
+                    "level":3,
+                    "order:":1
+                }
+            ],
+            "name":"/resources",
+            "uuid":"f2e251236cae4e3eb1bca10535bdbf37",
+            "level":2,
+            "order":2
+        }
+    ],
+    "name":"/authority",
+    "uuid":"2d19a2d466d84b12b27689ed2a08589d",
+    "level":1,
+    "order":1
+}

@@ -44,7 +44,7 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	private AuthorityRoleDao authorityRoleDao;
 	
 	@Override
-	public Integer add(AuthorityUserPO authorityUserPo) throws Exception {
+	public String add(AuthorityUserPO authorityUserPo) throws Exception {
 		try {
 			String userLoginPwd = authorityUserPo.getUserLoginPwd();
 			authorityUserPo.setUserLoginPwd(PBKDF2SHA1.generateStorngPasswordHash(userLoginPwd));
@@ -52,11 +52,13 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 			logger.debug("加密失败", e);
 			throw e;
 		}
-		authorityUserPo.setUserUuid(UuidUtil.newGUID());
+		String uuid = UuidUtil.newGUID();
+		authorityUserPo.setUserUuid(uuid);
 		authorityUserPo.setUserAddTime(TimeUtil.getNowStr());
 		authorityUserPo.setUserIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		logger.debug("插入:--->" + authorityUserPo);
-		return authorityUserDao.insert(authorityUserPo);
+		authorityUserDao.insert(authorityUserPo);
+		return uuid;
 	}
 	
 	@Override

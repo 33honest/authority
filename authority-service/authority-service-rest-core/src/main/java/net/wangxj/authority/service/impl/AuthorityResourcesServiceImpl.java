@@ -39,12 +39,14 @@ public class AuthorityResourcesServiceImpl implements AuthorityResourcesService{
 	private AuthorityRoleDao authorityRoleDao;
 	
 	@Override
-	public Integer add(AuthorityResourcesPO authorityResourcesPo) {
-		authorityResourcesPo.setResourceUuid(UuidUtil.newGUID());
+	public String add(AuthorityResourcesPO authorityResourcesPo) {
+		String uuid = UuidUtil.newGUID();
+		authorityResourcesPo.setResourceUuid(uuid);
 		authorityResourcesPo.setResourceAddTime(TimeUtil.getNowStr());
 		authorityResourcesPo.setResourceIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		logger.debug("添加资源:-->" + authorityResourcesPo);
-		return authorityResourcesDao.insert(authorityResourcesPo);
+		authorityResourcesDao.insert(authorityResourcesPo);
+		return uuid;
 	}
 	
 	@Override
@@ -135,7 +137,7 @@ public class AuthorityResourcesServiceImpl implements AuthorityResourcesService{
 		AuthorityResourcesPO originResourcePo = (AuthorityResourcesPO) originPo;
 		//在同一平台下不重复
 		singleResourcePo.setResourcePlatformUuid(originResourcePo.getResourcePlatformUuid());
-		List<AuthorityResourcesPO> singleFieldQueryResult = authorityResourcesDao.selectListByCondition(singleResourcePo);
+		List<AuthorityResourcesPO> singleFieldQueryResult = this.query(singleResourcePo);
 		if(singleFieldQueryResult == null || singleFieldQueryResult.size() == 0){
 			return null;
 		}else if(singleFieldQueryResult.size() == 1 && singleFieldQueryResult.get(0).getResourceUuid().equals(originResourcePo.getResourceUuid())){
@@ -157,7 +159,9 @@ public class AuthorityResourcesServiceImpl implements AuthorityResourcesService{
 		authorityResourcesPO.setResourcePlatformUuid(resourcePo.getResourcePlatformUuid());
 		authorityResourcesPO.setResourceLevel(1);
 		authorityResourcesPO.setResourceIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
-		return authorityResourcesDao.hasChildListByCondition(authorityResourcesPO);
+		List<AuthorityResourcesPO> listResource = authorityResourcesDao.hasChildListByCondition(authorityResourcesPO);
+		//默认只有一个平台下的所有资源，所有只有一个
+		return listResource != null && listResource.size() > 0 ? listResource.get(0) : null;
 	}
 
 	/* (non-Javadoc)

@@ -52,8 +52,9 @@ public class PlatformServiceImpl implements PlatformService{
 	 * 在添加平台的同时,为该平台添加一级资源
 	 */
 	@Override
-	public Integer add(PlatformPO platformPo) {
-		platformPo.setPlatformUuid(UuidUtil.newGUID());
+	public String add(PlatformPO platformPo) {
+		String uuid = UuidUtil.newGUID();
+		platformPo.setPlatformUuid(uuid);
 		platformPo.setPlatformAddTime(TimeUtil.getNowStr());
 		platformPo.setPlatformIsDelete(DataDictionaryConstant.ISDELETE_NO_VALUE);
 		//添加一级资源
@@ -66,15 +67,16 @@ public class PlatformServiceImpl implements PlatformService{
 		resourcePo.setResourceLevel(1);
 		resourcePo.setResourceName(platformPo.getPlatformName());
 		resourcePo.setResourceOrder(1);
-		resourcePo.setResourceParentUuid(resourceUuid);
+		resourcePo.setResourceParentUuid("#");
 		resourcePo.setResourceUuid(resourceUuid);
 		resourcePo.setResourcePlatformUuid(platformPo.getPlatformUuid());
 		resourcePo.setResourceStatus(DataDictionaryConstant.RESOURCE_STATUS_ACTIVE_VALUE);
-		resourcePo.setResourceUrl("#");
+		resourcePo.setResourceUrl("/");
 		logger.debug("为平台--" + platformPo.getPlatformName() + "--添加一级资源--->" + resourcePo);
 		Integer count = authorityResourcesDao.insert(resourcePo);
 		logger.debug("添加平台开始:---->" + platformPo);
-		return platformDao.insert(platformPo);
+		platformDao.insert(platformPo);
+		return uuid;
 	}
 	
 	@Override

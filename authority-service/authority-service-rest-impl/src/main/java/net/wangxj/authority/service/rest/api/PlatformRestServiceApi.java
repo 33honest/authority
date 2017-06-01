@@ -26,6 +26,7 @@ import net.wangxj.util.validate.ValidationResult;
 import net.wangxj.util.validate.groups.AddValidate;
 import net.wangxj.util.validate.groups.DeleteValidate;
 import net.wangxj.util.validate.groups.EditValidate;
+import net.wangxj.authority.DataDictionaryConstant.DataDictionaryConstant;
 import net.wangxj.authority.po.AuthorityResourcesPO;
 import net.wangxj.authority.po.AuthorityRolePO;
 import net.wangxj.authority.po.Page;
@@ -65,9 +66,11 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	/**
 	 * @apiDefine platformResponse
 	 * @apiSuccess (200) {String} success 是否操作成功
+	 * @apiSuccess (200) {String} uuid uuid
 	 * @apiSuccessExample {json}　请求成功响应 : 
 	 * 									{
-	 *									  "success": true
+	 *									  "success": true,
+	 *									  "uuid" : "fe178fd0073a4edea94e95a46bab15be"
 	 *									}
 	 *
 	 *@apiError (400) {String} error_message 错误说明
@@ -130,7 +133,9 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 		else{
 			//添加
 			Map<String,Object> result = new HashMap<>();
-			result.put("success",  platformService.add(platformPo) == 1 ? true : false);
+			String uuid = platformService.add(platformPo);
+			result.put("success",  Pattern.matches(RegexConstant.UUID_32, uuid) ? true : false);
+			result.put("uuid", uuid);
 			return success(result);
 		}
 	}
@@ -165,7 +170,24 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 * 					 "platform_status":3,
 	 * 					 "platform_edit_user":"0cf700bfd72142c498ff7508aa2603c3"
 	 * 					}
-	 *@apiUse platformResponse 
+	 * @apiSuccess (200) {String} success 是否操作成功
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * 									{
+	 *									  "success": true
+	 *									}
+	 *
+	 * @apiError (400) {String} error_message 错误说明
+	 * @apiError (400) {Boolean} is_pass　　格式是否正确
+	 * @apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "平台名必须是2-25个汉字",
+	 *									   "is_pass": false
+	 *									}
+	 * @apiError (500) {String} error 错误说明
+	 * @apiErrorExample {json} 错误500响应 :
+	 *									{
+	 *										"error": "服务器内部发生错误
+	 *									}
 	 */
 	@PUT
 	@Path("/{uuid}")
@@ -355,9 +377,11 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 *  "role_add_by" : "db1d225261cf4a1293e7eb8d4371b667"
 	 * } 
 	 * @apiSuccess (200) {String} success 是否操作成功
+	 * @apiSuccess (200) {String} uuid 角色uuid
 	 * @apiSuccessExample {json}　请求成功响应 : 
 	 * 									{
-	 *									  "success": true
+	 *									  "success": true,
+	 *									  "uuid" : "45721a78b0f94113aa9b48bdb95c147d"
 	 *									}
 	 *
 	 *@apiError (400) {String} error_message 错误说明
@@ -382,7 +406,9 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 			return failValidate(validateResult);
 		}else{
 			Map<String,Object> addResultMap = new HashMap<>();
-			addResultMap.put("success", authorityRoleService.add(rolePo) == 1 ? true : false);
+			String roleUuid = authorityRoleService.add(rolePo);
+			addResultMap.put("success", Pattern.matches(RegexConstant.UUID_32, roleUuid) ? true : false);
+			addResultMap.put("uuid", roleUuid);
 			logger.debug("添加角色结果:--->" + addResultMap);
 			return success(addResultMap);
 		}
@@ -410,7 +436,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 * }' http://localhost:9000/api/platforms/51f43adfea7045ff8c76b1433110c864/resources
 	 * @apiGroup platforms
 	 * @apiParam {String} platform_uuid 平台Uuid
-	 * @apiParam {String} resource_name 资源名
+	 * @apiParam {String} [resource_name] 资源名
 	 * @apiParam {number=1(已激活),2(已注销),3(未激活)} resource_status 资源状态
 	 * @apiParam {String{..128}} resource_url 资源url
 	 * @apiParam {number{1..10}} resource_level 资源层级
@@ -430,9 +456,11 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 *  "resource_add_by" : "db1d225261cf4a1293e7eb8d4371b667"
 	 * }
 	 * @apiSuccess (200) {String} success 是否操作成功
+	 * @apiSuccess (200) {String} uuid 资源uuid
 	 * @apiSuccessExample {json}　请求成功响应 : 
 	 * 									{
-	 *									  "success": true
+	 *									  "success": true,
+	 *									  "uuid" : "f2e251236cae4e3eb1bca10535bdbf38"
 	 *									}
 	 *
 	 * @apiError (400) {String} error_message 错误说明
@@ -458,7 +486,9 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 			return failValidate(addResourceValidateResult);
 		}else{
 			Map<String,Object> addResourcesResultMap = new HashMap<>();
-			addResourcesResultMap.put("success", authorityResourcesService.add(resourcesPo) == 1 ? true : false);
+			String uuid = authorityResourcesService.add(resourcesPo);
+			addResourcesResultMap.put("success", Pattern.matches(RegexConstant.UUID_32, uuid) ? true : false);
+			addResourcesResultMap.put("uuid", uuid);
 			return success(addResourcesResultMap);
 		}
 	}
@@ -543,7 +573,6 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 * @apiSuccess (200) {String} success 是否操作成功
 	 * @apiSuccessExample {json}　请求成功响应 : 
 	 *	{
-	 *		data": [
 	 *		    {
 	 *		      "childList": [
 	 *			  	 {
@@ -572,7 +601,6 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 *		      "resource_url": "/authority",
 	 *		      "resource_uuid": "2d19a2d466d84b12b27689ed2a08589d"
 	 *		    }
-	 *	  	]
 	 *	}
 	 * @apiError (400) {String} error_message 错误说明
 	 * @apiError (400) {Boolean} is_pass　　格式是否正确
@@ -598,9 +626,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 		}else{
 			AuthorityResourcesPO resourcePo = new AuthorityResourcesPO();
 			resourcePo.setResourcePlatformUuid(platformUuid);
-			Map<String,Object> resourcesMap = new HashMap<>();
-			resourcesMap.put("data", authorityResourcesService.queryResourceTreeByPlatform(resourcePo));
-			return success(resourcesMap);
+			return success(authorityResourcesService.queryResourceTreeByPlatform(resourcePo));
 		}
 	}
 	

@@ -120,7 +120,13 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 	 *  "user_type" : 1,
 	 *  "user_add_type" : 1,
 	 *  "user_add_by" : "0cf700bfd72142c498ff7508aa2603c3"} 
-	 *  @apiUse userSuccessResponse
+	 * @apiSuccess (200) {String} success 是否操作成功
+	 * @apiSuccess (200) {String} uuid 用户uuid
+	 * @apiSuccessExample {json}　请求成功响应 : 
+	 * 									{
+	 *									  "success": true,
+	 *									  "uuid": "de0c7b2480494fda98db82f7a4707649"
+	 *									} 
 	 *  @apiUse user400Response
 	 *  @apiUse user500Response
 	 */
@@ -133,8 +139,10 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 			return failValidate(addValidateResult);
 		}else{
 			logger.debug("添加操作开始---->");
-			Map<String , Boolean> addResMap = new HashMap<>();
-			addResMap.put("success", authorityUserService.add(userPo) == 1 ? true : false);
+			Map<String , Object> addResMap = new HashMap<>();
+			String userUuid = authorityUserService.add(userPo);
+			addResMap.put("success",  Pattern.matches(RegexConstant.UUID_32, userUuid) ? true : false);
+			addResMap.put("uuid", userUuid);
 			return success(addResMap);
 		}
 	}

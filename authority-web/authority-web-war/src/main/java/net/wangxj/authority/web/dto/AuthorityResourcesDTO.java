@@ -59,7 +59,7 @@ public class AuthorityResourcesDTO extends DTO implements Serializable{
 	//编辑时间
 	@JSONField(name = "resource_edit_time")
 	private String resourceEditTime;
-	
+	@JSONField(name = "childList")
 	private List<AuthorityResourcesDTO> childList;
 	
 	

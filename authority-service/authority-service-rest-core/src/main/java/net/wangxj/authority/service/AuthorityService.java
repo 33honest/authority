@@ -25,7 +25,7 @@ public interface AuthorityService<T> {
 	 * @return
 	 * @throws Exception 
 	 */
-	public Integer add(T po) throws Exception;
+	public String add(T po) throws Exception;
 	
 	/**
 	 * batch add

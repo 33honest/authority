@@ -369,7 +369,7 @@
 	<select id="childSelect" resultMap = "HasChildResultMap">
 		select 
 			<include refid="Base_Column_List" /> 
-		from authority_resources where resource_parent_uuid = #{resource_uuid} and resource__is_delete =2
+		from authority_resources where resource_parent_uuid = #{resource_uuid} and resource__is_delete =2 ORDER BY resource_order asc
 	</select>
 	
 </mapper>

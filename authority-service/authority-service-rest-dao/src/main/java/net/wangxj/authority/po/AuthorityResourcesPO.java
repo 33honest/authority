@@ -42,7 +42,7 @@ public class AuthorityResourcesPO extends PO implements Serializable{
 	private String resourceUuid;
     // 资源名称 	
 	@Pattern(regexp=RegexConstant.MORETHAN_TWO_CHINESECHAR, message="角色名必须是2-25个汉字", groups={AddValidate.class, EditValidate.class})
-	@NotBlank(message="角色名不可为空", groups={AddValidate.class})
+//	@NotBlank(message="角色名不可为空", groups={AddValidate.class})
 	@NotRepeat(message = "该resource_name已存在")
 	@JSONField(name = "resource_name")
 	@QueryParam("resource_name")
