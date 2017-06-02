@@ -26,9 +26,10 @@ public interface AuthorityUserService extends AuthorityService<AuthorityUserPO>{
 	/**
 	 * 角色列表
 	 * @param userUuid 用户Uuid
+	 * @param platformUuid平台uuid
 	 * @return 该用户所拥有的所有角色
 	 */
-	public List<AuthorityRolePO> roles(String userUuid);
+	public List<AuthorityRolePO> roles(String userUuid,String platformUuid);
 	/**
 	 * 搜索分页
 	 * @param search

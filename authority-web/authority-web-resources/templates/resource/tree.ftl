@@ -84,7 +84,7 @@
     <!-- crud js -->
     <script src="/js/resource/crud.js"></script>
     <!-- treed js -->
-    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="/js/plugins/treed/d3.v3.min.js"></script>
     <script src="/js/plugins/treed/default-node.js"></script>
 
     <script src="/js/plugins/treed/commands.js"></script>

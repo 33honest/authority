@@ -179,6 +179,29 @@ public class AuthorityRoleDTO extends DTO implements Serializable{
 		this.roleEditTime = roleEditTime;
 	}
 
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((roleUuid == null) ? 0 : roleUuid.hashCode());
+		return result;
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AuthorityRoleDTO other = (AuthorityRoleDTO) obj;
+		if (roleUuid == null) {
+			if (other.roleUuid != null)
+				return false;
+		} else if (!roleUuid.equals(other.roleUuid))
+			return false;
+		return true;
+	}
+
 	@Override
 	public String toString() {
 		return "AuthorityRoleDTO [roleUuid=" + roleUuid + ", roleName=" + roleName + ", roleStatus=" + roleStatus

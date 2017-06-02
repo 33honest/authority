@@ -201,7 +201,7 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	 * @see net.wangxj.authority.service.AuthorityUserService#roles(java.lang.String)
 	 */
 	@Override
-	public List<AuthorityRolePO> roles(String userUuid) {
+	public List<AuthorityRolePO> roles(String userUuid,String platformUuid) {
 		List<AuthorityRolePO> roleList = new ArrayList<>();
 		//获取该用户所对应的所有resource uuid列表
 		AuthorityUserRoleRelationPO userRolePo = new AuthorityUserRoleRelationPO();
@@ -212,6 +212,7 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 			String roleUuid = authorityUserRoleRelationPO.getUrRoleUuid();
 			AuthorityRolePO rolePo = new AuthorityRolePO();
 			rolePo.setRoleUuid(roleUuid);
+			rolePo.setRolePlatformUuid(platformUuid);
 			List<AuthorityRolePO> roles = authorityRoleDao.selectListByCondition(rolePo);
 			if(roles == null || roles.size() == 0){
 				continue;

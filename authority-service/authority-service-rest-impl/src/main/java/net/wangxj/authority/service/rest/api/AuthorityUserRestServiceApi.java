@@ -401,19 +401,20 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 	
 	
 	/**
-	 * TODO 检查useruuid是否存在
-	 * 获取指定用户所拥有的所有角色
+	 * TODO 检查useruuid,platformuuid是否存在
+	 * 获取指定用户在指定平台下所拥有的所拥有的所有角色
 	 * @param userUuid 用户uuid
 	 * @return
 	 * apidoc------------------------------>
 	 * @api {GET} /users/{user_uuid}/roles 角色列表
 	 * @apiExample {curl} curl请求示例:
-	 * curl -X GET 'http://localhost:9000/api/users/de0c7b2480494fda98db82f7a4707649/roles'
+	 * curl -X GET 'http://localhost:9000/api/users/de0c7b2480494fda98db82f7a4707649/a62c27addc0f4a15bde6f426c839d8ba/roles'
 	 * @apiGroup users
 	 * @apiParam {String} user_uuid 用户uuid
 	 * @apiParamExample {json} 请求参数示例:
 	 * {
-	 *  "user_uuid" : "de0c7b2480494fda98db82f7a4707649"
+	 *  "user_uuid" : "de0c7b2480494fda98db82f7a4707649",
+	 *  "platform_uuid" : "a62c27addc0f4a15bde6f426c839d8ba"
 	 * }
 	 * @apiSuccess (200) {String} data 角色列表
 	 * @apiSuccessExample {json}　请求成功响应 : 
@@ -438,16 +439,19 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 	 *									} 
 	 * @apiUse user500Response
 	 */
-	@Path("/{uuid}/roles")
+	@Path("/{uuid}/{platform_uuid}/roles")
 	@GET
-	public Response roles(@PathParam("uuid")String userUuid){
+	public Response roles(@PathParam("uuid")String userUuid,@PathParam("platform_uuid") String platformUuid){
 		ValidationResult valiateResult = new ValidationResult();
 		if(!Pattern.matches(RegexConstant.UUID_32, userUuid)){
 			valiateResult.setErrorMsg("user_uuid非法");
 			return failValidate(valiateResult);
+		}else if(!Pattern.matches(RegexConstant.UUID_32, platformUuid)){
+			valiateResult.setErrorMsg("platform_uuid非法");
+			return failValidate(valiateResult);
 		}else{
 			Map<String,Object> rolesResultMap = new HashMap<>();
-			rolesResultMap.put("data", authorityUserService.roles(userUuid));
+			rolesResultMap.put("data", authorityUserService.roles(userUuid,platformUuid));
 			return success(rolesResultMap);
 		}
 	}
@@ -545,5 +549,41 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 		}
 		return success(validateResult);
 	}
+	
+	/**
+	 * 用户列表
+	 * @return
+	 * apidoc--------------------->
+	 * @api {GET} /users/list 用户列表
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X GET 'http://localhost:9000/api/users/list'
+	 * @apiGroup users
+	 * @apiSuccessExample {json} 请求成功响应:
+	 * [
+	 *	  {
+	 *	    "user_add_by": "de0c7b2480494fda98db82f7a4707649",
+	 *	    "user_add_time": "2017-02-21 16:53:23",
+	 *	    "user_add_type": 1,
+	 *	    "user_edit_by": "de0c7b2480494fda98db82f7a4707649",
+	 *	    "user_edit_time": "2017-05-28 14:32:35",
+	 *	    "user_email": "1416236046@qq.com",
+	 *	    "user_login_name": "admin",
+	 *	    "user_login_password": "",
+	 *	    "user_phone": "13811255489",
+	 *	    "user_status": 2,
+	 *	    "user_type": 1,
+	 *	    "user_uuid": "de0c7b2480494fda98db82f7a4707649"
+	 *	  }
+	 *	]
+	 * @apiUse user500Response
+	 */
+	@Path("/list")
+	@GET
+	public Response list(){
+		List<AuthorityUserPO> listUserPo = authorityUserService.query(new AuthorityUserPO());
+		return success(listUserPo);
+	}
+	
+	
 
 }

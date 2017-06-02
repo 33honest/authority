@@ -70,6 +70,21 @@
                             <span class="nav-label">资源管理</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa fa-bar-chart-o"></i>
+                            <span class="nav-label">授权管理</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="grant/users">用户授权</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="grant/roles">角色授权</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </nav>

@@ -509,7 +509,8 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 * }
 	 * @apiSuccess (200) {String} data 响应数据
 	 * @apiSuccessExample {json}　请求成功响应 : 
-	 * 	[
+	 *{ data:
+	 *	[
 	 *	  {
 	 *	    "role_add_by": "de0c7b2480494fda98db82f7a4707649",
 	 *	    "role_add_time": "2017-02-21 16:45:54",
@@ -529,6 +530,7 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 	 *	    "role_uuid": "369552346cf94f2483f3b1a7b9ff4cf9"
 	 *	  }
 	 *	]
+	 *}
 	 * @apiErrorExample {json} 错误400响应 : 
 	 *									{
 	 *									   "error_message": "platform_uuid非法",

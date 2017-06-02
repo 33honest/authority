@@ -273,6 +273,29 @@ public class AuthorityResourcesDTO extends DTO implements Serializable{
 		this.childList = childList;
 	}
 
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((resourceUuid == null) ? 0 : resourceUuid.hashCode());
+		return result;
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AuthorityResourcesDTO other = (AuthorityResourcesDTO) obj;
+		if (resourceUuid == null) {
+			if (other.resourceUuid != null)
+				return false;
+		} else if (!resourceUuid.equals(other.resourceUuid))
+			return false;
+		return true;
+	}
+
 
 
 	@Override
