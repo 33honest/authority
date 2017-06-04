@@ -50,7 +50,7 @@ public class AuthorityUserPO extends PO implements Serializable{
 	@Pattern(regexp=RegexConstant.LETTER_NUMBER_UNDERLINE_FREE,message="必须由字母数字下划线自由组合",groups={AddValidate.class,EditValidate.class})
 	@Length(min=6,max=20,message="长度必须在6-20个字符长度",groups={AddValidate.class,EditValidate.class})
 	@NotBlank(message="密码不可为空",groups={AddValidate.class})
-	@JSONField(name = "user_login_password")
+	@JSONField(name = "user_login_password" , serialize = false)
 	private String userLoginPwd;
     // 用户邮箱 	
 	@Email(regexp=RegexConstant.EMAIL,message="不符合邮箱格式", groups={AddValidate.class,EditValidate.class})

@@ -45,6 +45,15 @@
      <url-pattern>/css/*</url-pattern>
      <url-pattern>/js/*</url-pattern>
 	</servlet-mapping>  -->
+	
+	<filter>  
+	    <filter-name>springSecurityFilterChain</filter-name>  
+	    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>  
+	   </filter>  
+	   <filter-mapping>  
+		    <filter-name>springSecurityFilterChain</filter-name>  
+		    <url-pattern>/*</url-pattern>  
+	   </filter-mapping>
 	 
 	<!-- 解决乱码问题 -->
 	<filter>  
@@ -63,6 +72,7 @@
         <filter-name>characterEncodingFilter</filter-name>  
         <url-pattern>/*</url-pattern>  
     </filter-mapping>  
+    
 	
   	<!-- Spring MVC配置 -->
 	<!-- ====================================== -->
@@ -79,7 +89,12 @@
 	    <servlet-name>authority</servlet-name>
 	    <url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
 
+	<!-- cas登出监听 -->
+	<listener>
+        <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+    </listener>
 	<!-- Spring配置 -->
 	<!-- ====================================== -->
 	<listener>
@@ -91,5 +106,6 @@
 	<listener> 
 	 	<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class> 
    </listener>
+   
 	
 </web-app>

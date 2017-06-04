@@ -406,7 +406,7 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 	 * @param userUuid 用户uuid
 	 * @return
 	 * apidoc------------------------------>
-	 * @api {GET} /users/{user_uuid}/roles 角色列表
+	 * @api {GET} /users/{user_uuid}/{platform_uuid}/roles 角色列表
 	 * @apiExample {curl} curl请求示例:
 	 * curl -X GET 'http://localhost:9000/api/users/de0c7b2480494fda98db82f7a4707649/a62c27addc0f4a15bde6f426c839d8ba/roles'
 	 * @apiGroup users
@@ -584,6 +584,60 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 		return success(listUserPo);
 	}
 	
+	/**
+	 * 根据email查询用户信息
+	 * @param email
+	 * @return
+	 * apidoc-------------------->
+	 * @api {GET} /users/{email}/info 根据email查询用户信息
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X GET 'http://localhost:9000/api/users/1416236046@qq.comn/info'
+	 * @apiGroup users
+	 * @apiParam {String} email 登录邮箱
+	 * @apiParamExample {json} 参数请求示例:
+	 * {
+	 *  "email" : "1416236046@qq.comn"
+	 * }
+	 * @apiSuccessExample {json} 请求成功响应示例:
+	 * {
+	 *	  "user_add_by": "de0c7b2480494fda98db82f7a4707649",
+	 *	  "user_add_time": "2017-05-28 14:22:03",
+	 *	  "user_add_type": 1,
+	 *	  "user_edit_by": "de0c7b2480494fda98db82f7a4707649",
+	 *	  "user_edit_time": "2017-06-02 16:14:24",
+	 *	  "user_email": "1416236046@qq.comn",
+	 *	  "user_login_name": "admin",
+	 *	  "user_phone": "1234567890",
+	 *	  "user_status": 2,
+	 *	  "user_type": 1,
+	 *	  "user_uuid": "4c135c5461e54842aa2920445e5b3c64"
+	 *	}
+	 * @apiError (400) {String} error_message 错误说明
+	 * @apiError (400) {Boolean} is_pass　　格式是否正确
+	 * @apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "email非法",
+	 *									   "is_pass": false 
+	 *									}
+	 * @apiUse user500Response
+	 */
+	@Path("/{email}/info")
+	@GET
+	public Response info(@PathParam("email")String email){
+		ValidationResult validateResult = new ValidationResult();
+		if("".equals(email)){
+			validateResult.setErrorMsg("email为必填值");
+			return failValidate(validateResult);
+		}else if(!Pattern.matches(RegexConstant.EMAIL, email)){
+			validateResult.setErrorMsg("email非法");
+			return failValidate(validateResult);
+		}else{
+			AuthorityUserPO userPo = new AuthorityUserPO();
+			userPo.setUserEmail(email);
+			List<AuthorityUserPO> listUserPo = authorityUserService.query(userPo);
+			
+			return success((listUserPo == null || listUserPo.size() != 1) ? null : listUserPo.get(0));
+		}
+	}
 	
-
 }

@@ -731,7 +731,131 @@ public class PlatformRestServiceApi extends AbstractAuthrotiyRestService {
 		return success(validateResult);
 	}
 	
+	/**
+	 * 平台下的资源列表
+	 * @param platformuuid
+	 * @return
+	 * apidoc--------------------->
+	 * @api {GET} /platforms/{platform_uuid}/resources/list 平台下所有资源列表
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X GET 'http://localhost:9000/api/platforms/a62c27addc0f4a15bde6f426c839d8ba/resources/list'
+	 * @apiGroup platforms
+	 * @apiParam {String} platform_uuid 平台uuid
+	 * @apiParamExample {json} 参数请求示例:
+	 * {
+	 * 	"platform_uuid" : "a62c27addc0f4a15bde6f426c839d8ba"
+	 * }
+	 * 
+	 * @apiSuccessExample {json} 请求成功响应:
+	 *	 [
+	 *	  {
+	 *	    "resource_add_by": "de0c7b2480494fda98db82f7a4707649",
+	 *	    "resource_add_time": "2017-06-01 19:18:35",
+	 *	    "resource_level": 1,
+	 *	    "resource_name": "权限平台",
+	 *	    "resource_order": 1,
+	 *	    "resource_parent_uuid": "#",
+	 *	    "resource_platform_uuid": "a62c27addc0f4a15bde6f426c839d8ba",
+	 *	    "resource_status": 1,
+	 *	    "resource_url": "/",
+	 *	    "resource_uuid": "0d29da5b355e4a39a6e8503137915148"
+	 *	  },
+	 *	  {
+	 *	    "resource_add_by": "de0c7b2480494fda98db82f7a4707649",
+	 *	    "resource_add_time": "2017-06-01 19:36:33",
+	 *	    "resource_level": 3,
+	 *	    "resource_order": 3,
+	 *	    "resource_parent_uuid": "86a9245505a74296b64202765199ca54",
+	 *	    "resource_platform_uuid": "a62c27addc0f4a15bde6f426c839d8ba",
+	 *	    "resource_status": 1,
+	 *	    "resource_url": "/users/delete",
+	 *	    "resource_uuid": "5ae5630a818e4143af03cae51e278459"
+	 *	  }
+	 *	 ]
+	 * @apiError (400) {String} error_message 错误说明
+	 * @apiError (400) {Boolean} is_pass　　格式是否正确
+	 * @apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "平台uuid非法",
+	 *									   "is_pass": false
+	 *									}
+	 * @apiError (500) {String} error 错误说明
+	 * @apiErrorExample {json} 错误500响应 :
+	 *									{
+	 *										"error": "服务器内部发生错误
+	 *									} 
+	 */
+	@Path("/{uuid}/resources/list")
+	@GET
+	public Response resourcesList(@PathParam("uuid")String platformuuid){
+		ValidationResult validateResult = new ValidationResult();
+		if("".equals(platformuuid)){
+			validateResult.setErrorMsg("平台uuid为必填值");
+			return failValidate(validateResult);
+		}else if(!Pattern.matches(RegexConstant.UUID_32, platformuuid)){
+			validateResult.setErrorMsg("平台uuid非法");
+			return failValidate(validateResult);
+		}
+		else{
+			AuthorityResourcesPO resource = new AuthorityResourcesPO();
+			resource.setResourcePlatformUuid(platformuuid);
+			return success(authorityResourcesService.query(resource));
+		}
+	}
 	
+	/**
+	 * 根据平台标识查询平台信息
+	 * @param platformSign
+	 * @return
+	 * apidoc---------------------->
+	 * @api {GET} /platforms/{platform_sign}/info 根据平台标识查询平台信息
+	 * @apiExample {curl} curl请求示例:
+	 * curl -i -X GET 'http://localhost:9000/api/platforms/AUTHORITY/info'
+	 * @apiGroup platforms
+	 * @apiParam {String} platform_sign 平台标识
+	 * @apiParamExample {json} 参数请求示例:
+	 * {
+	 *  "platform_sign" : "AUTHORITY"
+	 * }
+	 * @apiSuccessExample {json} 请求成功响应示例:
+	 *	{
+	 *	  "platform_add_time": "2017-06-01 19:18:35",
+	 *	  "platform_add_user": "de0c7b2480494fda98db82f7a4707649",
+	 *	  "platform_domain": "authority.com",
+	 *	  "platform_name": "权限平台",
+	 *	  "platform_sign": "AUTHORITY",
+	 *	  "platform_status": 1,
+	 *	  "platform_uuid": "a62c27addc0f4a15bde6f426c839d8ba"
+	 *	}
+	 * @apiError (400) {String} error_message 错误说明
+	 * @apiError (400) {Boolean} is_pass　　格式是否正确
+	 * @apiErrorExample {json} 错误400响应 : 
+	 *									{
+	 *									   "error_message": "平台标识非法",
+	 *									   "is_pass": false
+	 *									}
+	 * @apiError (500) {String} error 错误说明
+	 * @apiErrorExample {json} 错误500响应 :
+	 *									{
+	 *										"error": "服务器内部发生错误
+	 *									} 
+	 */
+	@Path("/{platform_sign}/info")
+	@GET
+	public Response infoBySign(@PathParam("platform_sign")String platformSign){
+		ValidationResult validateResult = new ValidationResult();
+		if("".equals(platformSign)){
+			validateResult.setErrorMsg("平台标识为必填值");
+			return failValidate(validateResult);
+		}else if(!Pattern.matches(RegexConstant.LETTER_UNDERLINE, platformSign)){
+			validateResult.setErrorMsg("平台标识非法");
+			return failValidate(validateResult);
+		}else{
+			PlatformPO platformPo = new PlatformPO();
+			platformPo.setPlatformSign(platformSign);
+			return success(platformService.query(platformPo).get(0));
+		}
+	}
 	
 	
 }
