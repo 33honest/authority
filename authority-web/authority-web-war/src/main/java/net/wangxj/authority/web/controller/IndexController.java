@@ -14,4 +14,10 @@ public class IndexController{
 		return "index";
 	}
 	
+	@RequestMapping("/403")
+	public String to403(){
+		
+		return "error/permission_died";
+	}
+	
 }

@@ -63,27 +63,27 @@ public class AuthorityResourcesController extends AbstractController<AuthorityRe
 	
 	public Map<String, Object> toJsonTree(AuthorityResourcesDTO resourceDto){
 		Map<String,Object> resMap = new HashMap<>();
-		if(resourceDto.getChildList().size() > 0){
-			List<Map<String,Object>> childList = new ArrayList<>(); 
-			for (AuthorityResourcesDTO childDto : resourceDto.getChildList()) {
-				childList.add(toJsonTree(childDto));
+			if(resourceDto.getChildList() != null && resourceDto.getChildList().size() > 0){
+				List<Map<String,Object>> childList = new ArrayList<>(); 
+				for (AuthorityResourcesDTO childDto : resourceDto.getChildList()) {
+					childList.add(toJsonTree(childDto));
+				}
+				
+				resMap.put("name", resourceDto.getResourceUrl());
+				resMap.put("children", childList);
+				resMap.put("uuid", resourceDto.getResourceUuid());
+				resMap.put("level", resourceDto.getResourceLevel());
+				resMap.put("order", resourceDto.getResourceOrder());
 			}
-			
-			resMap.put("name", resourceDto.getResourceUrl());
-			resMap.put("children", childList);
-			resMap.put("uuid", resourceDto.getResourceUuid());
-			resMap.put("level", resourceDto.getResourceLevel());
-			resMap.put("order", resourceDto.getResourceOrder());
-		}
-		else{
-			Map<String,Object> namesizeMap = new HashMap<>();
-			namesizeMap.put("name", resourceDto.getResourceUrl());
-		    namesizeMap.put("size", resourceDto.getResourceUrl().length());
-		    namesizeMap.put("uuid", resourceDto.getResourceUuid());
-		    namesizeMap.put("level", resourceDto.getResourceLevel());
-		    namesizeMap.put("order", resourceDto.getResourceOrder());
-		    return namesizeMap;
-		}
+			else{
+				Map<String,Object> namesizeMap = new HashMap<>();
+				namesizeMap.put("name", resourceDto.getResourceUrl());
+			    namesizeMap.put("size", resourceDto.getResourceUrl() != null ? resourceDto.getResourceUrl().length() : 0);
+			    namesizeMap.put("uuid", resourceDto.getResourceUuid());
+			    namesizeMap.put("level", resourceDto.getResourceLevel());
+			    namesizeMap.put("order", resourceDto.getResourceOrder());
+			    return namesizeMap;
+			}
 		return resMap;
 	}
 	
