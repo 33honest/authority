@@ -1,0 +1,27 @@
+logging:
+ file: /home/huoshan/log/authority_web.log
+ level.root: DEBUG
+
+spring.freemarker:
+ cache: false
+ charset: UTF-8
+ enabled: true
+ suffix: .ftl
+
+server:
+ port: 8083
+ 
+authority.service.rest.baseurl: http://localhost:9000/api
+
+
+cas.server:
+ login.url: https://localsso.com:8443
+ logout.url: https://localsso.com:8443/logout
+
+platform.sign: AUTHORITY
+authority.service.rest.url: http://localhost:9000/api
+spring.security.logout.url: /j_spring_cas_security_logout
+denied.page: /403
+
+security.basic.enabled: false
+

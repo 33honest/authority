@@ -15,6 +15,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 public class UserAccessDeniedHandler implements AccessDeniedHandler {
 
+	@SuppressWarnings("unused")
 	private static Logger log = Logger.getLogger(UserAccessDeniedHandler.class);
 	
 	private String errorPage;

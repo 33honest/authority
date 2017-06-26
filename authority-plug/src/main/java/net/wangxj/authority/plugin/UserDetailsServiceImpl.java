@@ -8,12 +8,13 @@ import org.apache.log4j.Logger;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import net.wangxj.util.jersey.JerseyClient;
 import net.wangxj.util.jersey.RequestMethod;
 
+@Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private Logger log = Logger.getLogger(UserDetailsServiceImpl.class);
@@ -25,6 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	/**
 	 * 根据Cas返回的登录用户名，为用户信息设置其拥有的相应权限
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public UserDetails loadUserByUsername(String login_email) throws UsernameNotFoundException {
 		LoginUserDetails loginUserDetails = new LoginUserDetails();

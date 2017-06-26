@@ -2,7 +2,6 @@ package net.wangxj.authority.plugin;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -12,13 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.security.access.SecurityMetadataSource;
-import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.util.UrlUtils;
 
-public class UserSecurityInterceptorFilter extends AbstractSecurityInterceptor implements Filter{
+public class UserSecurityInterceptorFilter extends FilterSecurityInterceptor{
 	
 	
 	private FilterInvocationSecurityMetadataSource securityMetadataSource;

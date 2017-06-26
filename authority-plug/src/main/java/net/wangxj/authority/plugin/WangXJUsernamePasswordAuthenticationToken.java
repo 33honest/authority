@@ -15,12 +15,7 @@
 
 package net.wangxj.authority.plugin;
 
-import java.util.Collection;
-
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.SpringSecurityCoreVersion;
 
 /**
  * An {@link org.springframework.security.core.Authentication} implementation that is
@@ -33,6 +28,7 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
  *
  * @author Ben Alex
  */
+@SuppressWarnings("serial")
 public class WangXJUsernamePasswordAuthenticationToken extends UsernamePasswordAuthenticationToken{
 
 	public WangXJUsernamePasswordAuthenticationToken(Object principal, Object credentials) {

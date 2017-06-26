@@ -1,12 +1,5 @@
 package net.wangxj.authority.plugin;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
-import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,8 +20,6 @@ public class WangXJCasAuthenticationEntryPoint extends CasAuthenticationEntryPoi
 		protected String createServiceUrl(final HttpServletRequest request,
 				final HttpServletResponse response) {
 			
-			String loginUrl = getLoginUrl();
-//			根据域名生成要跳转的serviceURL向cas传递运营商编号
 			String url = request.getRequestURL().toString();
 			
 			ServiceProperties servicePro = new ServiceProperties();

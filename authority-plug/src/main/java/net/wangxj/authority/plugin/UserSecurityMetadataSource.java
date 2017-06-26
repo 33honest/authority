@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import javax.annotation.Resource;
-
+import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -25,11 +25,12 @@ import net.wangxj.util.jersey.RequestMethod;
 public class UserSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
 	private static Logger log = Logger.getLogger(UserSecurityMetadataSource.class);
-	
+	@Value("${authority.service.rest.url}")
 	private String authority_service_url;
+	@Value("${platform.sign}")
 	private String platform_sign;
 	
-	private static Map<String, String> resource_url_map = null;
+	private static Map<String, String> resource_url_map = new HashMap<>();
 	
 	private static Collection<ConfigAttribute> ABSOLUTE_SECURITY_CONFIGATTRIBUTES;
 	
@@ -38,6 +39,12 @@ public class UserSecurityMetadataSource implements FilterInvocationSecurityMetad
 		ABSOLUTE_SECURITY_CONFIGATTRIBUTES.add(new SecurityConfig("ABSOLUTE_SECURITY_" + new Random().nextFloat()));
 	}
 	
+	@PostConstruct
+	public void loadResourceDefine(){
+		getAllConfigAttributes();
+	}
+	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Collection<ConfigAttribute> getAllConfigAttributes() {
 		
@@ -68,6 +75,7 @@ public class UserSecurityMetadataSource implements FilterInvocationSecurityMetad
 		return ABSOLUTE_SECURITY_CONFIGATTRIBUTES;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Collection<ConfigAttribute> getAttributes(Object paramObject) throws IllegalArgumentException {
 		
