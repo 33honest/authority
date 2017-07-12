@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import javax.annotation.Generated;
 import javax.validation.groups.Default;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
@@ -407,5 +408,6 @@ public class AuthorityRoleRestServiceApi extends AbstractAuthrotiyRestService{
 		
 		return success(validateResult);
 	}
-
+	
+	
 }

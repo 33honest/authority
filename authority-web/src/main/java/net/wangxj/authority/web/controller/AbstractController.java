@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import com.alibaba.fastjson.JSONObject;
 
+import net.wangxj.authority.plugin.LoginUserDetails;
 import net.wangxj.authority.web.constant.DataDictionaryConstant;
 import net.wangxj.authority.web.dto.AuthorityUserDTO;
 import net.wangxj.authority.web.dto.PlatformDTO;
@@ -77,7 +79,8 @@ public class AbstractController<T> {
 	}
 	
 	public String getUserId(){
-		return "de0c7b2480494fda98db82f7a4707649";
+		LoginUserDetails principal = (LoginUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return principal.getUser_id();
 	}
 	
 	public String getPlatformStatus(Integer platformsStatus){

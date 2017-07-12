@@ -77,7 +77,7 @@ public class AuthorityUserPO extends PO implements Serializable{
 	private String userAddTime;
     // 添加用户人(用户主键)
 	@Pattern(regexp=RegexConstant.UUID_32, message="增加人不合法", groups={AddValidate.class})
-	@NotBlank(message="增加人不可为空", groups=AddValidate.class)
+//	@NotBlank(message="增加人不可为空", groups=AddValidate.class) 自己注册
 	@Null(message = "无法识别user_add_by,请严格按照API文档调用" , groups = {EditValidate.class})
 	@JSONField(name = "user_add_by")
 	private String userAddBy;
@@ -109,8 +109,8 @@ public class AuthorityUserPO extends PO implements Serializable{
 	private java.lang.Integer userIsDelete;
 	//编辑人
 	@Null(message = "无法识别user_edit_by , 请严格按照API文档调用" , groups = {AddValidate.class})
-	@Pattern(regexp=RegexConstant.UUID_32, message="编辑人不合法", groups=EditValidate.class)
-	@NotBlank(message="编辑人不可为空", groups=EditValidate.class)
+//	@Pattern(regexp=RegexConstant.UUID_32, message="编辑人不合法", groups=EditValidate.class)
+//	@NotBlank(message="编辑人不可为空", groups=EditValidate.class)
 	@JSONField(name = "user_edit_by")
 	private String userEditBy;
 	//编辑时间

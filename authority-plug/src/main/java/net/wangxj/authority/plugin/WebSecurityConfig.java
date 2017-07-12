@@ -1,4 +1,10 @@
 package net.wangxj.authority.plugin;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +25,8 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+
+import net.wangxj.util.string.StringUtil;
 
 /**
  * Spring Security configs.
@@ -41,8 +49,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private String springSecurityLogoutUrl;
 	@Value("${denied.page}")
     private String deniedPage;
+	@Value("#{'${security.ignore.path:/images/**}'.split(',')}")
+	private List<String> selfIgnorePath;
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+    
+    
     /**
      * Spring Security 基本配置
      *
@@ -159,9 +171,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception{
     	web.securityInterceptor(userSecurityInterceptorFilter());
-    	web.ignoring().antMatchers("/js/**", "/css/**", 
-    		    "/imgs/**","/fonts/**","/vimage*",
-    		    "/server-error/**","/favicon.ico","/image/**","/img/**","/403/**");
+    	String[] defaultIgnoreArr = {"/js/**", "/css/**", 
+										   "/imgs/**","/fonts/**","/vimage*",
+										   "/server-error/**","/favicon.ico",
+										   "/image/**","/img/**","/403/**","/images/**"};
+    	Set<String> defaultIgnoreSet = new HashSet<>(Arrays.asList(defaultIgnoreArr));
+    	defaultIgnoreSet.addAll(selfIgnorePath);
+    	web.ignoring().antMatchers(StringUtil.objArrToStr(defaultIgnoreSet.toArray()));
     }
     
 }

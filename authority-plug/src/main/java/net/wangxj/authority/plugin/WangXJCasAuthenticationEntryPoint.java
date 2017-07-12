@@ -21,9 +21,16 @@ public class WangXJCasAuthenticationEntryPoint extends CasAuthenticationEntryPoi
 				final HttpServletResponse response) {
 			
 			String url = request.getRequestURL().toString();
+			String uri = request.getRequestURI();
+			int index = url.indexOf(uri);
+			if(!"/".equals(uri)){
+				url = url.substring(0, index);
+			}else if(url.endsWith("/")){
+				url = url.substring(0, url.length() - 1);
+			}
 			
 			ServiceProperties servicePro = new ServiceProperties();
-			servicePro.setService(url+"login/cas");
+			servicePro.setService(url+"/login/cas");
 			this.setServiceProperties(servicePro);
 			
 			return CommonUtils.constructServiceUrl(null, response,

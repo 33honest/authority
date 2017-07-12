@@ -371,13 +371,13 @@ public class AuthorityUserRestServiceApi extends AbstractAuthrotiyRestService{
 		Map<String,Object> grantRoleResultMap = new HashMap<>();
 		ValidationResult validateResult = new ValidationResult();
 		List<String> roleUuidList = new ArrayList<>();
-		if(!Pattern.matches(RegexConstant.UUID_32, userUuid)){
+		if(userUuid == null || "".equals(userUuid) || !Pattern.matches(RegexConstant.UUID_32, userUuid)){
 			 validateResult.setErrorMsg("user_uuid非法");
 			return failValidate(validateResult);
-		}else if(!Pattern.matches(RegexConstant.UUID_32, addUser)){
+		}else if(addUser == null || "".equals(addUser) || !Pattern.matches(RegexConstant.UUID_32, addUser)){
 			validateResult.setErrorMsg("add_user非法");
 			return failValidate(validateResult);
-		}else if(!Pattern.matches(RegexConstant.UUID_32, platformUuid)){
+		}else if(platformUuid == null || "".equals(platformUuid) || !Pattern.matches(RegexConstant.UUID_32, platformUuid)){
 			validateResult.setErrorMsg("platform_uuid非法");
 			return failValidate(validateResult);
 		}else{
