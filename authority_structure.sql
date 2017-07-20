@@ -109,7 +109,7 @@ CREATE TABLE `authority_user` (
   `user_phone` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '用户电话',
   `user_status` int(1) NOT NULL COMMENT '用户状态:\n\n已注册未激活: 1\n已注册并激活:2\n已锁定:3\n',
   `user_add_time` varchar(19) CHARACTER SET utf8 NOT NULL COMMENT '添加用户时间\nyyyy-MM-dd HH:mm:ss',
-  `user_add_by` varchar(32) CHARACTER SET utf8 NOT NULL COMMENT '添加用户人(用户主键)',
+  `user_add_by` varchar(32) CHARACTER SET utf8 DEFAULT NULL COMMENT '添加用户人(用户主键)',
   `user_del_time` varchar(19) CHARACTER SET utf8 DEFAULT NULL COMMENT '删除用户时间\nyyyy-MM-dd HH:mm:ss\n',
   `user_del_by` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '删除用户人（用户主键）',
   `user_type` int(1) NOT NULL COMMENT '用户类型：\n\n内部用户:1\n外部用户：2\n',
@@ -245,4 +245,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-05 15:17:01
+-- Dump completed on 2017-07-17 17:36:12

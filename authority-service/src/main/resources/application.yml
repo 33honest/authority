@@ -1,3 +1,9 @@
+spring.profiles.active: @profiles.active@
+
+---
+
+spring.profiles: development
+
 spring.datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://localhost:3306/authority?useUnicode=true&characterEncoding=UTF-8
@@ -17,3 +23,26 @@ logging:
 server:
     port: 9000
     
+
+---
+
+spring.profiles: production
+
+spring.datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/authority?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: B569xV$aktriMQ3x
+    max-active: 30
+    
+spring.jersey.type: servlet
+
+mybatis:
+    config-location: classpath:mybatis/sqlMapConfig.xml
+
+logging:
+    file: /opt/logs/authority/authority.log
+    level.root: DEBUG
+    
+server:
+    port: 9000
