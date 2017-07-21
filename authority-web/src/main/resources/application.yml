@@ -21,8 +21,8 @@ authority.service.rest.baseurl: http://localhost:9000/api
 
 
 cas.server:
- login.url: https://localsso.com:8443
- logout.url: https://localsso.com:8443/logout
+ login.url: https://sso.localcodeblog.net
+ logout.url: https://sso.localcodeblog.net/logout
 
 platform.sign: AUTHORITY
 authority.service.rest.url: http://localhost:9000/api
