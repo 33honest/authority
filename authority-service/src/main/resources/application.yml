@@ -41,7 +41,7 @@ mybatis:
     config-location: classpath:mybatis/sqlMapConfig.xml
 
 logging:
-    file: /opt/logs/authority/authority.log
+    file: /opt/logs/authority/authority_service.log
     level.root: DEBUG
     
 server:

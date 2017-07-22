@@ -38,7 +38,7 @@ spring.profiles: production
 
 
 logging:
- file: /opt/logs/authority/web/authority_web.log
+ file: /opt/logs/authority_web/authority_web.log
  level.root: WARN
 
 spring.freemarker:
@@ -50,7 +50,7 @@ spring.freemarker:
 server:
  port: 8000
  
-authority.service.rest.baseurl: http://60.205.207.39:9000/api
+authority.service.rest.baseurl: http://localhost:9000/api
 
 
 cas.server:
@@ -58,7 +58,7 @@ cas.server:
  logout.url: https://sso.codeblog.net/logout
 
 platform.sign: AUTHORITY
-authority.service.rest.url: http://60.205.207.39:9000/api
+authority.service.rest.url: http://localhost:9000/api
 spring.security.logout.url: /j_spring_cas_security_logout
 denied.page: /403
 
