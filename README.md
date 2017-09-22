@@ -30,5 +30,5 @@ api:  http://localhost:9000/swagger-ui.html
 单点登录还需要有 CAS-server 单点登录服务器. https://github.com/freehuoshan/cas-server
 
 
-![结构图](https://github.com/freehuoshan/authority/master/image/图标2.png)
+![结构图](https://github.com/freehuoshan/authority/blob/master/image/图标2.png?raw=true)
 
