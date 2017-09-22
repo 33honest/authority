@@ -14,7 +14,9 @@ cas.server:
  logout.url: https://sso.codeblog.net/logout
 
 platform.sign: AUTHORITY
+
 authority.service.rest.url: http://localhost:9000/api
+
 spring.security.logout.url: /j_spring_cas_security_logout
 
 
