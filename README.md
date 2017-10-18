@@ -203,5 +203,30 @@ Nginx 配置:
 ![http://7xire1.com1.z0.glb.clouddn.com/%E5%9B%BE%E8%A1%A82.png](http://7xire1.com1.z0.glb.clouddn.com/%E5%9B%BE%E8%A1%A82.png)
 
 
+authority-plug 会使用到 authority-service restful 服务
+authority-web 也会使用到 authority-service restful 服务,由于管理后台还要求有权限管理与单点登录功能，所以也会依赖到 authority-plug
+authority-pug 只是一个权限插件,以后如果要添加一个新的应用,只需在 pom.xml 中依赖 authority-plug 并在 application.yml 中添加以下配置:
+
+
+    authority.service.rest.baseurl: http://localhost:9000/api
+
+
+    cas.server:
+        login.url: https://sso.localcodeblog.net
+        logout.url: https://sso.localcodeblog.net/logout
+
+    platform.sign: AUTHORITY
+    authority.service.rest.url: http://localhost:9000/api
+    spring.security.logout.url: /j_spring_cas_security_logout
+    denied.page: /403
+
+    security.basic.enabled: false
+
+
+新的应用便拥有了单点登录与权限控制功能，权限管理只需在 authority-web 中添加新的平台与相应资源和角色配置即可。
+
+**Note:** 
+
+ 我们每个新添加的平台都需要在 Cas-Server 的 WEB-INF/json/ 下添加新的 json 文件将平台注册到单点登录服务器中.
 
 
