@@ -204,7 +204,9 @@ Nginx 配置:
 
 
 authority-plug 会使用到 authority-service restful 服务
+
 authority-web 也会使用到 authority-service restful 服务,由于管理后台还要求有权限管理与单点登录功能，所以也会依赖到 authority-plug
+
 authority-pug 只是一个权限插件,以后如果要添加一个新的应用,只需在 pom.xml 中依赖 authority-plug 并在 application.yml 中添加以下配置:
 
 
