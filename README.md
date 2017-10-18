@@ -196,7 +196,11 @@ Nginx 配置:
 
 
 
+---
 
+## Authority 结构图
+
+![http://7xire1.com1.z0.glb.clouddn.com/%E5%9B%BE%E8%A1%A82.png](http://7xire1.com1.z0.glb.clouddn.com/%E5%9B%BE%E8%A1%A82.png)
 
 
 
